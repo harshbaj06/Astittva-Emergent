@@ -104,11 +104,11 @@ export default function HomePage() {
               with Astitva.
             </h1>
 
-            <p className="mt-12 text-white/65 text-base sm:text-lg max-w-xl leading-[1.7] font-light">
+            <p className="mt-10 text-white/65 text-base sm:text-lg max-w-xl leading-[1.7] font-light">
               Discover verified residential and commercial opportunities across Kolkata's fastest-growing real estate destinations — curated by advisors who measure success in decades, not deals.
             </p>
 
-            <div className="mt-16 flex flex-col sm:flex-row gap-5 items-start sm:items-center">
+            <div className="mt-10 flex flex-col sm:flex-row gap-5 items-start sm:items-center">
               <Link to="/properties" data-testid="explore-properties-btn" className="btn-primary">
                 Explore Properties <ArrowRight className="w-3.5 h-3.5" />
               </Link>
@@ -127,9 +127,9 @@ export default function HomePage() {
       </section>
 
       {/* ===================== WHY ASTITVA ===================== */}
-      <section data-testid="why-astitva-section" className="relative py-32 sm:py-48 overflow-hidden">
+      <section data-testid="why-astitva-section" className="relative py-20 sm:py-28 overflow-hidden">
         <div className="max-w-[1400px] mx-auto px-8 lg:px-16">
-          <motion.div {...fadeUp} className="max-w-3xl mb-24">
+          <motion.div {...fadeUp} className="max-w-3xl mb-16">
             <div className="eyebrow-line mb-8">
               <span className="text-[10px] tracking-[0.5em] uppercase text-white/50">The Astitva Difference</span>
             </div>
@@ -159,9 +159,9 @@ export default function HomePage() {
       </section>
 
       {/* ===================== FEATURED LOCATIONS ===================== */}
-      <section data-testid="locations-section" className="py-32 sm:py-48 bg-[#0e0e0e]">
+      <section data-testid="locations-section" className="py-20 sm:py-28 bg-[#0e0e0e]">
         <div className="max-w-[1400px] mx-auto px-8 lg:px-16">
-          <motion.div {...fadeUp} className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-24">
+          <motion.div {...fadeUp} className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
             <div className="max-w-2xl">
               <div className="eyebrow-line mb-8">
                 <span className="text-[10px] tracking-[0.5em] uppercase text-white/50">Featured Locations</span>
@@ -208,9 +208,9 @@ export default function HomePage() {
       </section>
 
       {/* ===================== FEATURED PROJECTS ===================== */}
-      <section data-testid="projects-section" className="py-32 sm:py-48">
+      <section data-testid="projects-section" className="py-20 sm:py-28">
         <div className="max-w-[1400px] mx-auto px-8 lg:px-16">
-          <motion.div {...fadeUp} className="mb-20 max-w-3xl">
+          <motion.div {...fadeUp} className="mb-14 max-w-3xl">
             <div className="eyebrow-line mb-8">
               <span className="text-[10px] tracking-[0.5em] uppercase text-white/50">Featured Projects</span>
             </div>
@@ -265,13 +265,13 @@ export default function HomePage() {
       </section>
 
       {/* ===================== WHY INVEST IN KOLKATA ===================== */}
-      <section data-testid="why-kolkata-section" className="relative py-32 sm:py-48 bg-[#0e0e0e] overflow-hidden">
+      <section data-testid="why-kolkata-section" className="relative py-20 sm:py-28 bg-[#0e0e0e] overflow-hidden">
         <div className="absolute inset-0 opacity-[0.08]">
           <img src={TEXTURE} alt="" className="w-full h-full object-cover" />
         </div>
 
         <div className="relative max-w-[1400px] mx-auto px-8 lg:px-16">
-          <motion.div {...fadeUp} className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24">
+          <motion.div {...fadeUp} className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
             <div className="lg:col-span-5">
               <div className="eyebrow-line mb-8">
                 <span className="text-[10px] tracking-[0.5em] uppercase text-white/50">Why Invest in Kolkata</span>
@@ -297,9 +297,9 @@ export default function HomePage() {
       </section>
 
       {/* ===================== EXPANSION ROADMAP ===================== */}
-      <section data-testid="roadmap-section" className="py-32 sm:py-48">
+      <section data-testid="roadmap-section" className="py-20 sm:py-28">
         <div className="max-w-[1400px] mx-auto px-8 lg:px-16">
-          <motion.div {...fadeUp} className="text-center max-w-3xl mx-auto mb-24">
+          <motion.div {...fadeUp} className="text-center max-w-3xl mx-auto mb-16">
             <div className="eyebrow-line justify-center mb-8" style={{ display: "inline-flex" }}>
               <span className="text-[10px] tracking-[0.5em] uppercase text-white/50">Future Expansion</span>
             </div>
@@ -336,11 +336,11 @@ export default function HomePage() {
       </section>
 
       {/* ===================== LEAD FORM ===================== */}
-      <section id="consultation" data-testid="lead-form-section" className="relative py-32 sm:py-48 bg-[#0e0e0e]">
+      <section id="consultation" data-testid="lead-form-section" className="relative py-20 sm:py-28 bg-[#0e0e0e]">
         <div className="absolute inset-0 opacity-[0.06]"><img src={TEXTURE} alt="" className="w-full h-full object-cover" /></div>
 
         <div className="relative max-w-[1200px] mx-auto px-8 lg:px-16">
-          <motion.div {...fadeUp} className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24">
+          <motion.div {...fadeUp} className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
             <div className="lg:col-span-5">
               <div className="eyebrow-line mb-8">
                 <span className="text-[10px] tracking-[0.5em] uppercase text-white/50">Book a Consultation</span>
@@ -351,7 +351,7 @@ export default function HomePage() {
               <p className="mt-10 text-white/55 font-light leading-[1.85] text-base">
                 Share a few details. A senior advisor will reach out within one business day with a curated shortlist tailored to your goals.
               </p>
-              <div className="mt-12 pt-10 border-t border-white/[0.06]">
+              <div className="mt-10 pt-10 border-t border-white/[0.06]">
                 <div className="text-[10px] tracking-[0.4em] uppercase text-white/40 mb-3">Or call us directly</div>
                 <a href="tel:+919000000000" className="font-serif-display text-2xl text-ivory hover:text-copper transition">+91 90000 00000</a>
               </div>

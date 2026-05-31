@@ -6,7 +6,7 @@ const LOGO_URL = "https://customer-assets.emergentagent.com/job_50ac1e2c-4ee3-4d
 export default function Footer() {
   return (
     <footer data-testid="site-footer" className="relative border-t border-white/[0.06] bg-[#0a0a0a]">
-      <div className="max-w-[1400px] mx-auto px-8 lg:px-16 py-24 lg:py-32">
+      <div className="max-w-[1400px] mx-auto px-8 lg:px-16 py-20 lg:py-24">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-16">
           <div className="md:col-span-4">
             <div className="flex items-center gap-4 mb-8">
@@ -71,7 +71,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-20 pt-10 border-t border-white/[0.06] flex flex-col md:flex-row justify-between items-center gap-6">
+        <div className="mt-14 pt-10 border-t border-white/[0.06] flex flex-col md:flex-row justify-between items-center gap-6">
           <p className="text-white/35 text-xs tracking-wider">© {new Date().getFullYear()} Astitva Group · All rights reserved.</p>
           <p className="text-white/35 text-[10px] tracking-[0.4em] uppercase">
             Crafted with conviction · Kolkata, India
