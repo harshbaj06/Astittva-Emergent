@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { MapPin, Building2, Calendar, BadgeCheck, Home, ArrowLeft, Phone } from "lucide-react";
+import { MapPin, Building2, Calendar, BadgeCheck, Home, ArrowLeft, Phone, MessageCircle } from "lucide-react";
 import api, { fileUrl, formatApiErrorDetail } from "@/lib/api";
 import { toast } from "sonner";
+import { whatsappLink, PHONE_DISPLAY } from "@/lib/site";
 
 export default function PropertyDetailPage() {
   const { id } = useParams();
@@ -152,9 +153,18 @@ export default function PropertyDetailPage() {
                   {submitting ? "Sending..." : "Send Enquiry"}
                 </button>
               </form>
-              <div className="mt-6 pt-6 border-t border-copper/10 text-center">
-                <a href="tel:+919000000000" className="text-copper text-sm tracking-wider flex items-center justify-center gap-2 hover:text-rose-gold">
-                  <Phone className="w-4 h-4" /> +91 90000 00000
+              <div className="mt-6 pt-6 border-t border-copper/10 space-y-3">
+                <a
+                  href={whatsappLink(`Hi Astitva, I'm interested in ${property.project_name} (${property.city}). Please share details.`)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-testid="property-whatsapp"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1ebe57] text-[#0a0a0a] py-3 text-xs tracking-[0.18em] uppercase font-medium transition"
+                >
+                  <MessageCircle className="w-4 h-4" /> WhatsApp Inquiry
+                </a>
+                <a href={`tel:${PHONE_DISPLAY.replace(/\s/g, "")}`} className="text-copper text-sm tracking-wider flex items-center justify-center gap-2 hover:text-rose-gold pt-1">
+                  <Phone className="w-4 h-4" /> {PHONE_DISPLAY}
                 </a>
               </div>
             </div>

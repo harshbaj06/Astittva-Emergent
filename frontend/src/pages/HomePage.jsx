@@ -1,17 +1,46 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, ShieldCheck, Sparkles, Building2, Compass, ChevronRight, MapPin, Globe2, Award, TrendingUp } from "lucide-react";
+import { ArrowRight, ShieldCheck, Sparkles, Building2, Compass, ChevronRight, MapPin, Globe2, Award, TrendingUp, BadgeCheck, Handshake, Briefcase, MessageCircle, Check } from "lucide-react";
 import api, { fileUrl, formatApiErrorDetail } from "@/lib/api";
 import { toast } from "sonner";
+import { whatsappLink, PHONE_DISPLAY } from "@/lib/site";
 
 const HERO_IMG = "/images/biswa-bangla-hero.png";
 const TEXTURE = "https://static.prod-images.emergentagent.com/jobs/50ac1e2c-4ee3-4d48-ad5e-fd37063ae3c0/images/1f5da7f44ad5aab6c1f6ab3c12df3ec89723084c1042e95749a6b4658dcffcc6.png";
 
+const TRUST_SIGNALS = [
+  { icon: BadgeCheck, label: "RERA-Verified Projects" },
+  { icon: Handshake, label: "Trusted Developer Partnerships" },
+  { icon: Compass, label: "Senior Expert Advisory" },
+  { icon: Briefcase, label: "End-to-End Investment Guidance" },
+];
+
 const LOCATIONS = [
-  { name: "New Town", tag: "Smart City Hub", img: "/images/biswa-bangla-newtown.png", blurb: "India's first planned smart-city — IT corridors, world-class infrastructure, and rising luxury residences." },
-  { name: "Rajarhat", tag: "Investment Frontier", img: "/images/city-centre-2-rajarhat.png", blurb: "The fastest-appreciating corridor of Greater Kolkata, anchored by Eco Park and global IT campuses." },
-  { name: "Kolkata", tag: "Cultural Capital", img: "https://images.pexels.com/photos/36613128/pexels-photo-36613128.jpeg", blurb: "A legacy city reimagined — heritage, art, and a new wave of premium residential development." },
+  {
+    name: "New Town",
+    tag: "Smart City Hub",
+    img: "/images/biswa-bangla-newtown.png",
+    blurb: "India's first planned smart-city — IT corridors and rising luxury sky-residences.",
+    starting: "₹1.2 Cr",
+    category: "Luxury · Premium",
+  },
+  {
+    name: "Rajarhat",
+    tag: "Investment Frontier",
+    img: "/images/city-centre-2-rajarhat.png",
+    blurb: "The fastest-appreciating corridor of Greater Kolkata, anchored by Eco Park & global IT.",
+    starting: "₹35 L",
+    category: "Premium · Plots",
+  },
+  {
+    name: "Kolkata",
+    tag: "Cultural Capital",
+    img: "https://images.pexels.com/photos/36613128/pexels-photo-36613128.jpeg",
+    blurb: "A legacy city reimagined — heritage, art, and a new wave of luxury residences.",
+    starting: "₹4.5 Cr",
+    category: "Heritage · Luxury",
+  },
 ];
 
 const PILLARS = [
@@ -22,10 +51,10 @@ const PILLARS = [
 ];
 
 const KOLKATA_FACTS = [
-  { stat: "12-18%", label: "Annual appreciation in New Town & Rajarhat corridors" },
-  { stat: "₹40K Cr", label: "Infrastructure investment underway across Greater Kolkata" },
-  { stat: "150+", label: "Multinational corporations operating in Kolkata IT hubs" },
-  { stat: "3rd", label: "Most populous metropolitan in India — sustained demand" },
+  { stat: "12–18%", label: "Annual Appreciation" },
+  { stat: "₹40K Cr", label: "Infrastructure Investment" },
+  { stat: "150+", label: "Global Companies" },
+  { stat: "3rd", label: "Largest Metro Region" },
 ];
 
 const ROADMAP = [
@@ -34,6 +63,8 @@ const ROADMAP = [
   { phase: "2027", area: "Tier-1 cities across India", icon: TrendingUp },
   { phase: "Vision", area: "Global investment destinations", icon: Globe2 },
 ];
+
+const BUDGETS = ["Under ₹50 L", "₹50 L – ₹1 Cr", "₹1 – 3 Cr", "₹3 – 5 Cr", "₹5 Cr+"];
 
 const fadeUp = {
   initial: { opacity: 0, y: 30 },
@@ -44,8 +75,10 @@ const fadeUp = {
 
 export default function HomePage() {
   const [projects, setProjects] = useState([]);
-  const [formData, setFormData] = useState({ name: "", email: "", phone: "", interest: "", message: "" });
+  const initialForm = { name: "", email: "", phone: "", interest: "", budget: "", message: "" };
+  const [formData, setFormData] = useState(initialForm);
   const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     api.get("/properties", { params: { featured: true, limit: 6 } })
@@ -58,8 +91,8 @@ export default function HomePage() {
     setSubmitting(true);
     try {
       await api.post("/leads", { ...formData, source: "homepage" });
-      toast.success("Thank you. Our advisory team will reach out shortly.");
-      setFormData({ name: "", email: "", phone: "", interest: "", message: "" });
+      setSubmitted(true);
+      setFormData(initialForm);
     } catch (err) {
       toast.error(formatApiErrorDetail(err.response?.data?.detail) || "Submission failed");
     } finally {
@@ -97,16 +130,16 @@ export default function HomePage() {
               <span className="text-[9px] sm:text-[10px] tracking-[0.4em] sm:tracking-[0.5em] uppercase text-white/60">Astitva · Real Estate</span>
             </div>
 
-            <h1 className="section-title text-[2.25rem] leading-[1.05] sm:text-6xl lg:text-[5.5rem] sm:leading-[0.98]">
+            <h1 className="section-title text-[1.9rem] leading-[1.08] sm:text-[3.25rem] lg:text-[5rem] sm:leading-[1] tracking-[-0.015em]">
               Invest With Confidence.
-              <span className="block mt-2 sm:mt-3"><span className="gold-text">Build your future</span> with Astitva.</span>
+              <span className="block mt-1.5 sm:mt-3"><span className="gold-text">Build your future</span> with Astitva.</span>
             </h1>
 
-            <p className="mt-6 sm:mt-10 text-white/65 text-[15px] sm:text-lg max-w-xl leading-[1.65] sm:leading-[1.7] font-light">
+            <p className="mt-5 sm:mt-10 text-white/65 text-[14px] sm:text-base lg:text-lg max-w-xl leading-[1.65] sm:leading-[1.75] font-light">
               Discover verified residential and commercial opportunities across Kolkata's fastest-growing real estate destinations — curated by advisors who measure success in decades, not deals.
             </p>
 
-            <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-5 items-stretch sm:items-center">
+            <div className="mt-7 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-5 items-stretch sm:items-center">
               <Link to="/properties" data-testid="explore-properties-btn" className="btn-primary w-full sm:w-auto">
                 Explore Properties <ArrowRight className="w-3.5 h-3.5" />
               </Link>
@@ -124,7 +157,28 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ===================== WHY ASTITVA ===================== */}
+      {/* ===================== TRUST STRIP ===================== */}
+      <section data-testid="trust-strip" className="relative border-y border-white/[0.06] bg-[#0e0e0e]">
+        <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-16 py-8 sm:py-10">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-y-7 gap-x-6 sm:gap-x-10">
+            {TRUST_SIGNALS.map((t, i) => (
+              <motion.div
+                key={t.label}
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.55, delay: i * 0.08 }}
+                className="flex items-center gap-3 sm:gap-4"
+              >
+                <t.icon className="w-5 h-5 sm:w-6 sm:h-6 text-copper shrink-0" strokeWidth={1.2} />
+                <span className="text-white/70 text-[11px] sm:text-xs tracking-[0.15em] uppercase font-light leading-snug">{t.label}</span>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===================== WHY ASTITVA placeholder will follow ===================== */}
       <section data-testid="why-astitva-section" className="relative py-16 sm:py-24 overflow-hidden">
         <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-16">
           <motion.div {...fadeUp} className="max-w-3xl mb-12 sm:mb-16">
@@ -184,18 +238,30 @@ export default function HomePage() {
                 className="group relative overflow-hidden cursor-pointer"
               >
                 <Link to={`/properties?city=${encodeURIComponent(loc.name)}`} data-testid={`location-card-${loc.name.toLowerCase().replace(' ', '-')}`}>
-                  <div className="relative aspect-[3/4] overflow-hidden bg-[#0a0a0a]">
+                  <div className="relative aspect-[4/5] sm:aspect-[3/4] overflow-hidden bg-[#0a0a0a]">
                     <img loading="lazy" src={loc.img} alt={loc.name} className="w-full h-full object-cover transition-all duration-[1.8s] ease-out group-hover:scale-105" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/30 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/65 to-[#0a0a0a]/15" />
+                    {/* Category chip top-left */}
+                    <div className="absolute top-5 left-5 flex items-center gap-2 bg-[#0a0a0a]/70 backdrop-blur-md border border-white/10 px-3 py-1.5">
+                      <span className="w-1 h-1 rounded-full bg-copper" />
+                      <span className="text-white/80 text-[10px] tracking-[0.25em] uppercase">{loc.category}</span>
+                    </div>
                   </div>
-                  <div className="absolute inset-0 flex flex-col justify-end p-10">
+                  <div className="absolute inset-0 flex flex-col justify-end p-7 sm:p-10">
                     <div className="overflow-hidden">
                       <div className="text-copper text-[10px] tracking-[0.4em] uppercase mb-3 transition-transform duration-500 group-hover:-translate-y-1">{loc.tag}</div>
                     </div>
-                    <h3 className="font-serif-display text-4xl text-ivory mb-4">{loc.name}</h3>
+                    <h3 className="font-serif-display text-3xl sm:text-4xl text-ivory mb-3">{loc.name}</h3>
                     <p className="text-white/65 text-sm leading-[1.7] font-light max-w-xs">{loc.blurb}</p>
-                    <div className="mt-8 inline-flex items-center gap-3 text-ivory text-[10px] tracking-[0.4em] uppercase border-b border-white/20 group-hover:border-copper pb-2 w-fit transition-all duration-500">
-                      Discover <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-1" />
+
+                    <div className="mt-6 flex items-end justify-between gap-4 pt-5 border-t border-white/[0.08]">
+                      <div>
+                        <div className="text-[9px] tracking-[0.3em] uppercase text-white/40 mb-1">Starting</div>
+                        <div className="font-serif-display text-xl sm:text-2xl text-ivory">{loc.starting}</div>
+                      </div>
+                      <div className="inline-flex items-center gap-2 text-copper text-[10px] tracking-[0.4em] uppercase border-b border-copper/40 group-hover:border-copper pb-1 transition-all duration-500">
+                        Discover <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-1" />
+                      </div>
                     </div>
                   </div>
                 </Link>
@@ -283,11 +349,23 @@ export default function HomePage() {
             </div>
 
             <div className="lg:col-span-7 grid grid-cols-2 gap-px bg-white/[0.06] self-start">
-              {KOLKATA_FACTS.map((f) => (
-                <div key={f.label} className="bg-[#0e0e0e] p-7 sm:p-10 lg:p-12">
-                  <div className="font-serif-display text-5xl text-ivory mb-5">{f.stat}</div>
-                  <div className="text-white/50 text-sm font-light leading-[1.6]">{f.label}</div>
-                </div>
+              {KOLKATA_FACTS.map((f, i) => (
+                <motion.div
+                  key={f.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.7, delay: i * 0.1 }}
+                  className="bg-[#0e0e0e] p-8 sm:p-10 lg:p-14 group hover:bg-[#121212] transition-colors duration-500"
+                >
+                  <div className="font-serif-display text-[3.5rem] sm:text-[5rem] lg:text-[6rem] leading-[0.95] tracking-[-0.02em] text-ivory mb-4 sm:mb-6">
+                    {f.stat}
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="w-6 h-px bg-copper" />
+                    <div className="text-white/65 text-[11px] sm:text-xs tracking-[0.2em] uppercase">{f.label}</div>
+                  </div>
+                </motion.div>
               ))}
             </div>
           </motion.div>
@@ -333,105 +411,152 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ===================== WHATSAPP CTA STRIP ===================== */}
+      <section data-testid="whatsapp-cta" className="relative bg-[#0a0a0a] border-y border-white/[0.06]">
+        <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-16 py-14 sm:py-20">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
+            <div className="lg:col-span-7">
+              <div className="flex items-center gap-3 mb-5">
+                <span className="w-10 h-10 rounded-full bg-[#25D366]/10 border border-[#25D366]/30 flex items-center justify-center">
+                  <MessageCircle className="w-4 h-4 text-[#25D366]" strokeWidth={1.5} />
+                </span>
+                <span className="text-[10px] tracking-[0.4em] uppercase text-white/50">Direct Advisory</span>
+              </div>
+              <h2 className="section-title text-3xl sm:text-4xl lg:text-5xl leading-[1.05]">
+                Need Property Advice?
+              </h2>
+              <p className="mt-5 sm:mt-6 text-white/60 font-light leading-[1.75] text-base max-w-xl">
+                Connect directly with an Astitva real estate advisor — verified projects, honest counsel, immediate response.
+              </p>
+            </div>
+            <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-4">
+              <a
+                href={whatsappLink("Hi Astitva, I'd like advice on premium properties.")}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-testid="whatsapp-section-cta"
+                className="flex-1 inline-flex items-center justify-center gap-2.5 bg-[#25D366] hover:bg-[#1ebe57] text-[#0a0a0a] py-4 sm:py-5 px-6 text-xs tracking-[0.18em] uppercase font-medium transition"
+              >
+                <MessageCircle className="w-4 h-4" strokeWidth={2} /> Chat on WhatsApp
+              </a>
+              <a href="#consultation" data-testid="whatsapp-section-book" className="flex-1 btn-outline">
+                Book Consultation
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ===================== LEAD FORM ===================== */}
       <section id="consultation" data-testid="lead-form-section" className="relative py-16 sm:py-24 bg-[#0e0e0e]">
         <div className="absolute inset-0 opacity-[0.06]"><img loading="lazy" src={TEXTURE} alt="" className="w-full h-full object-cover" /></div>
 
         <div className="relative max-w-[1200px] mx-auto px-6 sm:px-8 lg:px-16">
-          <motion.div {...fadeUp} className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+          <motion.div {...fadeUp} className="grid grid-cols-1 lg:grid-cols-12 gap-10 sm:gap-12 lg:gap-16">
             <div className="lg:col-span-5">
               <div className="eyebrow-line mb-8">
                 <span className="text-[10px] tracking-[0.5em] uppercase text-white/50">Book a Consultation</span>
               </div>
-              <h2 className="section-title text-4xl sm:text-5xl lg:text-[3.5rem] leading-[1.05]">
+              <h2 className="section-title text-3xl sm:text-5xl lg:text-[3.5rem] leading-[1.05]">
                 Let's design your<br /><span className="italic text-white/50">investment journey.</span>
               </h2>
-              <p className="mt-10 text-white/55 font-light leading-[1.85] text-base">
+              <p className="mt-8 sm:mt-10 text-white/55 font-light leading-[1.85] text-base">
                 Share a few details. A senior advisor will reach out within one business day with a curated shortlist tailored to your goals.
               </p>
-              <div className="mt-10 pt-10 border-t border-white/[0.06]">
+
+              <ul className="mt-8 space-y-3">
+                {["No spam — ever", "Confidential & RERA-compliant", "Response within 24 hours"].map((b) => (
+                  <li key={b} className="flex items-center gap-3 text-white/55 text-sm font-light">
+                    <Check className="w-4 h-4 text-copper" strokeWidth={1.4} /> {b}
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-10 pt-8 sm:pt-10 border-t border-white/[0.06]">
                 <div className="text-[10px] tracking-[0.4em] uppercase text-white/40 mb-3">Or call us directly</div>
-                <a href="tel:+919000000000" className="font-serif-display text-2xl text-ivory hover:text-copper transition">+91 90000 00000</a>
+                <a href={`tel:${PHONE_DISPLAY.replace(/\s/g, "")}`} className="font-serif-display text-2xl text-ivory hover:text-copper transition">{PHONE_DISPLAY}</a>
               </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="lg:col-span-7 space-y-8" data-testid="lead-form">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-8">
-                <div>
-                  <label className="input-label">Full Name</label>
-                  <input
-                    required
-                    type="text"
-                    data-testid="lead-name-input"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="input-luxury"
-                    placeholder="Your name"
-                  />
-                </div>
-                <div>
-                  <label className="input-label">Phone</label>
-                  <input
-                    required
-                    type="tel"
-                    data-testid="lead-phone-input"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="input-luxury"
-                    placeholder="+91"
-                  />
-                </div>
-              </div>
-              <div>
-                <label className="input-label">Email</label>
-                <input
-                  required
-                  type="email"
-                  data-testid="lead-email-input"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="input-luxury"
-                  placeholder="you@email.com"
-                />
-              </div>
-              <div>
-                <label className="input-label">Interest</label>
-                <select
-                  data-testid="lead-interest-select"
-                  value={formData.interest}
-                  onChange={(e) => setFormData({ ...formData, interest: e.target.value })}
-                  className="input-luxury"
+            <div className="lg:col-span-7">
+              {submitted ? (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="border border-copper/30 p-10 sm:p-14 text-center"
+                  data-testid="lead-thank-you"
                 >
-                  <option value="">Select an interest</option>
-                  <option>Residential — Luxury</option>
-                  <option>Residential — Premium</option>
-                  <option>Commercial</option>
-                  <option>Plot / Land</option>
-                  <option>Investment Advisory</option>
-                </select>
-              </div>
-              <div>
-                <label className="input-label">Message (optional)</label>
-                <textarea
-                  rows={3}
-                  data-testid="lead-message-input"
-                  value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="input-luxury"
-                  placeholder="Tell us about your goals..."
-                />
-              </div>
-              <div className="pt-4">
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  data-testid="lead-submit-btn"
-                  className="btn-primary disabled:opacity-50"
-                >
-                  {submitting ? "Sending..." : "Request Consultation"} <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            </form>
+                  <div className="w-16 h-16 mx-auto rounded-full border border-copper/40 flex items-center justify-center mb-6">
+                    <Check className="w-7 h-7 text-copper" strokeWidth={1.4} />
+                  </div>
+                  <h3 className="font-serif-display text-3xl sm:text-4xl text-ivory mb-4">Thank you.</h3>
+                  <p className="text-white/60 font-light leading-[1.85] max-w-md mx-auto">
+                    Your request has been received. A senior Astitva advisor will reach out within one business day with a curated shortlist for you.
+                  </p>
+                  <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+                    <a
+                      href={whatsappLink("Hi Astitva, I just submitted a consultation request.")}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1ebe57] text-[#0a0a0a] py-3.5 px-6 text-xs tracking-[0.18em] uppercase font-medium transition"
+                    >
+                      <MessageCircle className="w-4 h-4" /> WhatsApp Us
+                    </a>
+                    <button onClick={() => setSubmitted(false)} className="btn-ghost justify-center">
+                      Submit Another
+                    </button>
+                  </div>
+                </motion.div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-7 sm:space-y-8" data-testid="lead-form">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-7 sm:gap-y-8">
+                    <div>
+                      <label className="input-label">Full Name</label>
+                      <input required type="text" data-testid="lead-name-input" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="input-luxury" placeholder="Your name" />
+                    </div>
+                    <div>
+                      <label className="input-label">Phone</label>
+                      <input required type="tel" data-testid="lead-phone-input" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="input-luxury" placeholder="+91" />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="input-label">Email</label>
+                    <input required type="email" data-testid="lead-email-input" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="input-luxury" placeholder="you@email.com" />
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-7 sm:gap-y-8">
+                    <div>
+                      <label className="input-label">Property Interest</label>
+                      <select data-testid="lead-interest-select" value={formData.interest} onChange={(e) => setFormData({ ...formData, interest: e.target.value })} className="input-luxury">
+                        <option value="">Select an interest</option>
+                        <option>Residential — Luxury</option>
+                        <option>Residential — Premium</option>
+                        <option>Commercial</option>
+                        <option>Plot / Land</option>
+                        <option>Investment Advisory</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="input-label">Budget</label>
+                      <select data-testid="lead-budget-select" value={formData.budget} onChange={(e) => setFormData({ ...formData, budget: e.target.value })} className="input-luxury">
+                        <option value="">Select budget</option>
+                        {BUDGETS.map((b) => <option key={b}>{b}</option>)}
+                      </select>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="input-label">Message (optional)</label>
+                    <textarea rows={3} data-testid="lead-message-input" value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} className="input-luxury" placeholder="Tell us about your goals..." />
+                  </div>
+                  <div className="pt-2 flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-center">
+                    <button type="submit" disabled={submitting} data-testid="lead-submit-btn" className="btn-primary disabled:opacity-50 w-full sm:w-auto">
+                      {submitting ? "Sending..." : "Request Consultation"} <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                    <span className="text-white/35 text-[10px] tracking-[0.25em] uppercase font-light sm:ml-2">100% Confidential</span>
+                  </div>
+                </form>
+              )}
+            </div>
           </motion.div>
         </div>
       </section>

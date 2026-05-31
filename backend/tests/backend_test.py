@@ -204,6 +204,49 @@ class TestLeads:
         r = requests.get(f"{API}/admin/leads")
         assert r.status_code == 401
 
+    def test_lead_with_budget_field(self, session, admin_headers):
+        """New: budget field must be saved on create and returned in admin list."""
+        budget_value = "₹2-5 Cr"
+        r = session.post(f"{API}/leads", json={
+            "name": "TEST Budget Lead",
+            "email": "TEST_budget_lead@example.com",
+            "phone": "+91 9999000099",
+            "interest": "Aura Skylines",
+            "budget": budget_value,
+            "message": "Looking for premium 3BHK",
+            "source": "homepage"
+        })
+        assert r.status_code == 201, r.text
+        lid = r.json()["id"]
+        # Verify in admin list
+        r2 = requests.get(f"{API}/admin/leads", headers=admin_headers)
+        assert r2.status_code == 200
+        rec = next((l for l in r2.json() if l["id"] == lid), None)
+        assert rec is not None, "Lead not present in admin list"
+        assert rec["budget"] == budget_value, f"Budget mismatch: got {rec.get('budget')!r}"
+        assert rec["name"] == "TEST Budget Lead"
+        assert rec["source"] == "homepage"
+        # cleanup
+        requests.delete(f"{API}/admin/leads/{lid}", headers=admin_headers)
+
+    def test_lead_without_budget_defaults_empty(self, session, admin_headers):
+        """Budget is optional - missing field should result in empty string."""
+        r = session.post(f"{API}/leads", json={
+            "name": "TEST NoBudget Lead",
+            "email": "TEST_nobudget@example.com",
+            "phone": "+91 9999000088",
+            "interest": "",
+            "message": "",
+            "source": "homepage"
+        })
+        assert r.status_code == 201, r.text
+        lid = r.json()["id"]
+        r2 = requests.get(f"{API}/admin/leads", headers=admin_headers)
+        rec = next((l for l in r2.json() if l["id"] == lid), None)
+        assert rec is not None
+        assert rec["budget"] == ""
+        requests.delete(f"{API}/admin/leads/{lid}", headers=admin_headers)
+
 
 # ---------------------------------------------------------------------------
 # Users CRUD (admin only)

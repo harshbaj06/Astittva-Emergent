@@ -250,6 +250,7 @@ class LeadIn(BaseModel):
     email: EmailStr
     phone: str
     interest: Optional[str] = ""
+    budget: Optional[str] = ""
     message: Optional[str] = ""
     source: Optional[str] = "homepage"
 
@@ -523,6 +524,7 @@ async def list_leads(_user: dict = Depends(require_staff)):
             "email": d.get("email"),
             "phone": d.get("phone"),
             "interest": d.get("interest", ""),
+            "budget": d.get("budget", ""),
             "message": d.get("message", ""),
             "source": d.get("source", ""),
             "status": d.get("status", "new"),
