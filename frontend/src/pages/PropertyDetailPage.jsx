@@ -52,7 +52,7 @@ export default function PropertyDetailPage() {
 
   return (
     <div data-testid="property-detail-page" className="pt-28 pb-24">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
         <Link to="/properties" className="inline-flex items-center gap-2 text-copper text-xs tracking-[0.3em] uppercase mb-8 hover:text-rose-gold">
           <ArrowLeft className="w-4 h-4" /> Back to Properties
         </Link>
@@ -60,7 +60,7 @@ export default function PropertyDetailPage() {
         {/* Gallery */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8 }} className="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-12">
           <div className={`${images.length > 1 ? "lg:col-span-9" : "lg:col-span-12"} aspect-[16/10] overflow-hidden`}>
-            <img
+            <img loading="lazy"
               src={images[activeImg] ? fileUrl(images[activeImg]) : "https://images.pexels.com/photos/24805054/pexels-photo-24805054.jpeg"}
               alt={property.project_name}
               className="w-full h-full object-cover"
@@ -74,7 +74,7 @@ export default function PropertyDetailPage() {
                   onClick={() => setActiveImg(i)}
                   className={`aspect-[4/3] overflow-hidden border ${activeImg === i ? "border-copper" : "border-copper/15"} transition`}
                 >
-                  <img src={fileUrl(img)} alt="" className="w-full h-full object-cover" />
+                  <img loading="lazy" src={fileUrl(img)} alt="" className="w-full h-full object-cover" />
                 </button>
               ))}
             </div>

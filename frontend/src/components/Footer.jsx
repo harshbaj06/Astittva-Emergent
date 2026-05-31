@@ -6,11 +6,11 @@ const LOGO_URL = "https://customer-assets.emergentagent.com/job_50ac1e2c-4ee3-4d
 export default function Footer() {
   return (
     <footer data-testid="site-footer" className="relative border-t border-white/[0.06] bg-[#0a0a0a]">
-      <div className="max-w-[1400px] mx-auto px-8 lg:px-16 py-20 lg:py-24">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-16">
+      <div className="max-w-[1400px] mx-auto px-8 lg:px-16 py-16 sm:py-20 lg:py-24">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 sm:gap-16">
           <div className="md:col-span-4">
             <div className="flex items-center gap-4 mb-8">
-              <img src={LOGO_URL} alt="Astitva" className="h-14 w-14 object-cover" />
+              <img loading="lazy" src={LOGO_URL} alt="Astitva" className="h-14 w-14 object-cover" />
               <div className="border-l border-white/10 pl-4">
                 <div className="font-serif-display tracking-[0.18em] text-ivory text-lg">ASTITTVA</div>
                 <div className="text-white/40 text-[9px] tracking-[0.45em] uppercase mt-0.5">Real Estate</div>

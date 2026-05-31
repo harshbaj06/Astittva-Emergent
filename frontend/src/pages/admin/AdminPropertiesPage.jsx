@@ -77,7 +77,7 @@ export default function AdminPropertiesPage() {
                   <td className="p-4">
                     <div className="flex items-center gap-3">
                       {p.images?.[0] ? (
-                        <img src={fileUrl(p.images[0])} alt="" className="w-12 h-12 object-cover border border-copper/20" />
+                        <img loading="lazy" src={fileUrl(p.images[0])} alt="" className="w-12 h-12 object-cover border border-copper/20" />
                       ) : (
                         <div className="w-12 h-12 bg-charcoal-2 border border-copper/10 flex items-center justify-center text-copper/40 text-[10px] tracking-widest uppercase">
                           N/A

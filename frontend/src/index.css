@@ -64,9 +64,15 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     letter-spacing: 0.01em;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
   }
+  img { max-width: 100%; height: auto; }
   h1, h2, h3, h4, h5, h6 { font-family: 'Poppins', sans-serif; font-weight: 300; letter-spacing: -0.01em; }
   ::selection { background-color: #B87333; color: #121212; }
+
+  /* Use 100svh on supported browsers for proper mobile viewport */
+  @supports (height: 100svh) { .h-screen-safe { height: 100svh; } }
 }
 
 /* Custom scrollbar */
@@ -130,7 +136,7 @@
   background-color: #B87333;
   color: #121212;
   font-weight: 400;
-  padding: 1.1rem 2.5rem;
+  padding: 1rem 2rem;
   border: 1px solid #B87333;
   transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   display: inline-flex;
@@ -142,6 +148,10 @@
   text-transform: uppercase;
   cursor: pointer;
   font-family: 'Inter', sans-serif;
+  min-height: 48px;
+}
+@media (min-width: 640px) {
+  .btn-primary { padding: 1.1rem 2.5rem; }
 }
 .btn-primary:hover {
   background-color: transparent;
@@ -153,7 +163,7 @@
   color: #F8F5F1;
   border: 1px solid rgba(248,245,241,0.25);
   font-weight: 400;
-  padding: 1.1rem 2.5rem;
+  padding: 1rem 2rem;
   transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   display: inline-flex;
   align-items: center;
@@ -164,6 +174,10 @@
   text-transform: uppercase;
   cursor: pointer;
   font-family: 'Inter', sans-serif;
+  min-height: 48px;
+}
+@media (min-width: 640px) {
+  .btn-outline { padding: 1.1rem 2.5rem; }
 }
 .btn-outline:hover {
   border-color: #B87333;
@@ -179,14 +193,24 @@
   text-transform: uppercase;
   font-weight: 400;
   cursor: pointer;
-  padding-bottom: 0.4rem;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.3s ease, color 0.3s ease;
+  padding: 0.95rem 1.25rem;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  min-height: 48px;
 }
-.btn-ghost:hover { border-color: #B87333; color: #D9A77E; }
+.btn-ghost:hover { color: #D9A77E; }
+@media (min-width: 640px) {
+  .btn-ghost {
+    padding: 0 0 0.4rem 0;
+    border: none;
+    border-bottom: 1px solid transparent;
+    min-height: auto;
+  }
+  .btn-ghost:hover { border-bottom-color: #B87333; }
+}
 
 .luxury-card {
   background: transparent;

@@ -35,31 +35,31 @@ export default function PropertiesPage() {
   };
 
   return (
-    <div data-testid="properties-page" className="pt-32 pb-24">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <div data-testid="properties-page" className="pt-28 pb-16 sm:pt-32 sm:pb-24">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}
           className="mb-16"
         >
           <div className="overline mb-4">Curated Portfolio</div>
-          <h1 className="font-display font-light text-4xl sm:text-5xl lg:text-6xl text-ivory tracking-tight">
+          <h1 className="font-display font-light text-3xl sm:text-5xl lg:text-6xl text-ivory tracking-tight">
             Properties
           </h1>
           <div className="copper-divider mt-8" />
         </motion.div>
 
         {/* Filters */}
-        <div className="mb-12 flex flex-wrap gap-4 items-center border border-copper/15 p-6 bg-charcoal-2/40">
+        <div className="mb-10 sm:mb-12 flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-4 sm:items-center border border-copper/15 p-5 sm:p-6 bg-charcoal-2/40">
           <div className="flex items-center gap-2 text-copper text-xs tracking-[0.3em] uppercase">
             <Filter className="w-4 h-4" /> Filter
           </div>
-          <select data-testid="filter-city" value={city} onChange={(e) => setParam("city", e.target.value)} className="input-filled max-w-[200px]">
+          <select data-testid="filter-city" value={city} onChange={(e) => setParam("city", e.target.value)} className="input-filled w-full sm:max-w-[200px]">
             {CITIES.map((c) => <option key={c} value={c}>{c || "All Cities"}</option>)}
           </select>
-          <select data-testid="filter-type" value={property_type} onChange={(e) => setParam("type", e.target.value)} className="input-filled max-w-[200px]">
+          <select data-testid="filter-type" value={property_type} onChange={(e) => setParam("type", e.target.value)} className="input-filled w-full sm:max-w-[200px]">
             {TYPES.map((t) => <option key={t} value={t}>{t || "All Types"}</option>)}
           </select>
-          <select data-testid="filter-category" value={category} onChange={(e) => setParam("category", e.target.value)} className="input-filled max-w-[200px]">
+          <select data-testid="filter-category" value={category} onChange={(e) => setParam("category", e.target.value)} className="input-filled w-full sm:max-w-[200px]">
             {CATEGORIES.map((c) => <option key={c} value={c}>{c || "All Categories"}</option>)}
           </select>
           {(city || property_type || category) && (
@@ -88,7 +88,7 @@ export default function PropertiesPage() {
               >
                 <Link to={`/properties/${p.id}`}>
                   <div className="aspect-[4/3] overflow-hidden relative">
-                    <img
+                    <img loading="lazy"
                       src={p.images?.[0] ? fileUrl(p.images[0]) : "https://images.pexels.com/photos/24805054/pexels-photo-24805054.jpeg"}
                       alt={p.project_name}
                       className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110"

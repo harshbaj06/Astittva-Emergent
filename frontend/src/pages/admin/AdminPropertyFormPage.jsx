@@ -182,7 +182,7 @@ export default function AdminPropertyFormPage() {
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-4">
             {form.images.map((path) => (
               <div key={path} className="relative aspect-[4/3] group border border-copper/20">
-                <img src={fileUrl(path)} alt="" className="w-full h-full object-cover" />
+                <img loading="lazy" src={fileUrl(path)} alt="" className="w-full h-full object-cover" />
                 <button
                   type="button"
                   onClick={() => removeImage(path)}

@@ -23,11 +23,11 @@ export default function ContactPage() {
   };
 
   return (
-    <div data-testid="contact-page" className="pt-32 pb-24">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <div data-testid="contact-page" className="pt-28 pb-16 sm:pt-32 sm:pb-24">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="mb-16">
           <div className="overline mb-4">Contact</div>
-          <h1 className="font-display font-light text-4xl sm:text-5xl lg:text-6xl text-ivory tracking-tight">
+          <h1 className="font-display font-light text-3xl sm:text-5xl lg:text-6xl text-ivory tracking-tight">
             Let's begin a conversation.
           </h1>
           <p className="mt-6 text-ivory/65 font-light max-w-2xl">
@@ -36,7 +36,7 @@ export default function ContactPage() {
           <div className="copper-divider mt-10" />
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-16">
           <div className="space-y-10">
             <div>
               <div className="overline mb-3">Office</div>

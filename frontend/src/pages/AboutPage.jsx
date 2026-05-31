@@ -6,17 +6,17 @@ const TEXTURE = "https://static.prod-images.emergentagent.com/jobs/50ac1e2c-4ee3
 
 export default function AboutPage() {
   return (
-    <div data-testid="about-page" className="pt-32 pb-24">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <div data-testid="about-page" className="pt-28 pb-16 sm:pt-32 sm:pb-24">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
           <div className="overline mb-4">About Astitva</div>
-          <h1 className="font-display font-light text-4xl sm:text-5xl lg:text-6xl text-ivory tracking-tight max-w-4xl leading-tight">
+          <h1 className="font-display font-light text-3xl sm:text-5xl lg:text-6xl text-ivory tracking-tight max-w-4xl leading-tight">
             A real estate house built on <span className="gold-text">trust, craftsmanship & conviction.</span>
           </h1>
           <div className="copper-divider mt-10" />
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mt-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-16 mt-20">
           <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
             <h2 className="font-display font-light text-2xl sm:text-3xl text-ivory mb-6">Our Mission</h2>
             <p className="text-ivory/70 leading-relaxed font-light text-lg">
@@ -38,7 +38,7 @@ export default function AboutPage() {
         </div>
 
         {/* Values */}
-        <section className="mt-32 relative">
+        <section className="mt-20 sm:mt-32 relative">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center max-w-2xl mx-auto mb-16">
             <div className="overline mb-4">Our Values</div>
             <h2 className="font-display font-light text-3xl sm:text-4xl text-ivory">The four pillars of how we work.</h2>
@@ -62,7 +62,7 @@ export default function AboutPage() {
         {/* CTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}
-          className="mt-32 relative overflow-hidden border border-copper/20 p-12 sm:p-20 text-center"
+          className="mt-20 sm:mt-32 relative overflow-hidden border border-copper/20 p-12 sm:p-20 text-center"
         >
           <div className="absolute inset-0 opacity-20"><img src={TEXTURE} alt="" className="w-full h-full object-cover" /></div>
           <div className="absolute inset-0 bg-charcoal/85" />

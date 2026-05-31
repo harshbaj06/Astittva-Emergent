@@ -70,9 +70,9 @@ export default function HomePage() {
   return (
     <div data-testid="home-page">
       {/* ===================== HERO ===================== */}
-      <section data-testid="hero-section" className="relative h-screen min-h-[760px] w-full overflow-hidden bg-[#0a0a0a]">
+      <section data-testid="hero-section" className="relative min-h-[640px] h-[100svh] sm:min-h-[760px] sm:h-screen w-full overflow-hidden bg-[#0a0a0a]">
         <div className="absolute inset-0">
-          <img src={HERO_IMG} alt="Biswa Bangla Gate Kolkata" className="w-full h-full object-cover opacity-90" />
+          <img loading="eager" fetchpriority="high" src={HERO_IMG} alt="Biswa Bangla Gate Kolkata" className="w-full h-full object-cover opacity-90" />
           {/* Cinematic gradient — darker on the left to make text legible, fading to reveal architecture */}
           <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/70 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#0a0a0a]" />
@@ -86,34 +86,32 @@ export default function HomePage() {
           <span className="text-[10px] tracking-[0.5em] uppercase">EST · KOLKATA · 2026</span>
         </div>
 
-        <div className="relative z-10 max-w-[1400px] mx-auto px-8 lg:px-16 pl-16 lg:pl-32 h-full flex flex-col justify-center">
+        <div className="relative z-10 max-w-[1400px] mx-auto px-6 sm:px-6 sm:px-8 lg:px-16 lg:pl-32 h-full flex flex-col justify-center pt-24 sm:pt-0">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
             className="max-w-3xl"
           >
-            <div className="eyebrow-line mb-10" data-testid="hero-overline">
-              <span className="text-[10px] tracking-[0.5em] uppercase text-white/60">Astitva · Real Estate Advisory</span>
+            <div className="eyebrow-line mb-6 sm:mb-10" data-testid="hero-overline">
+              <span className="text-[9px] sm:text-[10px] tracking-[0.4em] sm:tracking-[0.5em] uppercase text-white/60">Astitva · Real Estate</span>
             </div>
 
-            <h1 className="section-title text-5xl sm:text-6xl lg:text-[5.5rem] leading-[0.98]">
-              Invest With<br />
-              Confidence.<br />
-              <span className="gold-text">Build your future</span><br />
-              with Astitva.
+            <h1 className="section-title text-[2.25rem] leading-[1.05] sm:text-6xl lg:text-[5.5rem] sm:leading-[0.98]">
+              Invest With Confidence.
+              <span className="block mt-2 sm:mt-3"><span className="gold-text">Build your future</span> with Astitva.</span>
             </h1>
 
-            <p className="mt-10 text-white/65 text-base sm:text-lg max-w-xl leading-[1.7] font-light">
+            <p className="mt-6 sm:mt-10 text-white/65 text-[15px] sm:text-lg max-w-xl leading-[1.65] sm:leading-[1.7] font-light">
               Discover verified residential and commercial opportunities across Kolkata's fastest-growing real estate destinations — curated by advisors who measure success in decades, not deals.
             </p>
 
-            <div className="mt-10 flex flex-col sm:flex-row gap-5 items-start sm:items-center">
-              <Link to="/properties" data-testid="explore-properties-btn" className="btn-primary">
+            <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-5 items-stretch sm:items-center">
+              <Link to="/properties" data-testid="explore-properties-btn" className="btn-primary w-full sm:w-auto">
                 Explore Properties <ArrowRight className="w-3.5 h-3.5" />
               </Link>
-              <a href="#consultation" data-testid="book-consultation-btn" className="btn-ghost">
-                Book a Private Consultation <ArrowRight className="w-3 h-3" />
+              <a href="#consultation" data-testid="book-consultation-btn" className="btn-ghost justify-center sm:justify-start w-full sm:w-auto">
+                Book a Consultation <ArrowRight className="w-3 h-3" />
               </a>
             </div>
           </motion.div>
@@ -127,13 +125,13 @@ export default function HomePage() {
       </section>
 
       {/* ===================== WHY ASTITVA ===================== */}
-      <section data-testid="why-astitva-section" className="relative py-20 sm:py-28 overflow-hidden">
-        <div className="max-w-[1400px] mx-auto px-8 lg:px-16">
-          <motion.div {...fadeUp} className="max-w-3xl mb-16">
+      <section data-testid="why-astitva-section" className="relative py-16 sm:py-24 overflow-hidden">
+        <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-16">
+          <motion.div {...fadeUp} className="max-w-3xl mb-12 sm:mb-16">
             <div className="eyebrow-line mb-8">
               <span className="text-[10px] tracking-[0.5em] uppercase text-white/50">The Astitva Difference</span>
             </div>
-            <h2 className="section-title text-4xl sm:text-5xl lg:text-6xl leading-[1.05]">
+            <h2 className="section-title text-3xl sm:text-5xl lg:text-6xl leading-[1.05]">
               A new standard for real estate<br />
               <span className="text-white/50 italic font-serif-display">advisory in Eastern India.</span>
             </h2>
@@ -147,7 +145,7 @@ export default function HomePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                className="bg-[#121212] p-10 lg:p-12 group"
+                className="bg-[#121212] p-7 sm:p-10 lg:p-12 group"
               >
                 <p.icon className="w-7 h-7 text-copper mb-10 transition-colors duration-500" strokeWidth={1} />
                 <h3 className="font-serif-display text-2xl text-ivory mb-4">{p.title}</h3>
@@ -159,14 +157,14 @@ export default function HomePage() {
       </section>
 
       {/* ===================== FEATURED LOCATIONS ===================== */}
-      <section data-testid="locations-section" className="py-20 sm:py-28 bg-[#0e0e0e]">
-        <div className="max-w-[1400px] mx-auto px-8 lg:px-16">
-          <motion.div {...fadeUp} className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+      <section data-testid="locations-section" className="py-16 sm:py-24 bg-[#0e0e0e]">
+        <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-16">
+          <motion.div {...fadeUp} className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12 sm:mb-16">
             <div className="max-w-2xl">
               <div className="eyebrow-line mb-8">
                 <span className="text-[10px] tracking-[0.5em] uppercase text-white/50">Featured Locations</span>
               </div>
-              <h2 className="section-title text-4xl sm:text-5xl lg:text-6xl leading-[1.05]">
+              <h2 className="section-title text-3xl sm:text-5xl lg:text-6xl leading-[1.05]">
                 Where Kolkata's future<br /><span className="italic text-white/50">is being built.</span>
               </h2>
             </div>
@@ -175,7 +173,7 @@ export default function HomePage() {
             </Link>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-2">
             {LOCATIONS.map((loc, i) => (
               <motion.div
                 key={loc.name}
@@ -187,7 +185,7 @@ export default function HomePage() {
               >
                 <Link to={`/properties?city=${encodeURIComponent(loc.name)}`} data-testid={`location-card-${loc.name.toLowerCase().replace(' ', '-')}`}>
                   <div className="relative aspect-[3/4] overflow-hidden bg-[#0a0a0a]">
-                    <img src={loc.img} alt={loc.name} className="w-full h-full object-cover transition-all duration-[1.8s] ease-out group-hover:scale-105" />
+                    <img loading="lazy" src={loc.img} alt={loc.name} className="w-full h-full object-cover transition-all duration-[1.8s] ease-out group-hover:scale-105" />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/30 to-transparent" />
                   </div>
                   <div className="absolute inset-0 flex flex-col justify-end p-10">
@@ -208,13 +206,13 @@ export default function HomePage() {
       </section>
 
       {/* ===================== FEATURED PROJECTS ===================== */}
-      <section data-testid="projects-section" className="py-20 sm:py-28">
-        <div className="max-w-[1400px] mx-auto px-8 lg:px-16">
-          <motion.div {...fadeUp} className="mb-14 max-w-3xl">
+      <section data-testid="projects-section" className="py-16 sm:py-24">
+        <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-16">
+          <motion.div {...fadeUp} className="mb-10 sm:mb-14 max-w-3xl">
             <div className="eyebrow-line mb-8">
               <span className="text-[10px] tracking-[0.5em] uppercase text-white/50">Featured Projects</span>
             </div>
-            <h2 className="section-title text-4xl sm:text-5xl lg:text-6xl leading-[1.05]">
+            <h2 className="section-title text-3xl sm:text-5xl lg:text-6xl leading-[1.05]">
               A handpicked portfolio.<br />
               <span className="italic text-white/50">Verified. Premium. Ready.</span>
             </h2>
@@ -226,7 +224,7 @@ export default function HomePage() {
               <Link to="/contact" className="btn-outline">Speak to an Advisor</Link>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-10">
               {projects.map((p, i) => (
                 <motion.div
                   key={p.id}
@@ -239,7 +237,7 @@ export default function HomePage() {
                 >
                   <Link to={`/properties/${p.id}`}>
                     <div className="aspect-[4/3] overflow-hidden bg-[#0a0a0a]">
-                      <img
+                      <img loading="lazy"
                         src={p.images?.[0] ? fileUrl(p.images[0]) : "https://images.pexels.com/photos/24805054/pexels-photo-24805054.jpeg"}
                         alt={p.project_name}
                         className="w-full h-full object-cover transition-transform duration-[1.8s] ease-out group-hover:scale-105"
@@ -265,18 +263,18 @@ export default function HomePage() {
       </section>
 
       {/* ===================== WHY INVEST IN KOLKATA ===================== */}
-      <section data-testid="why-kolkata-section" className="relative py-20 sm:py-28 bg-[#0e0e0e] overflow-hidden">
+      <section data-testid="why-kolkata-section" className="relative py-16 sm:py-24 bg-[#0e0e0e] overflow-hidden">
         <div className="absolute inset-0 opacity-[0.08]">
-          <img src={TEXTURE} alt="" className="w-full h-full object-cover" />
+          <img loading="lazy" src={TEXTURE} alt="" className="w-full h-full object-cover" />
         </div>
 
-        <div className="relative max-w-[1400px] mx-auto px-8 lg:px-16">
+        <div className="relative max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-16">
           <motion.div {...fadeUp} className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
             <div className="lg:col-span-5">
               <div className="eyebrow-line mb-8">
                 <span className="text-[10px] tracking-[0.5em] uppercase text-white/50">Why Invest in Kolkata</span>
               </div>
-              <h2 className="section-title text-4xl sm:text-5xl lg:text-6xl leading-[1.05]">
+              <h2 className="section-title text-3xl sm:text-5xl lg:text-6xl leading-[1.05]">
                 The next great Indian real estate story <span className="italic text-white/50">is being written here.</span>
               </h2>
               <p className="mt-10 text-white/60 leading-[1.85] font-light text-base">
@@ -286,7 +284,7 @@ export default function HomePage() {
 
             <div className="lg:col-span-7 grid grid-cols-2 gap-px bg-white/[0.06] self-start">
               {KOLKATA_FACTS.map((f) => (
-                <div key={f.label} className="bg-[#0e0e0e] p-10 lg:p-12">
+                <div key={f.label} className="bg-[#0e0e0e] p-7 sm:p-10 lg:p-12">
                   <div className="font-serif-display text-5xl text-ivory mb-5">{f.stat}</div>
                   <div className="text-white/50 text-sm font-light leading-[1.6]">{f.label}</div>
                 </div>
@@ -297,13 +295,13 @@ export default function HomePage() {
       </section>
 
       {/* ===================== EXPANSION ROADMAP ===================== */}
-      <section data-testid="roadmap-section" className="py-20 sm:py-28">
-        <div className="max-w-[1400px] mx-auto px-8 lg:px-16">
-          <motion.div {...fadeUp} className="text-center max-w-3xl mx-auto mb-16">
+      <section data-testid="roadmap-section" className="py-16 sm:py-24">
+        <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-16">
+          <motion.div {...fadeUp} className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
             <div className="eyebrow-line justify-center mb-8" style={{ display: "inline-flex" }}>
               <span className="text-[10px] tracking-[0.5em] uppercase text-white/50">Future Expansion</span>
             </div>
-            <h2 className="section-title text-4xl sm:text-5xl lg:text-6xl leading-[1.05] mt-2">
+            <h2 className="section-title text-3xl sm:text-5xl lg:text-6xl leading-[1.05] mt-2">
               From Kolkata<br /><span className="italic text-white/50">to the world.</span>
             </h2>
             <p className="mt-8 text-white/55 font-light leading-[1.85] text-base">
@@ -336,10 +334,10 @@ export default function HomePage() {
       </section>
 
       {/* ===================== LEAD FORM ===================== */}
-      <section id="consultation" data-testid="lead-form-section" className="relative py-20 sm:py-28 bg-[#0e0e0e]">
-        <div className="absolute inset-0 opacity-[0.06]"><img src={TEXTURE} alt="" className="w-full h-full object-cover" /></div>
+      <section id="consultation" data-testid="lead-form-section" className="relative py-16 sm:py-24 bg-[#0e0e0e]">
+        <div className="absolute inset-0 opacity-[0.06]"><img loading="lazy" src={TEXTURE} alt="" className="w-full h-full object-cover" /></div>
 
-        <div className="relative max-w-[1200px] mx-auto px-8 lg:px-16">
+        <div className="relative max-w-[1200px] mx-auto px-6 sm:px-8 lg:px-16">
           <motion.div {...fadeUp} className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
             <div className="lg:col-span-5">
               <div className="eyebrow-line mb-8">
