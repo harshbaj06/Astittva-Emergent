@@ -59,28 +59,26 @@ export default function PropertyDetailPage() {
 
         {/* Gallery */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8 }} className="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-12">
-          <div className="lg:col-span-9 aspect-[16/10] overflow-hidden">
+          <div className={`${images.length > 1 ? "lg:col-span-9" : "lg:col-span-12"} aspect-[16/10] overflow-hidden`}>
             <img
               src={images[activeImg] ? fileUrl(images[activeImg]) : "https://images.pexels.com/photos/24805054/pexels-photo-24805054.jpeg"}
               alt={property.project_name}
               className="w-full h-full object-cover"
             />
           </div>
-          <div className="lg:col-span-3 grid grid-cols-4 lg:grid-cols-1 gap-4">
-            {(images.length ? images : [null,null,null]).slice(0, 4).map((img, i) => (
-              <button
-                key={i}
-                onClick={() => setActiveImg(i)}
-                className={`aspect-[4/3] overflow-hidden border ${activeImg === i ? "border-copper" : "border-copper/15"} transition`}
-              >
-                {img ? (
+          {images.length > 1 && (
+            <div className="lg:col-span-3 grid grid-cols-4 lg:grid-cols-1 gap-4">
+              {images.slice(0, 4).map((img, i) => (
+                <button
+                  key={i}
+                  onClick={() => setActiveImg(i)}
+                  className={`aspect-[4/3] overflow-hidden border ${activeImg === i ? "border-copper" : "border-copper/15"} transition`}
+                >
                   <img src={fileUrl(img)} alt="" className="w-full h-full object-cover" />
-                ) : (
-                  <div className="w-full h-full bg-charcoal-2/60" />
-                )}
-              </button>
-            ))}
-          </div>
+                </button>
+              ))}
+            </div>
+          )}
         </motion.div>
 
         {/* Content */}

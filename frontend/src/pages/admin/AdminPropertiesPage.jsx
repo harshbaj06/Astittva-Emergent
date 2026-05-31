@@ -79,7 +79,9 @@ export default function AdminPropertiesPage() {
                       {p.images?.[0] ? (
                         <img src={fileUrl(p.images[0])} alt="" className="w-12 h-12 object-cover border border-copper/20" />
                       ) : (
-                        <div className="w-12 h-12 bg-charcoal-2 border border-copper/10" />
+                        <div className="w-12 h-12 bg-charcoal-2 border border-copper/10 flex items-center justify-center text-copper/40 text-[10px] tracking-widest uppercase">
+                          N/A
+                        </div>
                       )}
                       <div>
                         <div className="text-ivory font-display font-normal">{p.project_name}</div>
