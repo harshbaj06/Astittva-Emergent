@@ -45,7 +45,7 @@ export default function AdminLoginPage() {
               type="email"
               required
               data-testid="login-email"
-              className="input-luxury"
+              className="input-filled"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               autoFocus
@@ -57,7 +57,7 @@ export default function AdminLoginPage() {
               type="password"
               required
               data-testid="login-password"
-              className="input-luxury"
+              className="input-filled"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />

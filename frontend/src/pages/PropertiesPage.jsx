@@ -53,13 +53,13 @@ export default function PropertiesPage() {
           <div className="flex items-center gap-2 text-copper text-xs tracking-[0.3em] uppercase">
             <Filter className="w-4 h-4" /> Filter
           </div>
-          <select data-testid="filter-city" value={city} onChange={(e) => setParam("city", e.target.value)} className="input-luxury max-w-[200px]">
+          <select data-testid="filter-city" value={city} onChange={(e) => setParam("city", e.target.value)} className="input-filled max-w-[200px]">
             {CITIES.map((c) => <option key={c} value={c}>{c || "All Cities"}</option>)}
           </select>
-          <select data-testid="filter-type" value={property_type} onChange={(e) => setParam("type", e.target.value)} className="input-luxury max-w-[200px]">
+          <select data-testid="filter-type" value={property_type} onChange={(e) => setParam("type", e.target.value)} className="input-filled max-w-[200px]">
             {TYPES.map((t) => <option key={t} value={t}>{t || "All Types"}</option>)}
           </select>
-          <select data-testid="filter-category" value={category} onChange={(e) => setParam("category", e.target.value)} className="input-luxury max-w-[200px]">
+          <select data-testid="filter-category" value={category} onChange={(e) => setParam("category", e.target.value)} className="input-filled max-w-[200px]">
             {CATEGORIES.map((c) => <option key={c} value={c}>{c || "All Categories"}</option>)}
           </select>
           {(city || property_type || category) && (

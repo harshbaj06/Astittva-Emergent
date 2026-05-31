@@ -5,12 +5,12 @@ import { ArrowRight, ShieldCheck, Sparkles, Building2, Compass, ChevronRight, Ma
 import api, { fileUrl, formatApiErrorDetail } from "@/lib/api";
 import { toast } from "sonner";
 
-const HERO_IMG = "https://static.prod-images.emergentagent.com/jobs/50ac1e2c-4ee3-4d48-ad5e-fd37063ae3c0/images/83d94db40af9de6336b3e860cbe48776d920746426d4db276be43a271d057f6b.png";
+const HERO_IMG = "/images/biswa-bangla-hero.png";
 const TEXTURE = "https://static.prod-images.emergentagent.com/jobs/50ac1e2c-4ee3-4d48-ad5e-fd37063ae3c0/images/1f5da7f44ad5aab6c1f6ab3c12df3ec89723084c1042e95749a6b4658dcffcc6.png";
 
 const LOCATIONS = [
-  { name: "New Town", tag: "Smart City Hub", img: "https://images.unsplash.com/photo-1697482049095-71b683b9e92e?q=80&w=1600&auto=format&fit=crop", blurb: "India's first planned smart-city — IT corridors, world-class infrastructure, and rising luxury residences." },
-  { name: "Rajarhat", tag: "Investment Frontier", img: "https://images.pexels.com/photos/33612641/pexels-photo-33612641.jpeg", blurb: "The fastest-appreciating corridor of Greater Kolkata, anchored by Eco Park and global IT campuses." },
+  { name: "New Town", tag: "Smart City Hub", img: "/images/biswa-bangla-newtown.png", blurb: "India's first planned smart-city — IT corridors, world-class infrastructure, and rising luxury residences." },
+  { name: "Rajarhat", tag: "Investment Frontier", img: "/images/city-centre-2-rajarhat.png", blurb: "The fastest-appreciating corridor of Greater Kolkata, anchored by Eco Park and global IT campuses." },
   { name: "Kolkata", tag: "Cultural Capital", img: "https://images.pexels.com/photos/36613128/pexels-photo-36613128.jpeg", blurb: "A legacy city reimagined — heritage, art, and a new wave of premium residential development." },
 ];
 
@@ -70,69 +70,88 @@ export default function HomePage() {
   return (
     <div data-testid="home-page">
       {/* ===================== HERO ===================== */}
-      <section data-testid="hero-section" className="relative h-screen min-h-[700px] w-full overflow-hidden">
+      <section data-testid="hero-section" className="relative h-screen min-h-[760px] w-full overflow-hidden bg-[#0a0a0a]">
         <div className="absolute inset-0">
-          <img src={HERO_IMG} alt="Biswa Bangla Gate Kolkata" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-b from-charcoal/40 via-charcoal/50 to-charcoal" />
+          <img src={HERO_IMG} alt="Biswa Bangla Gate Kolkata" className="w-full h-full object-cover opacity-90" />
+          {/* Cinematic gradient — darker on the left to make text legible, fading to reveal architecture */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/70 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#0a0a0a]" />
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 h-full flex flex-col justify-center">
+        {/* Fine vertical rule on the left for editorial framing */}
+        <div className="absolute left-8 lg:left-16 top-24 bottom-24 w-px bg-white/10 hidden md:block" />
+
+        {/* Vertical brand label */}
+        <div className="absolute left-8 lg:left-16 bottom-12 hidden md:flex flex-col items-center gap-4 text-white/40 z-20" style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}>
+          <span className="text-[10px] tracking-[0.5em] uppercase">EST · KOLKATA · 2026</span>
+        </div>
+
+        <div className="relative z-10 max-w-[1400px] mx-auto px-8 lg:px-16 pl-16 lg:pl-32 h-full flex flex-col justify-center">
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
             className="max-w-3xl"
           >
-            <div className="overline mb-6" data-testid="hero-overline">Astitva Real Estate · Kolkata</div>
-            <h1 className="font-display font-light text-ivory text-4xl sm:text-5xl lg:text-7xl leading-[1.05] tracking-tight">
-              Invest With Confidence.<br />
-              <span className="gold-text font-normal">Build Your Future</span> With Astitva.
+            <div className="eyebrow-line mb-10" data-testid="hero-overline">
+              <span className="text-[10px] tracking-[0.5em] uppercase text-white/60">Astitva · Real Estate Advisory</span>
+            </div>
+
+            <h1 className="section-title text-5xl sm:text-6xl lg:text-[5.5rem] leading-[0.98]">
+              Invest With<br />
+              Confidence.<br />
+              <span className="gold-text">Build your future</span><br />
+              with Astitva.
             </h1>
-            <p className="mt-8 text-ivory/75 text-base sm:text-lg max-w-2xl leading-relaxed font-light">
-              Discover verified residential and commercial opportunities across Kolkata's fastest-growing real estate destinations.
+
+            <p className="mt-12 text-white/65 text-base sm:text-lg max-w-xl leading-[1.7] font-light">
+              Discover verified residential and commercial opportunities across Kolkata's fastest-growing real estate destinations — curated by advisors who measure success in decades, not deals.
             </p>
-            <div className="mt-12 flex flex-col sm:flex-row gap-4">
+
+            <div className="mt-16 flex flex-col sm:flex-row gap-5 items-start sm:items-center">
               <Link to="/properties" data-testid="explore-properties-btn" className="btn-primary">
-                Explore Properties <ArrowRight className="w-4 h-4" />
+                Explore Properties <ArrowRight className="w-3.5 h-3.5" />
               </Link>
-              <a href="#consultation" data-testid="book-consultation-btn" className="btn-outline">
-                Book Consultation
+              <a href="#consultation" data-testid="book-consultation-btn" className="btn-ghost">
+                Book a Private Consultation <ArrowRight className="w-3 h-3" />
               </a>
             </div>
           </motion.div>
         </div>
 
         {/* Scroll indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-ivory/40">
-          <div className="text-[10px] tracking-[0.4em] uppercase">Scroll</div>
-          <div className="w-px h-12 bg-gradient-to-b from-copper to-transparent" />
+        <div className="absolute bottom-10 right-8 lg:right-16 flex flex-col items-end gap-3 text-white/35 hidden md:flex">
+          <div className="text-[10px] tracking-[0.5em] uppercase">Scroll</div>
+          <div className="w-px h-12 bg-gradient-to-b from-copper/60 to-transparent" />
         </div>
       </section>
 
       {/* ===================== WHY ASTITVA ===================== */}
-      <section data-testid="why-astitva-section" className="relative py-24 sm:py-32 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <motion.div {...fadeUp} className="max-w-2xl mb-20">
-            <div className="overline mb-4">Why Astitva</div>
-            <h2 className="font-display font-light text-3xl sm:text-4xl lg:text-5xl text-ivory leading-tight">
-              A new standard for real estate advisory in Eastern India.
+      <section data-testid="why-astitva-section" className="relative py-32 sm:py-48 overflow-hidden">
+        <div className="max-w-[1400px] mx-auto px-8 lg:px-16">
+          <motion.div {...fadeUp} className="max-w-3xl mb-24">
+            <div className="eyebrow-line mb-8">
+              <span className="text-[10px] tracking-[0.5em] uppercase text-white/50">The Astitva Difference</span>
+            </div>
+            <h2 className="section-title text-4xl sm:text-5xl lg:text-6xl leading-[1.05]">
+              A new standard for real estate<br />
+              <span className="text-white/50 italic font-serif-display">advisory in Eastern India.</span>
             </h2>
-            <div className="copper-divider mt-8" />
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-copper/15">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/[0.06]">
             {PILLARS.map((p, i) => (
               <motion.div
                 key={p.title}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.7, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                className="bg-charcoal p-10 md:p-14 group hover:bg-charcoal-2 transition-colors duration-500"
+                transition={{ duration: 0.8, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                className="bg-[#121212] p-10 lg:p-12 group"
               >
-                <p.icon className="w-8 h-8 text-copper mb-6 group-hover:text-rose-gold transition" strokeWidth={1.2} />
-                <h3 className="font-display text-xl text-ivory mb-3 font-normal">{p.title}</h3>
-                <p className="text-ivory/60 leading-relaxed font-light">{p.body}</p>
+                <p.icon className="w-7 h-7 text-copper mb-10 transition-colors duration-500" strokeWidth={1} />
+                <h3 className="font-serif-display text-2xl text-ivory mb-4">{p.title}</h3>
+                <p className="text-white/55 leading-[1.7] font-light text-[15px]">{p.body}</p>
               </motion.div>
             ))}
           </div>
@@ -140,42 +159,45 @@ export default function HomePage() {
       </section>
 
       {/* ===================== FEATURED LOCATIONS ===================== */}
-      <section data-testid="locations-section" className="py-24 sm:py-32 bg-charcoal-2/30 border-y border-copper/10">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <motion.div {...fadeUp} className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
-            <div>
-              <div className="overline mb-4">Featured Locations</div>
-              <h2 className="font-display font-light text-3xl sm:text-4xl lg:text-5xl text-ivory">
-                Where Kolkata's future is being built.
+      <section data-testid="locations-section" className="py-32 sm:py-48 bg-[#0e0e0e]">
+        <div className="max-w-[1400px] mx-auto px-8 lg:px-16">
+          <motion.div {...fadeUp} className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-24">
+            <div className="max-w-2xl">
+              <div className="eyebrow-line mb-8">
+                <span className="text-[10px] tracking-[0.5em] uppercase text-white/50">Featured Locations</span>
+              </div>
+              <h2 className="section-title text-4xl sm:text-5xl lg:text-6xl leading-[1.05]">
+                Where Kolkata's future<br /><span className="italic text-white/50">is being built.</span>
               </h2>
             </div>
-            <Link to="/properties" className="text-copper text-xs tracking-[0.3em] uppercase hover:text-rose-gold transition flex items-center gap-2">
-              View All Properties <ChevronRight className="w-4 h-4" />
+            <Link to="/properties" className="btn-ghost">
+              View All Properties <ChevronRight className="w-3 h-3" />
             </Link>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
             {LOCATIONS.map((loc, i) => (
               <motion.div
                 key={loc.name}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.7, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.8, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] }}
                 className="group relative overflow-hidden cursor-pointer"
               >
                 <Link to={`/properties?city=${encodeURIComponent(loc.name)}`} data-testid={`location-card-${loc.name.toLowerCase().replace(' ', '-')}`}>
-                  <div className="relative aspect-[4/5] overflow-hidden">
-                    <img src={loc.img} alt={loc.name} className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/40 to-transparent" />
-                    <div className="absolute inset-0 border border-copper/0 group-hover:border-copper/40 transition-colors duration-500" />
+                  <div className="relative aspect-[3/4] overflow-hidden bg-[#0a0a0a]">
+                    <img src={loc.img} alt={loc.name} className="w-full h-full object-cover transition-all duration-[1.8s] ease-out group-hover:scale-105" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/30 to-transparent" />
                   </div>
-                  <div className="absolute inset-0 flex flex-col justify-end p-8">
-                    <div className="overline mb-2">{loc.tag}</div>
-                    <h3 className="font-display text-3xl text-ivory mb-3 font-light">{loc.name}</h3>
-                    <p className="text-ivory/70 text-sm leading-relaxed font-light max-w-xs">{loc.blurb}</p>
-                    <div className="mt-6 flex items-center gap-3 text-copper text-xs tracking-[0.25em] uppercase">
-                      Explore <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-2" />
+                  <div className="absolute inset-0 flex flex-col justify-end p-10">
+                    <div className="overflow-hidden">
+                      <div className="text-copper text-[10px] tracking-[0.4em] uppercase mb-3 transition-transform duration-500 group-hover:-translate-y-1">{loc.tag}</div>
+                    </div>
+                    <h3 className="font-serif-display text-4xl text-ivory mb-4">{loc.name}</h3>
+                    <p className="text-white/65 text-sm leading-[1.7] font-light max-w-xs">{loc.blurb}</p>
+                    <div className="mt-8 inline-flex items-center gap-3 text-ivory text-[10px] tracking-[0.4em] uppercase border-b border-white/20 group-hover:border-copper pb-2 w-fit transition-all duration-500">
+                      Discover <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-1" />
                     </div>
                   </div>
                 </Link>
@@ -186,49 +208,52 @@ export default function HomePage() {
       </section>
 
       {/* ===================== FEATURED PROJECTS ===================== */}
-      <section data-testid="projects-section" className="py-24 sm:py-32">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <motion.div {...fadeUp} className="mb-16">
-            <div className="overline mb-4">Featured Projects</div>
-            <h2 className="font-display font-light text-3xl sm:text-4xl lg:text-5xl text-ivory max-w-3xl">
-              A handpicked portfolio. Verified, premium, ready to invest.
+      <section data-testid="projects-section" className="py-32 sm:py-48">
+        <div className="max-w-[1400px] mx-auto px-8 lg:px-16">
+          <motion.div {...fadeUp} className="mb-20 max-w-3xl">
+            <div className="eyebrow-line mb-8">
+              <span className="text-[10px] tracking-[0.5em] uppercase text-white/50">Featured Projects</span>
+            </div>
+            <h2 className="section-title text-4xl sm:text-5xl lg:text-6xl leading-[1.05]">
+              A handpicked portfolio.<br />
+              <span className="italic text-white/50">Verified. Premium. Ready.</span>
             </h2>
           </motion.div>
 
           {projects.length === 0 ? (
-            <div className="text-center py-20 border border-copper/15">
-              <p className="text-ivory/50 italic font-light">New projects are being curated. Please check back soon — or speak with an advisor.</p>
-              <Link to="/contact" className="btn-outline mt-6 inline-flex">Speak To Advisor</Link>
+            <div className="text-center py-24 border border-white/[0.06]">
+              <p className="text-white/40 italic font-serif-display text-lg mb-8">New projects are being curated.</p>
+              <Link to="/contact" className="btn-outline">Speak to an Advisor</Link>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
               {projects.map((p, i) => (
                 <motion.div
                   key={p.id}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: i * 0.1 }}
-                  className="luxury-card group"
+                  transition={{ duration: 0.7, delay: i * 0.1 }}
+                  className="group"
                   data-testid={`project-card-${p.id}`}
                 >
                   <Link to={`/properties/${p.id}`}>
-                    <div className="aspect-[4/3] overflow-hidden">
+                    <div className="aspect-[4/3] overflow-hidden bg-[#0a0a0a]">
                       <img
                         src={p.images?.[0] ? fileUrl(p.images[0]) : "https://images.pexels.com/photos/24805054/pexels-photo-24805054.jpeg"}
                         alt={p.project_name}
-                        className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110"
+                        className="w-full h-full object-cover transition-transform duration-[1.8s] ease-out group-hover:scale-105"
                       />
                     </div>
-                    <div className="p-7">
-                      <div className="flex items-center gap-2 text-copper text-[10px] tracking-[0.3em] uppercase mb-3">
-                        <MapPin className="w-3 h-3" /> {p.city}
+                    <div className="pt-8">
+                      <div className="text-white/40 text-[10px] tracking-[0.4em] uppercase mb-3 flex items-center gap-2">
+                        <span className="w-4 h-px bg-copper" /> {p.city}
                       </div>
-                      <h3 className="font-display text-xl text-ivory mb-2 font-normal group-hover:text-copper transition">{p.project_name}</h3>
-                      <p className="text-ivory/60 text-sm font-light line-clamp-2">{p.description}</p>
-                      <div className="mt-5 flex items-center justify-between pt-5 border-t border-copper/10">
-                        <span className="text-rose-gold font-display text-sm">{p.price_label || "Price on request"}</span>
-                        <span className="text-copper text-xs tracking-[0.25em] uppercase flex items-center gap-1">Details <ArrowRight className="w-3 h-3" /></span>
+                      <h3 className="font-serif-display text-2xl text-ivory mb-3 group-hover:text-copper transition-colors duration-500">{p.project_name}</h3>
+                      <p className="text-white/55 text-sm font-light line-clamp-2 leading-[1.7]">{p.description}</p>
+                      <div className="mt-6 flex items-center justify-between pt-6 border-t border-white/[0.06]">
+                        <span className="text-ivory/80 font-serif-display text-base italic">{p.price_label || "Price on request"}</span>
+                        <ArrowRight className="w-4 h-4 text-copper transition-transform duration-500 group-hover:translate-x-1" />
                       </div>
                     </div>
                   </Link>
@@ -240,30 +265,30 @@ export default function HomePage() {
       </section>
 
       {/* ===================== WHY INVEST IN KOLKATA ===================== */}
-      <section data-testid="why-kolkata-section" className="relative py-24 sm:py-32 border-y border-copper/15 overflow-hidden">
-        <div className="absolute inset-0 opacity-20">
+      <section data-testid="why-kolkata-section" className="relative py-32 sm:py-48 bg-[#0e0e0e] overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.08]">
           <img src={TEXTURE} alt="" className="w-full h-full object-cover" />
         </div>
-        <div className="absolute inset-0 bg-charcoal/85" />
 
-        <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
-          <motion.div {...fadeUp} className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-            <div>
-              <div className="overline mb-4">Why Invest in Kolkata</div>
-              <h2 className="font-display font-light text-3xl sm:text-4xl lg:text-5xl text-ivory leading-tight">
-                The next great Indian real estate story is being written here.
+        <div className="relative max-w-[1400px] mx-auto px-8 lg:px-16">
+          <motion.div {...fadeUp} className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24">
+            <div className="lg:col-span-5">
+              <div className="eyebrow-line mb-8">
+                <span className="text-[10px] tracking-[0.5em] uppercase text-white/50">Why Invest in Kolkata</span>
+              </div>
+              <h2 className="section-title text-4xl sm:text-5xl lg:text-6xl leading-[1.05]">
+                The next great Indian real estate story <span className="italic text-white/50">is being written here.</span>
               </h2>
-              <div className="copper-divider mt-8 mb-8" />
-              <p className="text-ivory/70 leading-relaxed font-light text-lg">
+              <p className="mt-10 text-white/60 leading-[1.85] font-light text-base">
                 Kolkata — and Greater Kolkata in particular — is experiencing a quiet renaissance. Lower entry points than Mumbai or Bangalore, strong rental yields, and a wave of infrastructure that's redrawing the map of Eastern India.
               </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-px bg-copper/15">
+            <div className="lg:col-span-7 grid grid-cols-2 gap-px bg-white/[0.06] self-start">
               {KOLKATA_FACTS.map((f) => (
-                <div key={f.label} className="bg-charcoal p-8">
-                  <div className="font-display text-4xl text-copper font-light mb-3">{f.stat}</div>
-                  <div className="text-ivory/65 text-sm font-light leading-snug">{f.label}</div>
+                <div key={f.label} className="bg-[#0e0e0e] p-10 lg:p-12">
+                  <div className="font-serif-display text-5xl text-ivory mb-5">{f.stat}</div>
+                  <div className="text-white/50 text-sm font-light leading-[1.6]">{f.label}</div>
                 </div>
               ))}
             </div>
@@ -272,21 +297,22 @@ export default function HomePage() {
       </section>
 
       {/* ===================== EXPANSION ROADMAP ===================== */}
-      <section data-testid="roadmap-section" className="py-24 sm:py-32">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <motion.div {...fadeUp} className="text-center max-w-3xl mx-auto mb-20">
-            <div className="overline mb-4">Future Expansion</div>
-            <h2 className="font-display font-light text-3xl sm:text-4xl lg:text-5xl text-ivory">
-              From Kolkata to the world.
+      <section data-testid="roadmap-section" className="py-32 sm:py-48">
+        <div className="max-w-[1400px] mx-auto px-8 lg:px-16">
+          <motion.div {...fadeUp} className="text-center max-w-3xl mx-auto mb-24">
+            <div className="eyebrow-line justify-center mb-8" style={{ display: "inline-flex" }}>
+              <span className="text-[10px] tracking-[0.5em] uppercase text-white/50">Future Expansion</span>
+            </div>
+            <h2 className="section-title text-4xl sm:text-5xl lg:text-6xl leading-[1.05] mt-2">
+              From Kolkata<br /><span className="italic text-white/50">to the world.</span>
             </h2>
-            <p className="mt-6 text-ivory/65 font-light leading-relaxed">
+            <p className="mt-8 text-white/55 font-light leading-[1.85] text-base">
               Built on a foundation of local trust, designed for global ambition. Our roadmap charts a deliberate expansion across India and into key international investment markets.
             </p>
           </motion.div>
 
-          <div className="relative grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-0">
-            {/* Connecting line */}
-            <div className="hidden md:block absolute top-12 left-[12.5%] right-[12.5%] h-px bg-gradient-to-r from-copper/0 via-copper/60 to-copper/0" />
+          <div className="relative grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-0">
+            <div className="hidden md:block absolute top-12 left-[12.5%] right-[12.5%] h-px bg-gradient-to-r from-transparent via-copper/40 to-transparent" />
 
             {ROADMAP.map((step, i) => (
               <motion.div
@@ -294,16 +320,15 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: i * 0.15 }}
+                transition={{ duration: 0.7, delay: i * 0.15 }}
                 className="relative text-center flex flex-col items-center"
                 data-testid={`roadmap-step-${i}`}
               >
-                <div className="w-24 h-24 rounded-full border border-copper/30 bg-charcoal flex items-center justify-center mb-6 relative group hover:border-copper transition">
-                  <step.icon className="w-8 h-8 text-copper" strokeWidth={1.2} />
-                  <div className="absolute inset-0 rounded-full border border-copper/0 group-hover:border-copper/50 group-hover:scale-110 transition-all duration-500" />
+                <div className="w-24 h-24 rounded-full border border-white/15 bg-[#121212] flex items-center justify-center mb-8 relative group hover:border-copper transition-colors duration-500">
+                  <step.icon className="w-7 h-7 text-copper" strokeWidth={1} />
                 </div>
-                <div className="overline mb-2">{step.phase}</div>
-                <div className="font-display text-ivory text-base sm:text-lg font-light max-w-[180px]">{step.area}</div>
+                <div className="text-copper text-[10px] tracking-[0.4em] uppercase mb-3">{step.phase}</div>
+                <div className="font-serif-display text-ivory text-lg max-w-[180px]">{step.area}</div>
               </motion.div>
             ))}
           </div>
@@ -311,27 +336,29 @@ export default function HomePage() {
       </section>
 
       {/* ===================== LEAD FORM ===================== */}
-      <section id="consultation" data-testid="lead-form-section" className="relative py-24 sm:py-32 border-t border-copper/15 overflow-hidden">
-        <div className="absolute inset-0 opacity-30">
-          <img src={TEXTURE} alt="" className="w-full h-full object-cover" />
-        </div>
-        <div className="absolute inset-0 bg-charcoal/90" />
+      <section id="consultation" data-testid="lead-form-section" className="relative py-32 sm:py-48 bg-[#0e0e0e]">
+        <div className="absolute inset-0 opacity-[0.06]"><img src={TEXTURE} alt="" className="w-full h-full object-cover" /></div>
 
-        <div className="relative max-w-5xl mx-auto px-6 lg:px-8">
-          <motion.div {...fadeUp} className="grid grid-cols-1 lg:grid-cols-5 gap-12">
-            <div className="lg:col-span-2">
-              <div className="overline mb-4">Book a Consultation</div>
-              <h2 className="font-display font-light text-3xl sm:text-4xl text-ivory leading-tight">
-                Let's design your investment journey.
+        <div className="relative max-w-[1200px] mx-auto px-8 lg:px-16">
+          <motion.div {...fadeUp} className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24">
+            <div className="lg:col-span-5">
+              <div className="eyebrow-line mb-8">
+                <span className="text-[10px] tracking-[0.5em] uppercase text-white/50">Book a Consultation</span>
+              </div>
+              <h2 className="section-title text-4xl sm:text-5xl lg:text-[3.5rem] leading-[1.05]">
+                Let's design your<br /><span className="italic text-white/50">investment journey.</span>
               </h2>
-              <div className="copper-divider mt-8 mb-8" />
-              <p className="text-ivory/65 font-light leading-relaxed">
+              <p className="mt-10 text-white/55 font-light leading-[1.85] text-base">
                 Share a few details. A senior advisor will reach out within one business day with a curated shortlist tailored to your goals.
               </p>
+              <div className="mt-12 pt-10 border-t border-white/[0.06]">
+                <div className="text-[10px] tracking-[0.4em] uppercase text-white/40 mb-3">Or call us directly</div>
+                <a href="tel:+919000000000" className="font-serif-display text-2xl text-ivory hover:text-copper transition">+91 90000 00000</a>
+              </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="lg:col-span-3 space-y-5" data-testid="lead-form">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <form onSubmit={handleSubmit} className="lg:col-span-7 space-y-8" data-testid="lead-form">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-8">
                 <div>
                   <label className="input-label">Full Name</label>
                   <input
@@ -396,14 +423,16 @@ export default function HomePage() {
                   placeholder="Tell us about your goals..."
                 />
               </div>
-              <button
-                type="submit"
-                disabled={submitting}
-                data-testid="lead-submit-btn"
-                className="btn-primary w-full sm:w-auto disabled:opacity-50"
-              >
-                {submitting ? "Sending..." : "Request Consultation"} <ArrowRight className="w-4 h-4" />
-              </button>
+              <div className="pt-4">
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  data-testid="lead-submit-btn"
+                  className="btn-primary disabled:opacity-50"
+                >
+                  {submitting ? "Sending..." : "Request Consultation"} <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
             </form>
           </motion.div>
         </div>

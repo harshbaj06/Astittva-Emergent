@@ -27,6 +27,7 @@ module.exports = {
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
         display: ['Poppins', 'sans-serif'],
+        serif: ['"Cormorant Garamond"', 'serif'],
       },
       borderRadius: {
         lg: 'var(--radius)',

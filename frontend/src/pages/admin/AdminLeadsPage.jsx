@@ -79,7 +79,7 @@ export default function AdminLeadsPage() {
                       value={l.status}
                       onChange={(e) => updateStatus(l.id, e.target.value)}
                       data-testid={`lead-status-${l.id}`}
-                      className="input-luxury py-1.5 px-2 text-xs"
+                      className="input-filled py-1.5 px-2 text-xs"
                     >
                       {STATUSES.map((s) => <option key={s}>{s}</option>)}
                     </select>

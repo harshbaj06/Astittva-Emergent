@@ -124,19 +124,19 @@ export default function AdminPropertyFormPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="md:col-span-2">
               <label className="input-label">Project Name *</label>
-              <input required data-testid="form-project-name" className="input-luxury" value={form.project_name} onChange={(e) => set("project_name", e.target.value)} />
+              <input required data-testid="form-project-name" className="input-filled" value={form.project_name} onChange={(e) => set("project_name", e.target.value)} />
             </div>
             <div>
               <label className="input-label">Builder</label>
-              <input data-testid="form-builder" className="input-luxury" value={form.builder} onChange={(e) => set("builder", e.target.value)} />
+              <input data-testid="form-builder" className="input-filled" value={form.builder} onChange={(e) => set("builder", e.target.value)} />
             </div>
             <div>
               <label className="input-label">Location *</label>
-              <input required data-testid="form-location" className="input-luxury" value={form.location} onChange={(e) => set("location", e.target.value)} placeholder="e.g. Action Area II" />
+              <input required data-testid="form-location" className="input-filled" value={form.location} onChange={(e) => set("location", e.target.value)} placeholder="e.g. Action Area II" />
             </div>
             <div>
               <label className="input-label">City *</label>
-              <select required data-testid="form-city" className="input-luxury" value={form.city} onChange={(e) => set("city", e.target.value)}>
+              <select required data-testid="form-city" className="input-filled" value={form.city} onChange={(e) => set("city", e.target.value)}>
                 <option>New Town</option>
                 <option>Rajarhat</option>
                 <option>Kolkata</option>
@@ -145,7 +145,7 @@ export default function AdminPropertyFormPage() {
             </div>
             <div>
               <label className="input-label">Property Type *</label>
-              <select required data-testid="form-type" className="input-luxury" value={form.property_type} onChange={(e) => set("property_type", e.target.value)}>
+              <select required data-testid="form-type" className="input-filled" value={form.property_type} onChange={(e) => set("property_type", e.target.value)}>
                 <option>Residential</option>
                 <option>Commercial</option>
                 <option>Villa</option>
@@ -155,7 +155,7 @@ export default function AdminPropertyFormPage() {
             </div>
             <div>
               <label className="input-label">Property Category</label>
-              <select data-testid="form-category" className="input-luxury" value={form.property_category} onChange={(e) => set("property_category", e.target.value)}>
+              <select data-testid="form-category" className="input-filled" value={form.property_category} onChange={(e) => set("property_category", e.target.value)}>
                 <option>Luxury</option>
                 <option>Premium</option>
                 <option>Affordable</option>
@@ -163,15 +163,15 @@ export default function AdminPropertyFormPage() {
             </div>
             <div>
               <label className="input-label">Starting Price (₹)</label>
-              <input type="number" data-testid="form-starting-price" className="input-luxury" value={form.starting_price} onChange={(e) => set("starting_price", e.target.value)} />
+              <input type="number" data-testid="form-starting-price" className="input-filled" value={form.starting_price} onChange={(e) => set("starting_price", e.target.value)} />
             </div>
             <div>
               <label className="input-label">Price Label</label>
-              <input data-testid="form-price-label" className="input-luxury" value={form.price_label} onChange={(e) => set("price_label", e.target.value)} placeholder="e.g. ₹1.2 Cr onwards" />
+              <input data-testid="form-price-label" className="input-filled" value={form.price_label} onChange={(e) => set("price_label", e.target.value)} placeholder="e.g. ₹1.2 Cr onwards" />
             </div>
             <div className="md:col-span-2">
               <label className="input-label">Description *</label>
-              <textarea required rows={5} data-testid="form-description" className="input-luxury" value={form.description} onChange={(e) => set("description", e.target.value)} />
+              <textarea required rows={5} data-testid="form-description" className="input-filled" value={form.description} onChange={(e) => set("description", e.target.value)} />
             </div>
           </div>
         </section>
@@ -207,30 +207,30 @@ export default function AdminPropertyFormPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="input-label">RERA Number</label>
-              <input data-testid="form-rera" className="input-luxury" value={form.rera_number} onChange={(e) => set("rera_number", e.target.value)} />
+              <input data-testid="form-rera" className="input-filled" value={form.rera_number} onChange={(e) => set("rera_number", e.target.value)} />
             </div>
             <div>
               <label className="input-label">Possession Date</label>
-              <input data-testid="form-possession" className="input-luxury" value={form.possession_date} onChange={(e) => set("possession_date", e.target.value)} placeholder="e.g. Dec 2027" />
+              <input data-testid="form-possession" className="input-filled" value={form.possession_date} onChange={(e) => set("possession_date", e.target.value)} placeholder="e.g. Dec 2027" />
             </div>
             <div>
               <label className="input-label">Bedrooms</label>
-              <input data-testid="form-bedrooms" className="input-luxury" value={form.bedrooms} onChange={(e) => set("bedrooms", e.target.value)} placeholder="e.g. 3 BHK, 4 BHK" />
+              <input data-testid="form-bedrooms" className="input-filled" value={form.bedrooms} onChange={(e) => set("bedrooms", e.target.value)} placeholder="e.g. 3 BHK, 4 BHK" />
             </div>
             <div>
               <label className="input-label">Area (sqft)</label>
-              <input data-testid="form-area" className="input-luxury" value={form.area_sqft} onChange={(e) => set("area_sqft", e.target.value)} />
+              <input data-testid="form-area" className="input-filled" value={form.area_sqft} onChange={(e) => set("area_sqft", e.target.value)} />
             </div>
             <div className="md:col-span-2">
               <label className="input-label">Google Maps Embed URL</label>
-              <input data-testid="form-maps" className="input-luxury" value={form.google_maps_url} onChange={(e) => set("google_maps_url", e.target.value)} placeholder="https://www.google.com/maps/embed?..." />
+              <input data-testid="form-maps" className="input-filled" value={form.google_maps_url} onChange={(e) => set("google_maps_url", e.target.value)} placeholder="https://www.google.com/maps/embed?..." />
             </div>
             <div className="md:col-span-2">
               <label className="input-label">Amenities</label>
               <div className="flex gap-2 mb-3">
                 <input
                   data-testid="form-amenity-input"
-                  className="input-luxury flex-1"
+                  className="input-filled flex-1"
                   value={amenityInput}
                   onChange={(e) => setAmenityInput(e.target.value)}
                   onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addAmenity(); } }}
@@ -258,7 +258,7 @@ export default function AdminPropertyFormPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="input-label">Status</label>
-              <select data-testid="form-status" className="input-luxury" value={form.status} onChange={(e) => set("status", e.target.value)}>
+              <select data-testid="form-status" className="input-filled" value={form.status} onChange={(e) => set("status", e.target.value)}>
                 <option value="draft">Draft</option>
                 <option value="published">Published</option>
                 <option value="unpublished">Unpublished</option>

@@ -59,21 +59,21 @@ export default function AdminUsersPage() {
         <form onSubmit={createUser} className="border border-copper/15 p-8 mb-8 grid grid-cols-1 md:grid-cols-2 gap-6" data-testid="create-user-form">
           <div>
             <label className="input-label">Name</label>
-            <input required data-testid="user-name" className="input-luxury" value={form.name} onChange={(e) => setForm({...form, name: e.target.value})} />
+            <input required data-testid="user-name" className="input-filled" value={form.name} onChange={(e) => setForm({...form, name: e.target.value})} />
           </div>
           <div>
             <label className="input-label">Email</label>
-            <input required type="email" data-testid="user-email" className="input-luxury" value={form.email} onChange={(e) => setForm({...form, email: e.target.value})} />
+            <input required type="email" data-testid="user-email" className="input-filled" value={form.email} onChange={(e) => setForm({...form, email: e.target.value})} />
           </div>
           <div>
             <label className="input-label">Role</label>
-            <select data-testid="user-role" className="input-luxury" value={form.role} onChange={(e) => setForm({...form, role: e.target.value})}>
+            <select data-testid="user-role" className="input-filled" value={form.role} onChange={(e) => setForm({...form, role: e.target.value})}>
               {ROLES.map((r) => <option key={r}>{r}</option>)}
             </select>
           </div>
           <div>
             <label className="input-label">Password</label>
-            <input required type="password" minLength={6} data-testid="user-password" className="input-luxury" value={form.password} onChange={(e) => setForm({...form, password: e.target.value})} />
+            <input required type="password" minLength={6} data-testid="user-password" className="input-filled" value={form.password} onChange={(e) => setForm({...form, password: e.target.value})} />
           </div>
           <div className="md:col-span-2">
             <button type="submit" data-testid="create-user-submit" className="btn-primary">Create User</button>
