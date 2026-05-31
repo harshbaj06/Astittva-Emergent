@@ -79,6 +79,7 @@ export default function HomePage() {
   const [formData, setFormData] = useState(initialForm);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   useEffect(() => {
     api.get("/properties", { params: { featured: true, limit: 6 } })
@@ -89,12 +90,15 @@ export default function HomePage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
+    setSubmitError("");
     try {
       await api.post("/leads", { ...formData, source: "homepage" });
       setSubmitted(true);
       setFormData(initialForm);
     } catch (err) {
-      toast.error(formatApiErrorDetail(err.response?.data?.detail) || "Submission failed");
+      const msg = formatApiErrorDetail(err.response?.data?.detail) || "Submission failed. Please try again.";
+      setSubmitError(msg);
+      toast.error(msg);
     } finally {
       setSubmitting(false);
     }
@@ -554,6 +558,11 @@ export default function HomePage() {
                     </button>
                     <span className="text-white/35 text-[10px] tracking-[0.25em] uppercase font-light sm:ml-2">100% Confidential</span>
                   </div>
+                  {submitError && (
+                    <div data-testid="lead-error" className="text-red-400 text-sm font-light border border-red-500/30 bg-red-500/5 px-4 py-3">
+                      {submitError}
+                    </div>
+                  )}
                 </form>
               )}
             </div>
