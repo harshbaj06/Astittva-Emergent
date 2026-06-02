@@ -38,7 +38,7 @@ export default function CinematicHero() {
             src={SLIDES[idx].src}
             alt={SLIDES[idx].caption}
             loading={idx === 0 ? "eager" : "lazy"}
-            fetchpriority={idx === 0 ? "high" : "low"}
+            fetchPriority={idx === 0 ? "high" : "low"}
             className="w-full h-full object-cover"
           />
         </motion.div>
