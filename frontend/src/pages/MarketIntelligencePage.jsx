@@ -161,6 +161,9 @@ function NewsCard({ a, idx }) {
   );
 }
 
+const DEBUG = process.env.NODE_ENV === "development";
+const dlog = (...args) => { if (DEBUG) console.log(...args); };
+
 function SkeletonCard({ idx }) {
   return (
     <div
@@ -188,7 +191,7 @@ function SkeletonCard({ idx }) {
 function NewsGrid({ articles, loading, max = 12 }) {
   if (loading) return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7" data-testid="mi-news-skeleton">
-      {Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} idx={i} />)}
+      {Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={`skeleton-${i}`} idx={i} />)}
     </div>
   );
   if (!articles?.length) return (
@@ -264,14 +267,14 @@ export default function MarketIntelligencePage() {
   useEffect(() => {
     api.get("/news/trending").then(({ data }) => {
       const arr = data.articles || [];
-      console.log("[MI] trending fetched:", arr.length);
+      dlog("[MI] trending fetched:", arr.length);
       setTrending(arr);
     })
       .catch((e) => { console.warn("[MI] trending fetch failed", e); setTrending([]); })
       .finally(() => setLoading((s) => ({ ...s, trending: false })));
     api.get("/news/all").then(({ data }) => {
       const arr = data.articles || [];
-      console.log("[MI] all fetched:", arr.length);
+      dlog("[MI] all fetched:", arr.length);
       setAll(arr);
     })
       .catch((e) => { console.warn("[MI] all fetch failed", e); setAll([]); })
@@ -281,7 +284,7 @@ export default function MarketIntelligencePage() {
   // { articles, isFallback, fallbackMsg }
   const view = useMemo(() => {
     if (activeFilter === "all") {
-      console.log("[MI] filter=all displayed:", all.length);
+      dlog("[MI] filter=all displayed:", all.length);
       return { articles: all, isFallback: false, fallbackMsg: "" };
     }
     const [k, v] = activeFilter.split(":");
@@ -293,19 +296,19 @@ export default function MarketIntelligencePage() {
     else if (k === "cat") primary = all.filter((a) => articleHasCategory(a, v));
 
     if (primary.length > 0) {
-      console.log(`[MI] filter=${activeFilter} primary matches:`, primary.length);
+      dlog(`[MI] filter=${activeFilter} primary matches:`, primary.length);
       return { articles: primary, isFallback: false, fallbackMsg: "" };
     }
 
     // Fallback chain — never show empty
-    console.log(`[MI] filter=${activeFilter} primary empty → triggering fallback`);
+    dlog(`[MI] filter=${activeFilter} primary empty → triggering fallback`);
 
     // 1. Related category (only for cat filters)
     if (k === "cat") {
       const related = RELATED_CATEGORY[v] || [];
       const relatedHits = all.filter((a) => related.some((rc) => articleHasCategory(a, rc)));
       if (relatedHits.length) {
-        console.log(`[MI] fallback: related categories → ${relatedHits.length}`);
+        dlog(`[MI] fallback: related categories → ${relatedHits.length}`);
         return {
           articles: relatedHits,
           isFallback: true,
@@ -317,7 +320,7 @@ export default function MarketIntelligencePage() {
     // 2. India articles (if filter context is geographic or general)
     const india = all.filter((a) => a.country === "India");
     if (india.length) {
-      console.log(`[MI] fallback: India → ${india.length}`);
+      dlog(`[MI] fallback: India → ${india.length}`);
       return {
         articles: india,
         isFallback: true,
@@ -328,7 +331,7 @@ export default function MarketIntelligencePage() {
     // 3. Global articles
     const global = all.filter((a) => a.country && a.country !== "India" && a.country !== "—");
     if (global.length) {
-      console.log(`[MI] fallback: Global → ${global.length}`);
+      dlog(`[MI] fallback: Global → ${global.length}`);
       return {
         articles: global,
         isFallback: true,
@@ -337,7 +340,7 @@ export default function MarketIntelligencePage() {
     }
 
     // 4. Latest (everything we have)
-    console.log(`[MI] fallback: latest all → ${all.length}`);
+    dlog(`[MI] fallback: latest all → ${all.length}`);
     return {
       articles: all,
       isFallback: true,

@@ -32,7 +32,7 @@ export function AuthProvider({ children }) {
   };
 
   const logout = async () => {
-    try { await api.post("/auth/logout"); } catch {}
+    try { await api.post("/auth/logout"); } catch (err) { console.warn("Auth logout error:", err); }
     localStorage.removeItem("astitva_token");
     setUser(false);
   };

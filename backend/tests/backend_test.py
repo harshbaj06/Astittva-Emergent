@@ -11,8 +11,8 @@ import requests
 BASE_URL = os.environ.get("REACT_APP_BACKEND_URL", "https://github-executor-3.preview.emergentagent.com").rstrip("/")
 API = f"{BASE_URL}/api"
 
-ADMIN_EMAIL = "admin@astitva.com"
-ADMIN_PASSWORD = "Astitva@2026"
+ADMIN_EMAIL = os.environ.get("ADMIN_EMAIL", "admin@astitva.com")
+ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "Astitva@2026")
 
 
 # ---------------------------------------------------------------------------
