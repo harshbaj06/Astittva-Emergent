@@ -46,8 +46,7 @@ export default function Header() {
             className="h-10 w-10 sm:h-12 sm:w-12 lg:h-14 lg:w-14 object-contain"
           />
           <div className="leading-tight border-l border-copper/15 pl-3 sm:pl-4">
-            <div className="text-ivory font-serif-display tracking-[0.32em] text-[13px] sm:text-base lg:text-lg">{BRAND_NAME}</div>
-            <div className="text-copper/70 text-[8px] sm:text-[9px] tracking-[0.5em] uppercase mt-0.5 hidden sm:block">{BRAND_TAGLINE}</div>
+            <div className="text-ivory font-serif-display tracking-[0.32em] text-[15px] sm:text-lg lg:text-xl">{BRAND_NAME}</div>
           </div>
         </Link>
 

@@ -112,9 +112,13 @@ export default function HomePage() {
       <section data-testid="hero-section" className="relative min-h-[640px] h-[100svh] sm:min-h-[760px] sm:h-screen w-full overflow-hidden bg-[#0a0a0a]">
         <div className="absolute inset-0">
           <img loading="eager" fetchpriority="high" src={HERO_IMG} alt="Biswa Bangla Gate Kolkata" className="w-full h-full object-cover opacity-90" />
-          {/* Cinematic gradient — darker on the left to make text legible, fading to reveal architecture */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/70 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#0a0a0a]" />
+          {/* Cinematic burgundy gradient — left dark to right transparent */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0a0306] via-[#0a0306]/72 to-transparent" />
+          {/* Bottom fade to charcoal */}
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050505]" />
+          {/* Burgundy ambient wash — tints the entire hero like the Market Intelligence page */}
+          <div className="absolute inset-0 pointer-events-none"
+               style={{ background: "radial-gradient(ellipse 80% 60% at 20% 30%, rgba(58,11,16,0.55) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 80% 0%, rgba(58,11,16,0.45) 0%, transparent 65%)" }} />
         </div>
 
         {/* Fine vertical rule on the left for editorial framing */}

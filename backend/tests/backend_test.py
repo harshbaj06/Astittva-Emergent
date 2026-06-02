@@ -494,3 +494,93 @@ class TestNews:
         data = r.json()
         assert data.get("ok") is True
         assert "refreshed_at" in data
+
+    # --- v4: classified feed + classification fields ---
+    CLASS_FIELDS = ("city", "country", "category", "impact", "why_it_matters")
+
+    def test_news_all_returns_classified_articles(self, session):
+        """v4: /api/news/all unified feed with 5 classification fields per article."""
+        r = session.get(f"{API}/news/all", timeout=120)
+        assert r.status_code == 200, r.text
+        data = r.json()
+        assert "articles" in data and isinstance(data["articles"], list)
+        if not data["articles"]:
+            pytest.skip("News feed empty (RSS throttled in test env)")
+        for art in data["articles"][:5]:
+            for f in self.CLASS_FIELDS:
+                assert f in art, f"Missing classification field '{f}' in article: {art}"
+            assert art["impact"] in {"High", "Medium", "Low"}
+
+    def test_news_trending_includes_classification(self, session):
+        """v4: trending must also expose classification fields."""
+        r = session.get(f"{API}/news/trending", timeout=60)
+        assert r.status_code == 200
+        arts = r.json().get("articles", [])
+        if not arts:
+            pytest.skip("Trending empty (RSS throttle)")
+        for art in arts[:3]:
+            for f in self.CLASS_FIELDS:
+                assert f in art
+
+
+# ---------------------------------------------------------------------------
+# v4: classify() heuristic unit tests (direct import)
+# ---------------------------------------------------------------------------
+class TestClassifyHeuristic:
+    def _classify(self, *args, **kwargs):
+        # Import inside test so backend path discovery works under pytest
+        import sys
+        sys.path.insert(0, "/app/backend")
+        from news_service import classify
+        return classify(*args, **kwargs)
+
+    def test_category_infrastructure(self):
+        c = self._classify("New Metro corridor in Kolkata", "Phase 2 metro launch boosts connectivity", "kolkata")
+        assert c["category"] == "Infrastructure"
+
+    def test_category_luxury(self):
+        c = self._classify("Luxury penthouse sells in Mumbai", "Ultra-luxury HNI demand surge", "luxury")
+        assert c["category"] == "Luxury Property"
+
+    def test_category_commercial(self):
+        c = self._classify("Grade A office leasing", "Commercial retail expansion in India", "commercial")
+        assert c["category"] == "Commercial Real Estate"
+
+    def test_impact_high_keywords(self):
+        c = self._classify("Government approved record housing reform", "Billion dollar approval announced", "policy")
+        assert c["impact"] == "High"
+
+    def test_impact_medium_keywords(self):
+        c = self._classify("Housing demand growth in Q2", "Rise in residential momentum", "residential")
+        assert c["impact"] == "Medium"
+
+    def test_impact_low_default(self):
+        c = self._classify("Quiet quarter for housing", "No notable change", "residential")
+        assert c["impact"] == "Low"
+
+    def test_city_country_kolkata_india(self):
+        c = self._classify("Real estate buzz in New Town Kolkata", "Rajarhat residential", "kolkata")
+        assert c["city"] in {"New Town", "Rajarhat", "Kolkata"}
+        assert c["country"] == "India"
+
+    def test_city_country_dubai_uae(self):
+        c = self._classify("Dubai luxury property boom", "Branded residence demand", "uae")
+        assert c["city"] == "Dubai"
+        assert c["country"] == "UAE"
+
+    def test_city_country_singapore(self):
+        c = self._classify("Singapore property market overview", "", "singapore")
+        assert c["city"] == "Singapore"
+        assert c["country"] == "Singapore"
+
+    def test_city_country_london_uk(self):
+        c = self._classify("London real estate trends", "Prime central demand", "london")
+        assert c["city"] == "London"
+        assert c["country"] == "UK"
+
+    def test_why_it_matters_only_on_high_impact(self):
+        high = self._classify("Approved infrastructure record", "Billion launch", "infrastructure")
+        low = self._classify("Quiet market report", "", "infrastructure")
+        assert high["impact"] == "High"
+        assert high["why_it_matters"] != ""
+        assert low["why_it_matters"] == ""

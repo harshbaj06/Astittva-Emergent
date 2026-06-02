@@ -41,8 +41,7 @@ export default function Footer() {
             <div className="flex items-center gap-4 mb-8">
               <img src={LOGO_URL} alt="Astitva" className="h-14 w-14 sm:h-16 sm:w-16 object-contain" />
               <div className="border-l border-copper/15 pl-4">
-                <div className="font-serif-display tracking-[0.32em] text-ivory text-xl">{BRAND_NAME}</div>
-                <div className="text-copper/70 text-[9px] tracking-[0.5em] uppercase mt-1">{BRAND_TAGLINE}</div>
+                <div className="font-serif-display tracking-[0.34em] text-ivory text-2xl">{BRAND_NAME}</div>
               </div>
             </div>
             <p className="text-muted-fg text-sm leading-[1.9] font-light max-w-md">
