@@ -713,9 +713,9 @@ for o in ["http://localhost:3000", "http://localhost:5173"]:
     if o not in allowed:
         allowed.append(o)
 
-# If wildcard is in list along with credentials, browsers reject.
-# We'll allow all listed explicitly; if "*" is present and only wildcard, fall back.
-if allowed == ["*"]:
+# Wildcard with credentials is rejected by browsers. If "*" is in the configured list,
+# echo the request Origin back via regex (this satisfies credentialed requests from any origin).
+if "*" in allowed:
     app.add_middleware(
         CORSMiddleware,
         allow_origin_regex=".*",
@@ -724,11 +724,9 @@ if allowed == ["*"]:
         allow_headers=["*"],
     )
 else:
-    # remove wildcard to permit credentials
-    explicit = [o for o in allowed if o != "*"]
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=explicit,
+        allow_origins=allowed,
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],

@@ -1,7 +1,22 @@
 import axios from "axios";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-export const API = `${BACKEND_URL}/api`;
+// Use absolute baseURL only when REACT_APP_BACKEND_URL is set AND we're on the same host.
+// Otherwise fall back to "/api" so requests are same-origin via the platform ingress
+// — this avoids CORS issues when the app is opened through a preview URL different from
+// the one baked into the bundle.
+function getBaseURL() {
+  if (typeof window === "undefined") return `${BACKEND_URL}/api`;
+  try {
+    const configured = new URL(BACKEND_URL);
+    if (configured.host === window.location.host) {
+      return `${BACKEND_URL}/api`;
+    }
+  } catch (_) {}
+  return "/api";
+}
+
+export const API = getBaseURL();
 
 const api = axios.create({
   baseURL: API,
