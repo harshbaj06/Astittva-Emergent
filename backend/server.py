@@ -25,6 +25,8 @@ from pydantic import BaseModel, Field, EmailStr, BeforeValidator, ConfigDict
 
 import io
 
+from news_service import fetch_topic, fetch_group, TOPICS, GROUPS
+
 # ---------------------------------------------------------------------------
 # Config & Setup
 # ---------------------------------------------------------------------------
@@ -253,6 +255,10 @@ class LeadIn(BaseModel):
     budget: Optional[str] = ""
     message: Optional[str] = ""
     source: Optional[str] = "homepage"
+    preferred_locality: Optional[str] = ""
+    investment_purpose: Optional[str] = ""
+    property_type: Optional[str] = ""
+    timeline: Optional[str] = ""
 
 
 class LeadOut(LeadIn):
@@ -525,6 +531,10 @@ async def list_leads(_user: dict = Depends(require_staff)):
             "phone": d.get("phone"),
             "interest": d.get("interest", ""),
             "budget": d.get("budget", ""),
+            "preferred_locality": d.get("preferred_locality", ""),
+            "investment_purpose": d.get("investment_purpose", ""),
+            "property_type": d.get("property_type", ""),
+            "timeline": d.get("timeline", ""),
             "message": d.get("message", ""),
             "source": d.get("source", ""),
             "status": d.get("status", "new"),
@@ -610,6 +620,35 @@ async def stats(_user: dict = Depends(require_staff)):
 @api_router.get("/")
 async def root():
     return {"service": "Astitva Real Estate API", "ok": True}
+
+
+# ---------------------- Market Intelligence (Google News RSS) ----------------------
+@api_router.get("/news/trending")
+async def news_trending():
+    articles = await fetch_topic(db, "trending")
+    return {"articles": articles[:12]}
+
+
+@api_router.get("/news/group/{group}")
+async def news_group(group: str):
+    if group not in GROUPS:
+        raise HTTPException(status_code=400, detail="Invalid group")
+    articles = await fetch_group(db, group)
+    return {"group": group, "articles": articles}
+
+
+@api_router.get("/news/topics")
+async def news_topics():
+    return {"topics": list(TOPICS.keys()), "groups": GROUPS}
+
+
+@api_router.post("/admin/news/refresh")
+async def news_refresh(_user: dict = Depends(require_staff)):
+    """Force refresh trending + groups (admin)."""
+    await fetch_topic(db, "trending", force=True)
+    for g in GROUPS:
+        await fetch_group(db, g)
+    return {"ok": True, "refreshed_at": now_utc_iso()}
 
 
 app.include_router(api_router)

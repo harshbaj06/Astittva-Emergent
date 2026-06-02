@@ -229,6 +229,33 @@ class TestLeads:
         # cleanup
         requests.delete(f"{API}/admin/leads/{lid}", headers=admin_headers)
 
+    def test_lead_with_extended_fields(self, session, admin_headers):
+        """v3: preferred_locality, investment_purpose, property_type, timeline persist + returned."""
+        payload = {
+            "name": "TEST Extended Lead",
+            "email": "TEST_extended@example.com",
+            "phone": "+91 9999000077",
+            "interest": "Aura Skylines",
+            "budget": "Rs 1-2 Cr",
+            "message": "Test extended",
+            "source": "homepage",
+            "preferred_locality": "New Town",
+            "investment_purpose": "Self Use",
+            "property_type": "Apartment",
+            "timeline": "3-6 months",
+        }
+        r = session.post(f"{API}/leads", json=payload)
+        assert r.status_code == 201, r.text
+        lid = r.json()["id"]
+        r2 = requests.get(f"{API}/admin/leads", headers=admin_headers)
+        rec = next((l for l in r2.json() if l["id"] == lid), None)
+        assert rec is not None
+        assert rec["preferred_locality"] == "New Town"
+        assert rec["investment_purpose"] == "Self Use"
+        assert rec["property_type"] == "Apartment"
+        assert rec["timeline"] == "3-6 months"
+        requests.delete(f"{API}/admin/leads/{lid}", headers=admin_headers)
+
     def test_lead_without_budget_defaults_empty(self, session, admin_headers):
         """Budget is optional - missing field should result in empty string."""
         r = session.post(f"{API}/leads", json={
@@ -415,3 +442,55 @@ class TestUpload:
     def test_upload_requires_auth(self):
         r = requests.post(f"{API}/admin/upload", files={"file": ("t.png", b"x", "image/png")})
         assert r.status_code == 401
+
+
+
+# ---------------------------------------------------------------------------
+# News / Market Intelligence (v3)
+# ---------------------------------------------------------------------------
+class TestNews:
+    """Google News RSS endpoints. First fetch may be slow (~10-30s), then cached."""
+
+    def test_news_topics(self, session):
+        r = session.get(f"{API}/news/topics", timeout=30)
+        assert r.status_code == 200
+        data = r.json()
+        assert "topics" in data and isinstance(data["topics"], list)
+        assert "groups" in data and isinstance(data["groups"], dict)
+        # core groups present
+        for g in ("local", "india", "global"):
+            assert g in data["groups"]
+
+    def test_news_trending(self, session):
+        r = session.get(f"{API}/news/trending", timeout=45)
+        assert r.status_code == 200
+        data = r.json()
+        assert "articles" in data
+        assert isinstance(data["articles"], list)
+        # Empty array is acceptable (network throttling). When present validate shape.
+        if data["articles"]:
+            art = data["articles"][0]
+            assert "title" in art and "link" in art
+
+    @pytest.mark.parametrize("group", ["local", "india", "global"])
+    def test_news_group_valid(self, session, group):
+        r = session.get(f"{API}/news/group/{group}", timeout=60)
+        assert r.status_code == 200
+        data = r.json()
+        assert data["group"] == group
+        assert isinstance(data["articles"], list)
+
+    def test_news_group_invalid(self, session):
+        r = session.get(f"{API}/news/group/invalid", timeout=15)
+        assert r.status_code == 400
+
+    def test_news_refresh_requires_auth(self):
+        r = requests.post(f"{API}/admin/news/refresh", timeout=15)
+        assert r.status_code == 401
+
+    def test_news_refresh_admin(self, admin_headers):
+        r = requests.post(f"{API}/admin/news/refresh", headers=admin_headers, timeout=120)
+        assert r.status_code == 200
+        data = r.json()
+        assert data.get("ok") is True
+        assert "refreshed_at" in data

@@ -1,105 +1,193 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, ArrowRight } from "lucide-react";
+import { Mail, Phone, MapPin, ArrowRight, MessageCircle, Check } from "lucide-react";
 import api, { formatApiErrorDetail } from "@/lib/api";
 import { toast } from "sonner";
+import { whatsappLink, PHONE_DISPLAY, EMAIL } from "@/lib/site";
+
+const LOCALITIES = ["New Town", "Rajarhat", "Kolkata (City)", "Salt Lake", "Alipore", "Ballygunge", "Other"];
+const PURPOSES = ["Self-Use", "Investment", "Rental Income", "Resale / Flip", "Diversification"];
+const PROPERTY_TYPES = ["Residential — Luxury", "Residential — Premium", "Villa / Standalone", "Apartment", "Commercial", "Plot / Land"];
+const BUDGETS = ["Under ₹50 L", "₹50 L – ₹1 Cr", "₹1 – 3 Cr", "₹3 – 5 Cr", "₹5 Cr+"];
+const TIMELINES = ["Immediate (< 30 days)", "1 – 3 months", "3 – 6 months", "6 – 12 months", "Just exploring"];
+
+const initialForm = {
+  name: "", email: "", phone: "",
+  preferred_locality: "", investment_purpose: "",
+  property_type: "", budget: "", timeline: "",
+  message: "",
+};
 
 export default function ContactPage() {
-  const [form, setForm] = useState({ name: "", email: "", phone: "", interest: "", message: "" });
+  const [form, setForm] = useState(initialForm);
   const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const set = (k, v) => setForm((f) => ({ ...f, [k]: v }));
 
   const submit = async (e) => {
     e.preventDefault();
-    setSubmitting(true);
+    setSubmitting(true); setErrorMsg("");
     try {
-      await api.post("/leads", { ...form, source: "contact-page" });
-      toast.success("Thank you. We'll be in touch shortly.");
-      setForm({ name: "", email: "", phone: "", interest: "", message: "" });
+      await api.post("/leads", { ...form, source: "contact-page", interest: form.property_type });
+      setSubmitted(true);
+      setForm(initialForm);
     } catch (err) {
-      toast.error(formatApiErrorDetail(err.response?.data?.detail) || "Failed to submit");
+      const msg = formatApiErrorDetail(err.response?.data?.detail) || "Submission failed. Please try again.";
+      setErrorMsg(msg);
+      toast.error(msg);
     } finally {
       setSubmitting(false);
     }
   };
 
   return (
-    <div data-testid="contact-page" className="pt-28 pb-16 sm:pt-32 sm:pb-24">
-      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="mb-16">
-          <div className="overline mb-4">Contact</div>
-          <h1 className="font-display font-light text-3xl sm:text-5xl lg:text-6xl text-ivory tracking-tight">
-            Let's begin a conversation.
-          </h1>
-          <p className="mt-6 text-ivory/65 font-light max-w-2xl">
-            Reach out for a private consultation, property visit, or general advisory. We respond within one business day.
-          </p>
-          <div className="copper-divider mt-10" />
-        </motion.div>
+    <div data-testid="contact-page" className="bg-charcoal text-ivory">
+      <section className="pt-32 sm:pt-40 pb-12 sm:pb-16 border-b border-copper/10">
+        <div className="max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-16">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
+            <div className="eyebrow-line mb-6"><span className="text-[10px] tracking-[0.5em] uppercase text-white/55">Contact</span></div>
+            <h1 className="section-title text-3xl sm:text-5xl lg:text-6xl leading-[1.05] max-w-3xl">
+              Let's begin a <span className="italic text-white/55">conversation.</span>
+            </h1>
+            <p className="mt-5 sm:mt-6 text-muted-fg font-light max-w-2xl leading-[1.85] text-base">
+              Reach out for a private consultation, property visit, or general advisory. We respond within one business day.
+            </p>
+          </motion.div>
+        </div>
+      </section>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-16">
-          <div className="space-y-10">
-            <div>
-              <div className="overline mb-3">Office</div>
-              <div className="flex items-start gap-4 text-ivory/75 font-light">
-                <MapPin className="w-5 h-5 text-copper shrink-0 mt-1" />
-                <p>New Town, Rajarhat<br />Kolkata, West Bengal 700156<br />India</p>
+      <section className="py-16 sm:py-24">
+        <div className="max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-16">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
+            {/* Left — contact info */}
+            <div className="lg:col-span-4 space-y-10">
+              {[
+                { label: "Office", value: <p>New Town, Rajarhat<br />Kolkata, West Bengal 700156<br />India</p>, icon: MapPin },
+                { label: "Phone", value: <a href={`tel:${PHONE_DISPLAY.replace(/\s/g, "")}`} className="hover:text-copper">{PHONE_DISPLAY}</a>, icon: Phone },
+                { label: "Email", value: <a href={`mailto:${EMAIL}`} className="hover:text-copper">{EMAIL}</a>, icon: Mail },
+              ].map((b) => (
+                <div key={b.label}>
+                  <div className="overline mb-3">{b.label}</div>
+                  <div className="flex items-start gap-4 text-white/75 font-light">
+                    <b.icon className="w-5 h-5 text-copper mt-0.5 shrink-0" strokeWidth={1.2} />
+                    <div>{b.value}</div>
+                  </div>
+                </div>
+              ))}
+
+              <div className="pt-8 border-t border-white/[0.06]">
+                <div className="overline mb-3">Hours</div>
+                <p className="text-white/75 font-light text-sm">Mon – Sat &nbsp;·&nbsp; 10:00 AM – 7:00 PM IST</p>
               </div>
-            </div>
-            <div>
-              <div className="overline mb-3">Phone</div>
-              <a href="tel:+919000000000" className="flex items-center gap-4 text-ivory/75 hover:text-copper font-light">
-                <Phone className="w-5 h-5 text-copper" /> +91 90000 00000
+
+              <a
+                href={whatsappLink("Hi Astitva, I'd like immediate advisory.")}
+                target="_blank" rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 bg-[#25D366] hover:bg-[#1ebe57] text-[#050505] px-6 py-4 text-xs tracking-[0.18em] uppercase font-medium transition"
+              >
+                <MessageCircle className="w-4 h-4" /> Instant WhatsApp Reply
               </a>
             </div>
-            <div>
-              <div className="overline mb-3">Email</div>
-              <a href="mailto:hello@astitva.com" className="flex items-center gap-4 text-ivory/75 hover:text-copper font-light">
-                <Mail className="w-5 h-5 text-copper" /> hello@astitva.com
-              </a>
-            </div>
-            <div>
-              <div className="overline mb-3">Hours</div>
-              <p className="text-ivory/75 font-light">Mon – Sat &nbsp; · &nbsp; 10:00 AM – 7:00 PM IST</p>
+
+            {/* Right — form */}
+            <div className="lg:col-span-8">
+              {submitted ? (
+                <motion.div
+                  initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
+                  className="border border-copper/30 p-10 sm:p-14"
+                  data-testid="contact-thank-you"
+                >
+                  <div className="w-16 h-16 rounded-full border border-copper/40 flex items-center justify-center mb-6">
+                    <Check className="w-7 h-7 text-copper" strokeWidth={1.4} />
+                  </div>
+                  <h3 className="font-serif-display text-3xl sm:text-4xl text-ivory mb-4">Thank you.</h3>
+                  <p className="text-muted-fg font-light leading-[1.85] max-w-xl">
+                    Your enquiry has been received. A senior Astitva advisor will reach out within one business day with a curated shortlist tailored to your goals.
+                  </p>
+                  <div className="mt-8 flex flex-col sm:flex-row gap-3">
+                    <a href={whatsappLink("Hi Astitva, I just submitted a contact form.")} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1ebe57] text-[#050505] py-3.5 px-6 text-xs tracking-[0.18em] uppercase font-medium transition">
+                      <MessageCircle className="w-4 h-4" /> WhatsApp Us
+                    </a>
+                    <button onClick={() => setSubmitted(false)} className="btn-ghost justify-center">Submit Another</button>
+                  </div>
+                </motion.div>
+              ) : (
+                <form onSubmit={submit} className="space-y-10" data-testid="contact-form">
+                  <div>
+                    <div className="overline mb-6">Your Details</div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-7">
+                      <div><label className="input-label">Full Name</label><input required data-testid="contact-name" className="input-luxury" value={form.name} onChange={(e) => set("name", e.target.value)} /></div>
+                      <div><label className="input-label">Phone</label><input required type="tel" data-testid="contact-phone" className="input-luxury" value={form.phone} onChange={(e) => set("phone", e.target.value)} /></div>
+                      <div className="sm:col-span-2"><label className="input-label">Email</label><input required type="email" data-testid="contact-email" className="input-luxury" value={form.email} onChange={(e) => set("email", e.target.value)} /></div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="overline mb-6">Investment Brief</div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-7">
+                      <div>
+                        <label className="input-label">Preferred Locality</label>
+                        <select data-testid="contact-locality" className="input-luxury" value={form.preferred_locality} onChange={(e) => set("preferred_locality", e.target.value)}>
+                          <option value="">Select locality</option>
+                          {LOCALITIES.map((l) => <option key={l}>{l}</option>)}
+                        </select>
+                      </div>
+                      <div>
+                        <label className="input-label">Investment Purpose</label>
+                        <select data-testid="contact-purpose" className="input-luxury" value={form.investment_purpose} onChange={(e) => set("investment_purpose", e.target.value)}>
+                          <option value="">Select purpose</option>
+                          {PURPOSES.map((p) => <option key={p}>{p}</option>)}
+                        </select>
+                      </div>
+                      <div>
+                        <label className="input-label">Property Type</label>
+                        <select data-testid="contact-property-type" className="input-luxury" value={form.property_type} onChange={(e) => set("property_type", e.target.value)}>
+                          <option value="">Select type</option>
+                          {PROPERTY_TYPES.map((p) => <option key={p}>{p}</option>)}
+                        </select>
+                      </div>
+                      <div>
+                        <label className="input-label">Budget</label>
+                        <select data-testid="contact-budget" className="input-luxury" value={form.budget} onChange={(e) => set("budget", e.target.value)}>
+                          <option value="">Select budget</option>
+                          {BUDGETS.map((b) => <option key={b}>{b}</option>)}
+                        </select>
+                      </div>
+                      <div className="sm:col-span-2">
+                        <label className="input-label">Timeline to Purchase</label>
+                        <select data-testid="contact-timeline" className="input-luxury" value={form.timeline} onChange={(e) => set("timeline", e.target.value)}>
+                          <option value="">Select timeline</option>
+                          {TIMELINES.map((t) => <option key={t}>{t}</option>)}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="input-label">Message (optional)</label>
+                    <textarea rows={3} data-testid="contact-message" className="input-luxury" value={form.message} onChange={(e) => set("message", e.target.value)} placeholder="Anything else we should know..." />
+                  </div>
+
+                  {errorMsg && (
+                    <div data-testid="contact-error" className="text-red-400 text-sm font-light border border-red-500/30 bg-red-500/5 px-4 py-3">
+                      {errorMsg}
+                    </div>
+                  )}
+
+                  <div className="pt-4 flex flex-col sm:flex-row gap-4 sm:items-center">
+                    <button type="submit" disabled={submitting} data-testid="contact-submit" className="btn-primary disabled:opacity-50 w-full sm:w-auto">
+                      {submitting ? "Sending..." : "Send Enquiry"} <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                    <span className="text-white/35 text-[10px] tracking-[0.25em] uppercase font-light sm:ml-2">100% Confidential · No Spam</span>
+                  </div>
+                </form>
+              )}
             </div>
           </div>
-
-          <form onSubmit={submit} className="luxury-card p-8 sm:p-10 space-y-5" data-testid="contact-form">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              <div>
-                <label className="input-label">Name</label>
-                <input required data-testid="contact-name" className="input-luxury" value={form.name} onChange={(e) => setForm({...form, name: e.target.value})} />
-              </div>
-              <div>
-                <label className="input-label">Phone</label>
-                <input required type="tel" data-testid="contact-phone" className="input-luxury" value={form.phone} onChange={(e) => setForm({...form, phone: e.target.value})} />
-              </div>
-            </div>
-            <div>
-              <label className="input-label">Email</label>
-              <input required type="email" data-testid="contact-email" className="input-luxury" value={form.email} onChange={(e) => setForm({...form, email: e.target.value})} />
-            </div>
-            <div>
-              <label className="input-label">Interest</label>
-              <select data-testid="contact-interest" className="input-luxury" value={form.interest} onChange={(e) => setForm({...form, interest: e.target.value})}>
-                <option value="">Select</option>
-                <option>Residential — Luxury</option>
-                <option>Residential — Premium</option>
-                <option>Commercial</option>
-                <option>Plot / Land</option>
-                <option>Investment Advisory</option>
-                <option>Partnership / Other</option>
-              </select>
-            </div>
-            <div>
-              <label className="input-label">Message</label>
-              <textarea rows={4} data-testid="contact-message" className="input-luxury" value={form.message} onChange={(e) => setForm({...form, message: e.target.value})} />
-            </div>
-            <button type="submit" disabled={submitting} data-testid="contact-submit" className="btn-primary w-full sm:w-auto disabled:opacity-50">
-              {submitting ? "Sending..." : "Send Message"} <ArrowRight className="w-4 h-4" />
-            </button>
-          </form>
         </div>
-      </div>
+      </section>
     </div>
   );
 }

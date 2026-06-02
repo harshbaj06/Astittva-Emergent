@@ -44,10 +44,12 @@ const LOCATIONS = [
 ];
 
 const PILLARS = [
-  { icon: ShieldCheck, title: "Verified Properties", body: "Every listing is RERA-verified and personally vetted by our advisory team — no surprises, ever." },
-  { icon: Sparkles, title: "Curated Portfolio", body: "We work only with developers whose craftsmanship and integrity match our standards of luxury." },
-  { icon: Compass, title: "Expert Consultation", body: "From legal diligence to investment strategy — a single, sophisticated point of contact for your journey." },
-  { icon: Award, title: "Trusted Network", body: "Backed by relationships with India's most respected builders, lenders, and legal partners." },
+  { icon: ShieldCheck, title: "RERA-Verified Projects", body: "Every listing is RERA-verified and personally vetted by our advisory team — no surprises, ever." },
+  { icon: Sparkles, title: "Verified Developers", body: "We partner only with developers whose craftsmanship and integrity match our standards of luxury." },
+  { icon: Compass, title: "Expert Investment Advisory", body: "From legal diligence to investment strategy — a single, sophisticated point of contact for your journey." },
+  { icon: Award, title: "Legal Support", body: "Complete title, RERA and registration support from our in-house and partner legal network." },
+  { icon: MapPin, title: "Site Visit Assistance", body: "Pre-scheduled, comfortable, advisor-led site visits across New Town, Rajarhat and Kolkata." },
+  { icon: Briefcase, title: "End-to-End Guidance", body: "From shortlist to handover — and beyond. We remain accountable to outcomes, not just deals." },
 ];
 
 const KOLKATA_FACTS = [
@@ -131,7 +133,7 @@ export default function HomePage() {
             className="max-w-3xl"
           >
             <div className="eyebrow-line mb-6 sm:mb-10" data-testid="hero-overline">
-              <span className="text-[9px] sm:text-[10px] tracking-[0.4em] sm:tracking-[0.5em] uppercase text-white/60">Astitva · Real Estate</span>
+              <span className="text-[9px] sm:text-[10px] tracking-[0.4em] sm:tracking-[0.5em] uppercase text-white/60">Astitva · Kolkata · Est. 2026</span>
             </div>
 
             <h1 className="section-title text-[1.9rem] leading-[1.08] sm:text-[3.25rem] lg:text-[5rem] sm:leading-[1] tracking-[-0.015em]">
@@ -195,7 +197,7 @@ export default function HomePage() {
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/[0.06]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/[0.05]">
             {PILLARS.map((p, i) => (
               <motion.div
                 key={p.title}
@@ -427,10 +429,10 @@ export default function HomePage() {
                 <span className="text-[10px] tracking-[0.4em] uppercase text-white/50">Direct Advisory</span>
               </div>
               <h2 className="section-title text-3xl sm:text-4xl lg:text-5xl leading-[1.05]">
-                Need Property Advice?
+                Need Immediate Property Advice?
               </h2>
-              <p className="mt-5 sm:mt-6 text-white/60 font-light leading-[1.75] text-base max-w-xl">
-                Connect directly with an Astitva real estate advisor — verified projects, honest counsel, immediate response.
+              <p className="mt-5 sm:mt-6 text-muted-fg font-light leading-[1.85] text-base max-w-xl">
+                Talk directly with an Astitva advisor and receive project recommendations, pricing details, floor plans, investment guidance and site visit assistance.
               </p>
             </div>
             <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-4">
