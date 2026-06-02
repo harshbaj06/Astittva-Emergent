@@ -161,21 +161,44 @@ function NewsCard({ a, idx }) {
   );
 }
 
-function NewsGrid({ articles, loading }) {
+function SkeletonCard({ idx }) {
+  return (
+    <div
+      className="luxury-card p-6 sm:p-7 animate-pulse"
+      data-testid={`news-skeleton-${idx}`}
+      style={{ animationDelay: `${idx * 60}ms` }}
+    >
+      <div className="flex gap-1.5 mb-5">
+        <div className="h-4 w-16 bg-white/[0.06]" />
+        <div className="h-4 w-20 bg-white/[0.06]" />
+        <div className="h-4 w-14 bg-white/[0.06] ml-auto" />
+      </div>
+      <div className="h-5 w-[85%] bg-white/[0.08] mb-3" />
+      <div className="h-5 w-[60%] bg-white/[0.08] mb-5" />
+      <div className="h-3 w-full bg-white/[0.04] mb-2" />
+      <div className="h-3 w-[80%] bg-white/[0.04] mb-6" />
+      <div className="border-t border-white/[0.05] pt-5 flex justify-between">
+        <div className="h-3 w-20 bg-white/[0.05]" />
+        <div className="h-3 w-12 bg-white/[0.05]" />
+      </div>
+    </div>
+  );
+}
+
+function NewsGrid({ articles, loading, max = 12 }) {
   if (loading) return (
-    <div className="text-center py-16 text-white/40">
-      <Loader2 className="w-5 h-5 mx-auto animate-spin text-copper mb-3" />
-      <div className="text-[10px] tracking-[0.4em] uppercase">Loading intelligence...</div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7" data-testid="mi-news-skeleton">
+      {Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} idx={i} />)}
     </div>
   );
   if (!articles?.length) return (
-    <div className="text-center py-16 border border-white/[0.06] text-white/40 italic font-serif-display">
-      No articles match the current filter.
+    <div className="text-center py-16 border border-white/[0.06] text-white/40 italic font-serif-display" data-testid="mi-empty-fallback">
+      Refreshing intelligence — please check back shortly.
     </div>
   );
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7" data-testid="mi-news-grid">
-      {articles.slice(0, 12).map((a, i) => <NewsCard key={`${a.link}-${i}`} a={a} idx={i} />)}
+      {articles.slice(0, max).map((a, i) => <NewsCard key={`${a.link}-${i}`} a={a} idx={i} />)}
     </div>
   );
 }
@@ -205,6 +228,33 @@ function SEO() {
   return null;
 }
 
+// Related-category map for graceful fallbacks
+const RELATED_CATEGORY = {
+  Infrastructure: ["Commercial Real Estate", "Investment"],
+  "Commercial Real Estate": ["Infrastructure", "Investment"],
+  Residential: ["Luxury Property", "Investment"],
+  "Luxury Property": ["Residential", "Investment"],
+  Investment: ["Economy", "Policy"],
+  Policy: ["Investment", "Economy"],
+  Economy: ["Investment", "Policy"],
+  Technology: ["Investment", "Commercial Real Estate"],
+};
+
+function articleHasCategory(a, cat) {
+  if (!cat) return false;
+  if (Array.isArray(a.categories) && a.categories.includes(cat)) return true;
+  return a.category === cat;
+}
+
+function articleMatchesGeo(a, v) {
+  return a.city === v || a.state === v || a.country === v;
+}
+
+function articleMatchesCountry(a, v) {
+  if (v === "Global") return a.country && a.country !== "India" && a.country !== "—";
+  return a.country === v;
+}
+
 export default function MarketIntelligencePage() {
   const [all, setAll] = useState([]);
   const [trending, setTrending] = useState([]);
@@ -212,26 +262,87 @@ export default function MarketIntelligencePage() {
   const [activeFilter, setActiveFilter] = useState("all");
 
   useEffect(() => {
-    api.get("/news/trending").then(({ data }) => setTrending(data.articles || []))
-      .catch(() => setTrending([]))
+    api.get("/news/trending").then(({ data }) => {
+      const arr = data.articles || [];
+      console.log("[MI] trending fetched:", arr.length);
+      setTrending(arr);
+    })
+      .catch((e) => { console.warn("[MI] trending fetch failed", e); setTrending([]); })
       .finally(() => setLoading((s) => ({ ...s, trending: false })));
-    api.get("/news/all").then(({ data }) => setAll(data.articles || []))
-      .catch(() => setAll([]))
+    api.get("/news/all").then(({ data }) => {
+      const arr = data.articles || [];
+      console.log("[MI] all fetched:", arr.length);
+      setAll(arr);
+    })
+      .catch((e) => { console.warn("[MI] all fetch failed", e); setAll([]); })
       .finally(() => setLoading((s) => ({ ...s, all: false })));
   }, []);
 
-  const filtered = useMemo(() => {
-    if (activeFilter === "all") return all;
+  // { articles, isFallback, fallbackMsg }
+  const view = useMemo(() => {
+    if (activeFilter === "all") {
+      console.log("[MI] filter=all displayed:", all.length);
+      return { articles: all, isFallback: false, fallbackMsg: "" };
+    }
     const [k, v] = activeFilter.split(":");
-    return all.filter((a) => {
-      if (k === "geo") return (a.city === v || a.state === v || a.country === v);
-      if (k === "country") {
-        if (v === "Global") return a.country && a.country !== "India" && a.country !== "—";
-        return a.country === v;
+
+    // Primary match
+    let primary = [];
+    if (k === "geo") primary = all.filter((a) => articleMatchesGeo(a, v));
+    else if (k === "country") primary = all.filter((a) => articleMatchesCountry(a, v));
+    else if (k === "cat") primary = all.filter((a) => articleHasCategory(a, v));
+
+    if (primary.length > 0) {
+      console.log(`[MI] filter=${activeFilter} primary matches:`, primary.length);
+      return { articles: primary, isFallback: false, fallbackMsg: "" };
+    }
+
+    // Fallback chain — never show empty
+    console.log(`[MI] filter=${activeFilter} primary empty → triggering fallback`);
+
+    // 1. Related category (only for cat filters)
+    if (k === "cat") {
+      const related = RELATED_CATEGORY[v] || [];
+      const relatedHits = all.filter((a) => related.some((rc) => articleHasCategory(a, rc)));
+      if (relatedHits.length) {
+        console.log(`[MI] fallback: related categories → ${relatedHits.length}`);
+        return {
+          articles: relatedHits,
+          isFallback: true,
+          fallbackMsg: "No direct matches found. Showing related market intelligence.",
+        };
       }
-      if (k === "cat") return a.category === v;
-      return true;
-    });
+    }
+
+    // 2. India articles (if filter context is geographic or general)
+    const india = all.filter((a) => a.country === "India");
+    if (india.length) {
+      console.log(`[MI] fallback: India → ${india.length}`);
+      return {
+        articles: india,
+        isFallback: true,
+        fallbackMsg: "No direct matches found. Showing the latest India market intelligence.",
+      };
+    }
+
+    // 3. Global articles
+    const global = all.filter((a) => a.country && a.country !== "India" && a.country !== "—");
+    if (global.length) {
+      console.log(`[MI] fallback: Global → ${global.length}`);
+      return {
+        articles: global,
+        isFallback: true,
+        fallbackMsg: "No direct matches found. Showing the latest global market intelligence.",
+      };
+    }
+
+    // 4. Latest (everything we have)
+    console.log(`[MI] fallback: latest all → ${all.length}`);
+    return {
+      articles: all,
+      isFallback: true,
+      fallbackMsg: "No direct matches found. Showing the latest relevant market intelligence.",
+    };
   }, [all, activeFilter]);
 
   return (
@@ -252,7 +363,7 @@ export default function MarketIntelligencePage() {
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3 text-[10px] tracking-[0.3em] uppercase text-white/45">
               <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" /> Live Feed</span>
-              <span className="text-white/15">·</span><span>Refreshed every 6h</span>
+              <span className="text-white/15">·</span><span>Refreshed every 3h</span>
               <span className="text-white/15">·</span><span>Powered by Google News</span>
             </div>
           </motion.div>
@@ -298,7 +409,7 @@ export default function MarketIntelligencePage() {
               </p>
             </div>
             <div className="text-[10px] tracking-[0.3em] uppercase text-white/40 flex items-center gap-2">
-              <RefreshCcw className="w-3 h-3 text-copper" /> Refreshed every 6h
+              <RefreshCcw className="w-3 h-3 text-copper" /> Refreshed every 3h
             </div>
           </motion.div>
 
@@ -330,15 +441,20 @@ export default function MarketIntelligencePage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35 }}
             >
-              <NewsGrid articles={filtered} loading={loading.all} />
+              {view.isFallback && !loading.all && (
+                <div
+                  data-testid="mi-fallback-banner"
+                  className="mb-6 border border-copper/25 bg-burgundy/10 px-5 py-3.5 flex items-center gap-3 text-[11px] tracking-[0.25em] uppercase text-copper"
+                >
+                  <Lightbulb className="w-4 h-4 shrink-0" strokeWidth={1.4} />
+                  <span className="font-light tracking-[0.2em] normal-case text-white/70 text-sm">
+                    {view.fallbackMsg}
+                  </span>
+                </div>
+              )}
+              <NewsGrid articles={view.articles} loading={loading.all} />
             </motion.div>
           </AnimatePresence>
-
-          {filtered.length === 0 && !loading.all && (
-            <div className="text-center mt-6 text-white/40 text-sm italic font-serif-display">
-              Try a different filter or check back in a few hours.
-            </div>
-          )}
         </div>
       </section>
 

@@ -1,4 +1,12 @@
-"""News service for Market Intelligence — Google News RSS aggregator with classification."""
+"""News service for Market Intelligence — Google News RSS aggregator with classification.
+
+Design goals:
+- Multi-tag classification (an article can be Infrastructure + Investment + Commercial).
+- Rolling archive: never wipe cached articles on a bad/empty fetch — merge new + old,
+  dedupe by link, keep newest N items.
+- Smart cache TTL (3h) with graceful fallback to last-known-good when feed is empty.
+- Frontend-friendly payload: provides both `category` (primary, legacy) and `categories` (list).
+"""
 import asyncio
 import logging
 import re
@@ -11,7 +19,9 @@ import requests
 
 logger = logging.getLogger("astitva.news")
 
-CACHE_TTL_HOURS = 6
+CACHE_TTL_HOURS = 3
+ROLLING_ARCHIVE_LIMIT = 100  # per topic — never let cache fall below this
+ALL_FEED_LIMIT = 100
 
 # Topic queries
 TOPICS = {
@@ -33,6 +43,8 @@ TOPICS = {
     "smart_cities": "India smart cities mission",
     "reit": "India REIT real estate investment trust",
     "rbi": "RBI interest rate housing India",
+    "economy": "India economy GDP inflation property",
+    "technology": "India proptech AI data center real estate",
     # LEVEL 3 — GLOBAL
     "global": "global real estate market",
     "uae": "UAE Dubai property market",
@@ -44,7 +56,8 @@ TOPICS = {
 
 GROUPS = {
     "local": ["new_town", "rajarhat", "kolkata", "greater_kolkata", "west_bengal"],
-    "india": ["india_real_estate", "residential", "commercial", "luxury", "policy", "infrastructure", "metro", "smart_cities", "reit", "rbi", "economy", "technology"],
+    "india": ["india_real_estate", "residential", "commercial", "luxury", "policy",
+              "infrastructure", "metro", "smart_cities", "reit", "rbi", "economy", "technology"],
     "global": ["global", "uae", "singapore", "london", "us", "wealth_migration"],
 }
 
@@ -60,7 +73,6 @@ STATE_BY_CITY = {
     "New York": "New York", "Hong Kong": "Hong Kong",
 }
 
-# Classification dictionaries
 CITY_PATTERNS = [
     ("New Town", r"\bnew\s*town\b"),
     ("Rajarhat", r"\brajarhat\b"),
@@ -88,25 +100,35 @@ COUNTRY_BY_CITY = {
     "Singapore": "Singapore", "London": "UK", "New York": "USA", "Hong Kong": "Hong Kong",
 }
 
-# Default country/city by topic prefix
+# Default country/city by topic prefix. (city, country)
 TOPIC_DEFAULTS = {
     "new_town": ("New Town", "India"), "rajarhat": ("Rajarhat", "India"),
     "kolkata": ("Kolkata", "India"), "greater_kolkata": ("Kolkata", "India"),
     "west_bengal": ("West Bengal", "India"),
+    # India-themed topics: empty city until detected, but default country = India
+    "trending": ("", "India"),
+    "india_real_estate": ("", "India"), "residential": ("", "India"),
+    "commercial": ("", "India"), "luxury": ("", "India"),
+    "policy": ("", "India"), "infrastructure": ("", "India"),
+    "metro": ("", "India"), "smart_cities": ("", "India"),
+    "reit": ("", "India"), "rbi": ("", "India"),
+    "economy": ("", "India"), "technology": ("", "India"),
+    # Global
     "uae": ("Dubai", "UAE"), "singapore": ("Singapore", "Singapore"),
     "london": ("London", "UK"), "us": ("New York", "USA"),
     "wealth_migration": ("Global", "Global"), "global": ("Global", "Global"),
 }
 
+# Multi-tag category patterns. ALL matching categories are applied (no early exit).
 CATEGORY_PATTERNS = [
-    ("Infrastructure", r"\b(metro|rail|highway|airport|infrastructure|connectivity|corridor|bridge)\b"),
-    ("Technology", r"\b(proptech|fintech|ai|technology|digital|blockchain|smart\s*home)\b"),
-    ("Economy", r"\b(gdp|economy|inflation|rate\s*cut|economic\s*growth|fiscal)\b"),
-    ("Luxury Property", r"\b(luxury|premium|ultra-luxury|hni|branded\s*residence|penthouse)\b"),
-    ("Commercial Real Estate", r"\b(commercial|office|retail|warehouse|logistics|coworking|grade\s*a)\b"),
-    ("Policy", r"\b(policy|government|rera|regulation|gst|stamp\s*duty|approval|legislat)\b"),
-    ("Investment", r"\b(reit|invest|yield|appreciation|portfolio|fund|capital|fdi)\b"),
-    ("Residential", r"\b(residential|housing|apartment|villa|home|flat|property)\b"),
+    ("Infrastructure", r"\b(metro|rail(?:way)?|highway|road|airport|infrastructure|connectivity|corridor|bridge|expressway|port)\b"),
+    ("Technology", r"\b(proptech|fintech|\bai\b|technology|digital|blockchain|smart\s*home|data\s*cent(?:er|re)|semiconductor|saas|startup)\b"),
+    ("Economy", r"\b(gdp|economy|economic|inflation|rate\s*cut|interest\s*rate|rbi|fiscal|monetary|recession)\b"),
+    ("Luxury Property", r"\b(luxury|premium|ultra[-\s]*luxury|hni|branded\s*residence|penthouse|villa|mansion|high[-\s]*end)\b"),
+    ("Commercial Real Estate", r"\b(commercial|office|business\s*park|retail|warehouse|logistics|coworking|grade\s*a|mall|workspace)\b"),
+    ("Policy", r"\b(policy|government|rera|regulation|gst|stamp\s*duty|approval|legislat|tax|budget|reform|scheme)\b"),
+    ("Investment", r"\b(reit|invest(?:or|ment|ing|ed|s)?|yield|appreciation|portfolio|fund|capital|fdi|institutional|equity|ipo)\b"),
+    ("Residential", r"\b(residential|housing|apartment|villa|home|flat|property|condominium|condo|society)\b"),
 ]
 
 IMPACT_HIGH = re.compile(
@@ -132,6 +154,17 @@ WHY_IT_MATTERS_BY_CAT = {
     "Technology": "PropTech adoption and digital infrastructure reshape pricing transparency and attract a new class of investor.",
 }
 
+# Topic → implicit category fallback (when text has no clear keyword)
+TOPIC_CATEGORY_FALLBACK = {
+    "infrastructure": "Infrastructure", "metro": "Infrastructure", "smart_cities": "Infrastructure",
+    "commercial": "Commercial Real Estate",
+    "luxury": "Luxury Property",
+    "policy": "Policy",
+    "reit": "Investment", "rbi": "Investment", "wealth_migration": "Investment",
+    "economy": "Economy",
+    "technology": "Technology",
+}
+
 
 def classify(title: str, summary: str, topic: str) -> Dict:
     text = f"{title} {summary}".lower()
@@ -145,27 +178,22 @@ def classify(title: str, summary: str, topic: str) -> Dict:
             break
 
     state = STATE_BY_CITY.get(city, "")
-    # special-case West Bengal topic
     if topic == "west_bengal" and not state:
         state = "West Bengal"
 
-    # Category
-    category = ""
+    # Multi-tag categories (all matching patterns)
+    categories: List[str] = []
     for cat, pat in CATEGORY_PATTERNS:
         if re.search(pat, text):
-            category = cat
-            break
-    if not category:
-        if topic in {"infrastructure", "metro", "smart_cities"}: category = "Infrastructure"
-        elif topic == "commercial": category = "Commercial Real Estate"
-        elif topic == "luxury": category = "Luxury Property"
-        elif topic == "policy": category = "Policy"
-        elif topic in {"reit", "rbi"}: category = "Investment"
-        elif topic == "economy": category = "Economy"
-        elif topic == "technology": category = "Technology"
-        else: category = "Residential"
+            categories.append(cat)
 
-    # Impact
+    # Topic-implicit fallback if nothing matched
+    if not categories:
+        fallback = TOPIC_CATEGORY_FALLBACK.get(topic, "Residential")
+        categories = [fallback]
+
+    primary = categories[0]
+
     if IMPACT_HIGH.search(text):
         impact = "High"
     elif IMPACT_MED.search(text):
@@ -173,13 +201,14 @@ def classify(title: str, summary: str, topic: str) -> Dict:
     else:
         impact = "Low"
 
-    why = WHY_IT_MATTERS_BY_CAT.get(category, "") if impact == "High" else ""
+    why = WHY_IT_MATTERS_BY_CAT.get(primary, "") if impact == "High" else ""
 
     return {
         "city": city or "—",
         "state": state or "—",
         "country": country or "—",
-        "category": category,
+        "category": primary,        # legacy single-category
+        "categories": categories,   # multi-tag
         "impact": impact,
         "why_it_matters": why,
     }
@@ -189,7 +218,7 @@ def google_news_url(query: str) -> str:
     return f"https://news.google.com/rss/search?q={quote(query)}&hl=en-IN&gl=IN&ceid=IN:en"
 
 
-def _parse_entries(feed_url: str, topic: str, limit: int = 15) -> List[Dict]:
+def _parse_entries(feed_url: str, topic: str, limit: int = 25) -> List[Dict]:
     try:
         r = requests.get(feed_url, timeout=10, headers={"User-Agent": "AstitvaBot/1.0"})
         feed = feedparser.parse(r.content)
@@ -219,32 +248,68 @@ def _parse_entries(feed_url: str, topic: str, limit: int = 15) -> List[Dict]:
             })
         except Exception as inner:  # noqa: BLE001
             logger.debug(f"Skip malformed entry: {inner}")
+    logger.info(f"[news] topic={topic} parsed={len(out)} from feed")
     return out
+
+
+def _merge_articles(old: List[Dict], new: List[Dict], limit: int = ROLLING_ARCHIVE_LIMIT) -> List[Dict]:
+    """Merge old + new articles, dedupe by link, return latest `limit` by published date."""
+    seen = set()
+    merged: List[Dict] = []
+    for src in (new, old):  # new first so its classification wins
+        for a in src:
+            key = a.get("link") or a.get("title", "")[:120]
+            if not key or key in seen:
+                continue
+            seen.add(key)
+            merged.append(a)
+    merged.sort(key=lambda x: x.get("published") or "", reverse=True)
+    return merged[:limit]
 
 
 async def fetch_topic(db, topic: str, force: bool = False) -> List[Dict]:
     cache = await db.news_cache.find_one({"topic": topic})
     now = datetime.now(timezone.utc)
+    cached_articles = (cache or {}).get("articles", []) if cache else []
+
+    # Serve from cache if fresh enough
     if cache and not force:
         last = cache.get("fetched_at")
         if last and (now - datetime.fromisoformat(last)) < timedelta(hours=CACHE_TTL_HOURS):
-            arr = cache.get("articles", [])
-            return sorted(arr, key=lambda x: x.get("published") or "", reverse=True)
+            logger.info(f"[news] topic={topic} served from cache count={len(cached_articles)}")
+            return sorted(cached_articles, key=lambda x: x.get("published") or "", reverse=True)
+
+    # Try a fresh fetch
     url = google_news_url(TOPICS.get(topic, topic))
-    articles = await asyncio.to_thread(_parse_entries, url, topic)
-    articles = sorted(articles, key=lambda x: x.get("published") or "", reverse=True)
-    if articles:
+    fresh = await asyncio.to_thread(_parse_entries, url, topic)
+
+    if fresh:
+        merged = _merge_articles(cached_articles, fresh)
         await db.news_cache.update_one(
             {"topic": topic},
-            {"$set": {"topic": topic, "articles": articles, "fetched_at": now.isoformat()}},
+            {"$set": {"topic": topic, "articles": merged, "fetched_at": now.isoformat()}},
             upsert=True,
         )
-    elif cache:
-        return cache.get("articles", [])
-    return articles
+        logger.info(f"[news] topic={topic} refreshed fresh={len(fresh)} merged={len(merged)}")
+        return merged
+
+    # Fresh fetch failed → keep serving stale cache (rolling archive)
+    if cached_articles:
+        logger.warning(f"[news] topic={topic} fresh fetch empty; serving stale cache n={len(cached_articles)}")
+        # bump fetched_at slightly so we don't hammer; but only by 30 min so retry happens soon
+        retry_at = (now - timedelta(hours=CACHE_TTL_HOURS - 0.5)).isoformat()
+        await db.news_cache.update_one(
+            {"topic": topic},
+            {"$set": {"fetched_at": retry_at}},
+            upsert=True,
+        )
+        return cached_articles
+
+    logger.warning(f"[news] topic={topic} no fresh and no cache")
+    return []
 
 
-async def fetch_group(db, group: str, per_topic: int = 4) -> List[Dict]:
+async def fetch_group(db, group: str, per_topic: int = 6) -> List[Dict]:
     topics = GROUPS.get(group, [])
     results: List[Dict] = []
     seen = set()
@@ -253,13 +318,13 @@ async def fetch_group(db, group: str, per_topic: int = 4) -> List[Dict]:
         if isinstance(arr, Exception):
             continue
         for a in arr[:per_topic]:
-            key = a.get("title", "").lower()[:80]
+            key = (a.get("link") or a.get("title", "")[:120])
             if key in seen:
                 continue
             seen.add(key)
             results.append(a)
     results.sort(key=lambda x: x.get("published") or "", reverse=True)
-    return results[:24]
+    return results[:36]
 
 
 async def fetch_all_classified(db) -> List[Dict]:
@@ -268,12 +333,17 @@ async def fetch_all_classified(db) -> List[Dict]:
     fetched = await asyncio.gather(*[fetch_topic(db, t) for t in all_topics], return_exceptions=True)
     seen = set()
     results: List[Dict] = []
+    total_parsed = 0
     for arr in fetched:
-        if isinstance(arr, Exception): continue
-        for a in arr[:3]:
-            key = a.get("title", "").lower()[:80]
-            if key in seen: continue
+        if isinstance(arr, Exception):
+            continue
+        total_parsed += len(arr)
+        for a in arr[:6]:
+            key = (a.get("link") or a.get("title", "")[:120])
+            if key in seen:
+                continue
             seen.add(key)
             results.append(a)
     results.sort(key=lambda x: x.get("published") or "", reverse=True)
-    return results[:48]
+    logger.info(f"[news] /all parsed_total={total_parsed} returned={min(len(results), ALL_FEED_LIMIT)}")
+    return results[:ALL_FEED_LIMIT]
