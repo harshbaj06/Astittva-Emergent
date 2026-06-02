@@ -25,7 +25,7 @@ from pydantic import BaseModel, Field, EmailStr, BeforeValidator, ConfigDict
 
 import io
 
-from news_service import fetch_topic, fetch_group, fetch_all_classified, TOPICS, GROUPS
+from news_service import fetch_topic, fetch_group, fetch_all_classified, TOPICS, GROUPS, CACHE_TTL_HOURS, ROLLING_ARCHIVE_LIMIT
 
 # ---------------------------------------------------------------------------
 # Config & Setup
@@ -647,6 +647,42 @@ async def news_group(group: str):
 @api_router.get("/news/topics")
 async def news_topics():
     return {"topics": list(TOPICS.keys()), "groups": GROUPS}
+
+
+@api_router.get("/news/debug")
+async def news_debug():
+    """Public diagnostic endpoint — pipeline state for Market Intelligence.
+    Returns per-topic article counts + last fetched_at + total served by /news/all.
+    """
+    from datetime import datetime as _dt, timezone as _tz
+    now = _dt.now(_tz.utc)
+    pipeline = []
+    for topic in TOPICS.keys():
+        cache = await db.news_cache.find_one({"topic": topic})
+        if cache:
+            arr = cache.get("articles", [])
+            fetched_at = cache.get("fetched_at")
+            try:
+                age_min = int((now - _dt.fromisoformat(fetched_at)).total_seconds() / 60) if fetched_at else None
+            except Exception:
+                age_min = None
+            pipeline.append({
+                "topic": topic,
+                "count": len(arr),
+                "fetched_at": fetched_at,
+                "age_minutes": age_min,
+            })
+        else:
+            pipeline.append({"topic": topic, "count": 0, "fetched_at": None, "age_minutes": None})
+    total_articles = await fetch_all_classified(db)
+    return {
+        "ok": True,
+        "timestamp": now.isoformat(),
+        "cache_ttl_hours": CACHE_TTL_HOURS,
+        "rolling_archive_limit": ROLLING_ARCHIVE_LIMIT,
+        "all_feed_total": len(total_articles),
+        "topics": pipeline,
+    }
 
 
 @api_router.post("/admin/news/refresh")

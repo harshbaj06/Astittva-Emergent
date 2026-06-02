@@ -161,8 +161,8 @@ function NewsCard({ a, idx }) {
   );
 }
 
-const DEBUG = process.env.NODE_ENV === "development";
-const dlog = (...args) => { if (DEBUG) console.log(...args); };
+// Always-on diagnostic logger — prefixed so it's easy to find/filter in DevTools.
+const mlog = (...args) => console.log("%c[Astittva MI]", "color:#C68642;font-weight:bold", ...args);
 
 function SkeletonCard({ idx }) {
   return (
@@ -195,8 +195,22 @@ function NewsGrid({ articles, loading, max = 12 }) {
     </div>
   );
   if (!articles?.length) return (
-    <div className="text-center py-16 border border-white/[0.06] text-white/40 italic font-serif-display" data-testid="mi-empty-fallback">
-      Refreshing intelligence — please check back shortly.
+    <div
+      className="text-center py-12 px-6 border border-amber-500/30 bg-amber-500/[0.04]"
+      data-testid="mi-empty-fallback"
+    >
+      <div className="text-[10px] tracking-[0.4em] uppercase text-amber-400 mb-3">Feed Temporarily Unavailable</div>
+      <p className="text-white/60 font-light text-sm leading-relaxed max-w-md mx-auto">
+        Our intelligence pipeline is refreshing. Please try again in a few minutes —
+        the next automatic refresh runs every 3 hours.
+      </p>
+      <button
+        onClick={() => window.location.reload()}
+        data-testid="mi-retry-btn"
+        className="mt-5 text-[10px] tracking-[0.3em] uppercase text-copper hover:text-copper-hover border border-copper/30 px-5 py-2.5 transition"
+      >
+        Retry Now
+      </button>
     </div>
   );
   return (
@@ -267,14 +281,14 @@ export default function MarketIntelligencePage() {
   useEffect(() => {
     api.get("/news/trending").then(({ data }) => {
       const arr = data.articles || [];
-      dlog("[MI] trending fetched:", arr.length);
+      mlog("[MI] trending fetched:", arr.length);
       setTrending(arr);
     })
       .catch((e) => { console.warn("[MI] trending fetch failed", e); setTrending([]); })
       .finally(() => setLoading((s) => ({ ...s, trending: false })));
     api.get("/news/all").then(({ data }) => {
       const arr = data.articles || [];
-      dlog("[MI] all fetched:", arr.length);
+      mlog("[MI] all fetched:", arr.length);
       setAll(arr);
     })
       .catch((e) => { console.warn("[MI] all fetch failed", e); setAll([]); })
@@ -284,7 +298,7 @@ export default function MarketIntelligencePage() {
   // { articles, isFallback, fallbackMsg }
   const view = useMemo(() => {
     if (activeFilter === "all") {
-      dlog("[MI] filter=all displayed:", all.length);
+      mlog("[MI] filter=all displayed:", all.length);
       return { articles: all, isFallback: false, fallbackMsg: "" };
     }
     const [k, v] = activeFilter.split(":");
@@ -296,19 +310,19 @@ export default function MarketIntelligencePage() {
     else if (k === "cat") primary = all.filter((a) => articleHasCategory(a, v));
 
     if (primary.length > 0) {
-      dlog(`[MI] filter=${activeFilter} primary matches:`, primary.length);
+      mlog(`[MI] filter=${activeFilter} primary matches:`, primary.length);
       return { articles: primary, isFallback: false, fallbackMsg: "" };
     }
 
     // Fallback chain — never show empty
-    dlog(`[MI] filter=${activeFilter} primary empty → triggering fallback`);
+    mlog(`[MI] filter=${activeFilter} primary empty → triggering fallback`);
 
     // 1. Related category (only for cat filters)
     if (k === "cat") {
       const related = RELATED_CATEGORY[v] || [];
       const relatedHits = all.filter((a) => related.some((rc) => articleHasCategory(a, rc)));
       if (relatedHits.length) {
-        dlog(`[MI] fallback: related categories → ${relatedHits.length}`);
+        mlog(`[MI] fallback: related categories → ${relatedHits.length}`);
         return {
           articles: relatedHits,
           isFallback: true,
@@ -320,7 +334,7 @@ export default function MarketIntelligencePage() {
     // 2. India articles (if filter context is geographic or general)
     const india = all.filter((a) => a.country === "India");
     if (india.length) {
-      dlog(`[MI] fallback: India → ${india.length}`);
+      mlog(`[MI] fallback: India → ${india.length}`);
       return {
         articles: india,
         isFallback: true,
@@ -331,7 +345,7 @@ export default function MarketIntelligencePage() {
     // 3. Global articles
     const global = all.filter((a) => a.country && a.country !== "India" && a.country !== "—");
     if (global.length) {
-      dlog(`[MI] fallback: Global → ${global.length}`);
+      mlog(`[MI] fallback: Global → ${global.length}`);
       return {
         articles: global,
         isFallback: true,
@@ -340,7 +354,7 @@ export default function MarketIntelligencePage() {
     }
 
     // 4. Latest (everything we have)
-    dlog(`[MI] fallback: latest all → ${all.length}`);
+    mlog(`[MI] fallback: latest all → ${all.length}`);
     return {
       articles: all,
       isFallback: true,
