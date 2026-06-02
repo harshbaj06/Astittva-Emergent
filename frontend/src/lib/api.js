@@ -6,6 +6,7 @@ export const API = `${BACKEND_URL}/api`;
 const api = axios.create({
   baseURL: API,
   withCredentials: true,
+  timeout: 15000, // 15s default — prevents stuck loading states on slow upstream
 });
 
 // Inject Bearer fallback from localStorage if present

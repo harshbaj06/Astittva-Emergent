@@ -7,6 +7,7 @@ import {
   Filter, ShieldCheck, Coins, Layers
 } from "lucide-react";
 import api from "@/lib/api";
+import { EVERGREEN_NEWS } from "@/data/evergreenNews";
 
 const TEXTURE = "https://static.prod-images.emergentagent.com/jobs/50ac1e2c-4ee3-4d48-ad5e-fd37063ae3c0/images/1f5da7f44ad5aab6c1f6ab3c12df3ec89723084c1042e95749a6b4658dcffcc6.png";
 
@@ -189,21 +190,25 @@ function SkeletonCard({ idx }) {
 }
 
 function NewsGrid({ articles, loading, max = 12 }) {
-  if (loading) return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7" data-testid="mi-news-skeleton">
-      {Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={`skeleton-${i}`} idx={i} />)}
-    </div>
-  );
-  // Backend guarantees a curated evergreen fallback so this list is never empty.
-  // If somehow it is (network offline + cold cache), still skip an empty UI and render skeletons.
-  if (!articles?.length) return (
+  // If we have articles (live or evergreen), render them immediately — never block on `loading`.
+  if (articles?.length) {
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7" data-testid="mi-news-grid">
+        {articles.slice(0, max).map((a, i) => <NewsCard key={`${a.link}-${i}`} a={a} idx={i} />)}
+      </div>
+    );
+  }
+  // Only show skeletons when there's nothing at all to render (cold-start with no evergreens).
+  if (loading) {
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7" data-testid="mi-news-skeleton">
+        {Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={`skeleton-${i}`} idx={i} />)}
+      </div>
+    );
+  }
+  return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7" data-testid="mi-news-skeleton-fallback">
       {Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={`fb-skeleton-${i}`} idx={i} />)}
-    </div>
-  );
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7" data-testid="mi-news-grid">
-      {articles.slice(0, max).map((a, i) => <NewsCard key={`${a.link}-${i}`} a={a} idx={i} />)}
     </div>
   );
 }
@@ -261,28 +266,44 @@ function articleMatchesCountry(a, v) {
 }
 
 export default function MarketIntelligencePage() {
-  const [all, setAll] = useState([]);
-  const [trending, setTrending] = useState([]);
+  // Initialize with evergreen fallback so first paint is NEVER empty.
+  // Live API replaces these on success; on timeout/error we keep them.
+  const [all, setAll] = useState(EVERGREEN_NEWS);
+  const [trending, setTrending] = useState(EVERGREEN_NEWS.slice(0, 12));
   const [lastUpdated, setLastUpdated] = useState("");
+  // Loading reflects "is a fresh live fetch in flight" — but we already render evergreens,
+  // so the UI is never blank.
   const [loading, setLoading] = useState({ all: true, trending: true });
   const [activeFilter, setActiveFilter] = useState("all");
 
   useEffect(() => {
+    // Hard cap: ensure loading state clears in <=12s even if axios timeout misfires.
+    const hardTimeout = setTimeout(() => {
+      mlog("[MI] hard timeout — force-clearing loading");
+      setLoading({ all: false, trending: false });
+    }, 12000);
+
     api.get("/news/trending").then(({ data }) => {
       const arr = data.articles || [];
       mlog("[MI] trending fetched:", arr.length);
-      setTrending(arr);
+      if (arr.length) setTrending(arr);
     })
-      .catch((e) => { console.warn("[MI] trending fetch failed", e); setTrending([]); })
+      .catch((e) => { console.warn("[MI] trending fetch failed", e?.message || e); })
       .finally(() => setLoading((s) => ({ ...s, trending: false })));
+
     api.get("/news/all").then(({ data }) => {
       const arr = data.articles || [];
       mlog("[MI] all fetched:", arr.length, "last_updated:", data.last_updated);
-      setAll(arr);
+      if (arr.length) setAll(arr);
       if (data.last_updated) setLastUpdated(data.last_updated);
     })
-      .catch((e) => { console.warn("[MI] all fetch failed", e); setAll([]); })
-      .finally(() => setLoading((s) => ({ ...s, all: false })));
+      .catch((e) => { console.warn("[MI] all fetch failed", e?.message || e); })
+      .finally(() => {
+        clearTimeout(hardTimeout);
+        setLoading((s) => ({ ...s, all: false }));
+      });
+
+    return () => clearTimeout(hardTimeout);
   }, []);
 
   // { articles, isFallback, fallbackMsg }
