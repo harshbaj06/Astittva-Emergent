@@ -12,7 +12,7 @@ export default function Footer() {
             <div className="lg:col-span-8">
               <div className="overline mb-4">Ready to Invest?</div>
               <h3 className="section-title text-3xl sm:text-4xl lg:text-5xl leading-[1.05]">
-                Speak with an Astitva <span className="italic text-white/55">advisor.</span>
+                Speak with an Astittva <span className="italic text-white/55">advisor.</span>
               </h3>
               <p className="mt-5 text-muted-fg font-light leading-[1.85] max-w-xl">
                 Verified projects, honest counsel, end-to-end guidance. Begin in 30 minutes.
@@ -23,7 +23,7 @@ export default function Footer() {
                 Book Consultation <ArrowRight className="w-3.5 h-3.5" />
               </Link>
               <a
-                href={whatsappLink("Hi Astitva, I'd like to speak with an advisor.")}
+                href={whatsappLink("Hi Astittva, I'd like to speak with an advisor.")}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:flex-1 lg:w-full inline-flex items-center justify-center gap-2 text-[#C47B3A] hover:text-[#D58A47] py-3 text-xs tracking-[0.18em] uppercase border border-copper/30 hover:border-copper transition"
@@ -39,7 +39,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
           <div className="md:col-span-5">
             <div className="flex items-center gap-4 mb-8">
-              <img src={LOGO_URL} alt="Astitva" className="h-14 w-14 sm:h-16 sm:w-16 object-contain" />
+              <img src={LOGO_URL} alt="Astittva" className="h-14 w-14 sm:h-16 sm:w-16 object-contain" />
               <div className="border-l border-copper/15 pl-4">
                 <div className="font-serif-display tracking-[0.34em] text-ivory text-2xl">{BRAND_NAME}</div>
               </div>
@@ -86,7 +86,7 @@ export default function Footer() {
             <ul className="space-y-4 text-sm text-white/60 font-light">
               <li className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 text-copper mt-0.5 shrink-0" strokeWidth={1.2} />
-                <span>New Town, Rajarhat<br />Kolkata, West Bengal 700156</span>
+                <span>PS IXL Building, 5th Flr, Room 511<br />Biswa Bangla Sarani, Atghara<br />New Town, Kolkata, WB 700136</span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-4 h-4 text-copper shrink-0" strokeWidth={1.2} />
@@ -101,7 +101,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-16 sm:mt-20 pt-8 border-t border-white/[0.06] flex flex-col md:flex-row justify-between items-center gap-5">
-          <p className="text-white/35 text-xs tracking-wider">© {new Date().getFullYear()} Astitva · All rights reserved.</p>
+          <p className="text-white/35 text-xs tracking-wider">© {new Date().getFullYear()} Astittva · All rights reserved.</p>
           <p className="text-white/35 text-[10px] tracking-[0.4em] uppercase">Crafted with conviction · Kolkata, India</p>
         </div>
       </div>

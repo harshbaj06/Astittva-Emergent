@@ -25,7 +25,7 @@ export default function AdminLayout() {
       <aside data-testid="admin-sidebar" className="w-64 border-r border-copper/15 bg-charcoal-2/30 flex flex-col">
         <div className="p-6 border-b border-copper/15">
           <div className="flex items-center gap-3">
-            <img src={LOGO_URL} alt="Astitva" className="h-10 w-10 ring-1 ring-copper/40 object-cover" />
+            <img src={LOGO_URL} alt="Astittva" className="h-10 w-10 ring-1 ring-copper/40 object-cover" />
             <div className="leading-tight">
               <div className="text-ivory font-display tracking-[0.25em] text-xs">ASTITTVA</div>
               <div className="text-copper text-[10px] tracking-[0.4em]">ADMIN</div>

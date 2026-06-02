@@ -64,7 +64,16 @@ export default function ContactPage() {
             {/* Left — contact info */}
             <div className="lg:col-span-4 space-y-10">
               {[
-                { label: "Office", value: <p>New Town, Rajarhat<br />Kolkata, West Bengal 700156<br />India</p>, icon: MapPin },
+                { label: "Office", value: (
+                  <p className="leading-[1.75]">
+                    PS IXL Building<br />
+                    5th Floor, Room 511<br />
+                    Biswa Bangla Sarani<br />
+                    Atghara, New Town<br />
+                    Kolkata, West Bengal 700136<br />
+                    India
+                  </p>
+                ), icon: MapPin },
                 { label: "Phone", value: <a href={`tel:${PHONE_DISPLAY.replace(/\s/g, "")}`} className="hover:text-copper">{PHONE_DISPLAY}</a>, icon: Phone },
                 { label: "Email", value: <a href={`mailto:${EMAIL}`} className="hover:text-copper">{EMAIL}</a>, icon: Mail },
               ].map((b) => (
@@ -83,7 +92,7 @@ export default function ContactPage() {
               </div>
 
               <a
-                href={whatsappLink("Hi Astitva, I'd like immediate advisory.")}
+                href={whatsappLink("Hi Astittva, I'd like immediate advisory.")}
                 target="_blank" rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 bg-[#25D366] hover:bg-[#1ebe57] text-[#050505] px-6 py-4 text-xs tracking-[0.18em] uppercase font-medium transition"
               >
@@ -104,10 +113,10 @@ export default function ContactPage() {
                   </div>
                   <h3 className="font-serif-display text-3xl sm:text-4xl text-ivory mb-4">Thank you.</h3>
                   <p className="text-muted-fg font-light leading-[1.85] max-w-xl">
-                    Your enquiry has been received. A senior Astitva advisor will reach out within one business day with a curated shortlist tailored to your goals.
+                    Your enquiry has been received. A senior Astittva advisor will reach out within one business day with a curated shortlist tailored to your goals.
                   </p>
                   <div className="mt-8 flex flex-col sm:flex-row gap-3">
-                    <a href={whatsappLink("Hi Astitva, I just submitted a contact form.")} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1ebe57] text-[#050505] py-3.5 px-6 text-xs tracking-[0.18em] uppercase font-medium transition">
+                    <a href={whatsappLink("Hi Astittva, I just submitted a contact form.")} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1ebe57] text-[#050505] py-3.5 px-6 text-xs tracking-[0.18em] uppercase font-medium transition">
                       <MessageCircle className="w-4 h-4" /> WhatsApp Us
                     </a>
                     <button onClick={() => setSubmitted(false)} className="btn-ghost justify-center">Submit Another</button>

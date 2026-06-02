@@ -584,3 +584,74 @@ class TestClassifyHeuristic:
         assert high["impact"] == "High"
         assert high["why_it_matters"] != ""
         assert low["why_it_matters"] == ""
+
+
+# ---------------------------------------------------------------------------
+# v5: state classification + Technology/Economy categories
+# ---------------------------------------------------------------------------
+class TestClassifyV5:
+    def _classify(self, *args, **kwargs):
+        import sys
+        sys.path.insert(0, "/app/backend")
+        from news_service import classify
+        return classify(*args, **kwargs)
+
+    def test_state_west_bengal_for_kolkata(self):
+        c = self._classify("Kolkata property surge", "", "kolkata")
+        assert c["state"] == "West Bengal"
+
+    def test_state_west_bengal_for_new_town(self):
+        c = self._classify("New Town Kolkata launch", "", "new_town")
+        assert c["state"] == "West Bengal"
+
+    def test_state_west_bengal_for_rajarhat(self):
+        c = self._classify("Rajarhat growth update", "", "rajarhat")
+        assert c["state"] == "West Bengal"
+
+    def test_state_maharashtra_for_mumbai(self):
+        c = self._classify("Mumbai property surge", "", "india_real_estate")
+        assert c["state"] == "Maharashtra"
+
+    def test_state_maharashtra_for_pune(self):
+        c = self._classify("Pune housing demand", "", "india_real_estate")
+        assert c["state"] == "Maharashtra"
+
+    def test_state_karnataka_for_bengaluru(self):
+        c = self._classify("Bengaluru tech residential", "", "india_real_estate")
+        assert c["state"] == "Karnataka"
+
+    def test_state_greater_london_for_london(self):
+        c = self._classify("London prime real estate", "", "london")
+        assert c["state"] == "Greater London"
+
+    def test_state_dubai_for_dubai(self):
+        c = self._classify("Dubai luxury boom", "", "uae")
+        assert c["state"] == "Dubai"
+
+    def test_category_technology(self):
+        c = self._classify("PropTech AI digital platform", "blockchain adoption", "india_real_estate")
+        assert c["category"] == "Technology"
+
+    def test_category_economy(self):
+        c = self._classify("GDP growth and inflation outlook", "Economic growth report", "india_real_estate")
+        assert c["category"] == "Economy"
+
+
+class TestNewsStateField:
+    def test_news_all_includes_state(self, session):
+        r = session.get(f"{API}/news/all", timeout=120)
+        assert r.status_code == 200
+        arts = r.json().get("articles", [])
+        if not arts:
+            pytest.skip("Empty news feed (RSS throttle)")
+        for art in arts[:5]:
+            assert "state" in art, f"Missing state field in {art}"
+
+    def test_news_trending_includes_state(self, session):
+        r = session.get(f"{API}/news/trending", timeout=60)
+        assert r.status_code == 200
+        arts = r.json().get("articles", [])
+        if not arts:
+            pytest.skip("Empty trending feed")
+        for art in arts[:3]:
+            assert "state" in art

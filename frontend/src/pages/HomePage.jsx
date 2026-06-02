@@ -5,8 +5,8 @@ import { ArrowRight, ShieldCheck, Sparkles, Building2, Compass, ChevronRight, Ma
 import api, { fileUrl, formatApiErrorDetail } from "@/lib/api";
 import { toast } from "sonner";
 import { whatsappLink, PHONE_DISPLAY } from "@/lib/site";
+import CinematicHero from "@/components/CinematicHero";
 
-const HERO_IMG = "/images/biswa-bangla-hero.png";
 const TEXTURE = "https://static.prod-images.emergentagent.com/jobs/50ac1e2c-4ee3-4d48-ad5e-fd37063ae3c0/images/1f5da7f44ad5aab6c1f6ab3c12df3ec89723084c1042e95749a6b4658dcffcc6.png";
 
 const TRUST_SIGNALS = [
@@ -111,14 +111,7 @@ export default function HomePage() {
       {/* ===================== HERO ===================== */}
       <section data-testid="hero-section" className="relative min-h-[640px] h-[100svh] sm:min-h-[760px] sm:h-screen w-full overflow-hidden bg-[#0a0a0a]">
         <div className="absolute inset-0">
-          <img loading="eager" fetchpriority="high" src={HERO_IMG} alt="Biswa Bangla Gate Kolkata" className="w-full h-full object-cover opacity-90" />
-          {/* Cinematic burgundy gradient — left dark to right transparent */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0a0306] via-[#0a0306]/72 to-transparent" />
-          {/* Bottom fade to charcoal */}
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050505]" />
-          {/* Burgundy ambient wash — tints the entire hero like the Market Intelligence page */}
-          <div className="absolute inset-0 pointer-events-none"
-               style={{ background: "radial-gradient(ellipse 80% 60% at 20% 30%, rgba(58,11,16,0.55) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 80% 0%, rgba(58,11,16,0.45) 0%, transparent 65%)" }} />
+          <CinematicHero />
         </div>
 
         {/* Fine vertical rule on the left for editorial framing */}
@@ -137,12 +130,12 @@ export default function HomePage() {
             className="max-w-3xl"
           >
             <div className="eyebrow-line mb-6 sm:mb-10" data-testid="hero-overline">
-              <span className="text-[9px] sm:text-[10px] tracking-[0.4em] sm:tracking-[0.5em] uppercase text-white/60">Astitva · Kolkata · Est. 2026</span>
+              <span className="text-[9px] sm:text-[10px] tracking-[0.4em] sm:tracking-[0.5em] uppercase text-white/60">Astittva · Kolkata · Est. 2026</span>
             </div>
 
             <h1 className="section-title text-[1.9rem] leading-[1.08] sm:text-[3.25rem] lg:text-[5rem] sm:leading-[1] tracking-[-0.015em]">
               Invest With Confidence.
-              <span className="block mt-1.5 sm:mt-3"><span className="gold-text">Build your future</span> with Astitva.</span>
+              <span className="block mt-1.5 sm:mt-3"><span className="gold-text">Build your future</span> with Astittva.</span>
             </h1>
 
             <p className="mt-5 sm:mt-10 text-white/65 text-[14px] sm:text-base lg:text-lg max-w-xl leading-[1.65] sm:leading-[1.75] font-light">
@@ -188,12 +181,12 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ===================== WHY ASTITVA placeholder will follow ===================== */}
+      {/* ===================== WHY ASTITTVA placeholder will follow ===================== */}
       <section data-testid="why-astitva-section" className="relative py-16 sm:py-24 overflow-hidden">
         <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-16">
           <motion.div {...fadeUp} className="max-w-3xl mb-12 sm:mb-16">
             <div className="eyebrow-line mb-8">
-              <span className="text-[10px] tracking-[0.5em] uppercase text-white/50">The Astitva Difference</span>
+              <span className="text-[10px] tracking-[0.5em] uppercase text-white/50">The Astittva Difference</span>
             </div>
             <h2 className="section-title text-3xl sm:text-5xl lg:text-6xl leading-[1.05]">
               A new standard for real estate<br />
@@ -436,12 +429,12 @@ export default function HomePage() {
                 Need Immediate Property Advice?
               </h2>
               <p className="mt-5 sm:mt-6 text-muted-fg font-light leading-[1.85] text-base max-w-xl">
-                Talk directly with an Astitva advisor and receive project recommendations, pricing details, floor plans, investment guidance and site visit assistance.
+                Talk directly with an Astittva advisor and receive project recommendations, pricing details, floor plans, investment guidance and site visit assistance.
               </p>
             </div>
             <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-4">
               <a
-                href={whatsappLink("Hi Astitva, I'd like advice on premium properties.")}
+                href={whatsappLink("Hi Astittva, I'd like advice on premium properties.")}
                 target="_blank"
                 rel="noopener noreferrer"
                 data-testid="whatsapp-section-cta"
@@ -502,11 +495,11 @@ export default function HomePage() {
                   </div>
                   <h3 className="font-serif-display text-3xl sm:text-4xl text-ivory mb-4">Thank you.</h3>
                   <p className="text-white/60 font-light leading-[1.85] max-w-md mx-auto">
-                    Your request has been received. A senior Astitva advisor will reach out within one business day with a curated shortlist for you.
+                    Your request has been received. A senior Astittva advisor will reach out within one business day with a curated shortlist for you.
                   </p>
                   <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
                     <a
-                      href={whatsappLink("Hi Astitva, I just submitted a consultation request.")}
+                      href={whatsappLink("Hi Astittva, I just submitted a consultation request.")}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1ebe57] text-[#0a0a0a] py-3.5 px-6 text-xs tracking-[0.18em] uppercase font-medium transition"

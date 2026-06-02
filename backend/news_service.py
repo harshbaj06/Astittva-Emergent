@@ -44,8 +44,20 @@ TOPICS = {
 
 GROUPS = {
     "local": ["new_town", "rajarhat", "kolkata", "greater_kolkata", "west_bengal"],
-    "india": ["india_real_estate", "residential", "commercial", "luxury", "policy", "infrastructure", "metro", "smart_cities", "reit", "rbi"],
+    "india": ["india_real_estate", "residential", "commercial", "luxury", "policy", "infrastructure", "metro", "smart_cities", "reit", "rbi", "economy", "technology"],
     "global": ["global", "uae", "singapore", "london", "us", "wealth_migration"],
+}
+
+# State / country lookup
+STATE_BY_CITY = {
+    "New Town": "West Bengal", "Rajarhat": "West Bengal", "Kolkata": "West Bengal",
+    "Mumbai": "Maharashtra", "Pune": "Maharashtra",
+    "Delhi": "Delhi NCR", "Bengaluru": "Karnataka",
+    "Hyderabad": "Telangana", "Chennai": "Tamil Nadu",
+    "Ahmedabad": "Gujarat",
+    "Dubai": "Dubai", "Abu Dhabi": "Abu Dhabi",
+    "Singapore": "Singapore", "London": "Greater London",
+    "New York": "New York", "Hong Kong": "Hong Kong",
 }
 
 # Classification dictionaries
@@ -88,6 +100,8 @@ TOPIC_DEFAULTS = {
 
 CATEGORY_PATTERNS = [
     ("Infrastructure", r"\b(metro|rail|highway|airport|infrastructure|connectivity|corridor|bridge)\b"),
+    ("Technology", r"\b(proptech|fintech|ai|technology|digital|blockchain|smart\s*home)\b"),
+    ("Economy", r"\b(gdp|economy|inflation|rate\s*cut|economic\s*growth|fiscal)\b"),
     ("Luxury Property", r"\b(luxury|premium|ultra-luxury|hni|branded\s*residence|penthouse)\b"),
     ("Commercial Real Estate", r"\b(commercial|office|retail|warehouse|logistics|coworking|grade\s*a)\b"),
     ("Policy", r"\b(policy|government|rera|regulation|gst|stamp\s*duty|approval|legislat)\b"),
@@ -114,6 +128,8 @@ WHY_IT_MATTERS_BY_CAT = {
     "Policy": "Policy clarity reduces investor risk and unlocks fresh institutional capital flow into the sector.",
     "Investment": "Capital flow trends reveal where smart money is allocating — a leading indicator of the next 12-24 months.",
     "Residential": "Residential demand shifts reflect underlying employment and migration patterns — core to long-term appreciation.",
+    "Economy": "Macro-economic shifts directly influence interest rates, affordability and investor sentiment in real estate.",
+    "Technology": "PropTech adoption and digital infrastructure reshape pricing transparency and attract a new class of investor.",
 }
 
 
@@ -128,6 +144,11 @@ def classify(title: str, summary: str, topic: str) -> Dict:
             country = COUNTRY_BY_CITY.get(tag, country)
             break
 
+    state = STATE_BY_CITY.get(city, "")
+    # special-case West Bengal topic
+    if topic == "west_bengal" and not state:
+        state = "West Bengal"
+
     # Category
     category = ""
     for cat, pat in CATEGORY_PATTERNS:
@@ -135,12 +156,13 @@ def classify(title: str, summary: str, topic: str) -> Dict:
             category = cat
             break
     if not category:
-        # Map topic → category
         if topic in {"infrastructure", "metro", "smart_cities"}: category = "Infrastructure"
-        elif topic in {"commercial"}: category = "Commercial Real Estate"
-        elif topic in {"luxury"}: category = "Luxury Property"
-        elif topic in {"policy"}: category = "Policy"
+        elif topic == "commercial": category = "Commercial Real Estate"
+        elif topic == "luxury": category = "Luxury Property"
+        elif topic == "policy": category = "Policy"
         elif topic in {"reit", "rbi"}: category = "Investment"
+        elif topic == "economy": category = "Economy"
+        elif topic == "technology": category = "Technology"
         else: category = "Residential"
 
     # Impact
@@ -155,6 +177,7 @@ def classify(title: str, summary: str, topic: str) -> Dict:
 
     return {
         "city": city or "—",
+        "state": state or "—",
         "country": country or "—",
         "category": category,
         "impact": impact,

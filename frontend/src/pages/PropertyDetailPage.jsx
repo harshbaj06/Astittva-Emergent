@@ -155,7 +155,7 @@ export default function PropertyDetailPage() {
               </form>
               <div className="mt-6 pt-6 border-t border-copper/10 space-y-3">
                 <a
-                  href={whatsappLink(`Hi Astitva, I'm interested in ${property.project_name} (${property.city}). Please share details.`)}
+                  href={whatsappLink(`Hi Astittva, I'm interested in ${property.project_name} (${property.city}). Please share details.`)}
                   target="_blank"
                   rel="noopener noreferrer"
                   data-testid="property-whatsapp"

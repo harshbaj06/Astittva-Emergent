@@ -42,7 +42,7 @@ export default function Header() {
         <Link to="/" data-testid="logo-link" className="flex items-center gap-3 sm:gap-4 group">
           <img
             src={LOGO_URL}
-            alt="Astitva"
+            alt="Astittva"
             className="h-10 w-10 sm:h-12 sm:w-12 lg:h-14 lg:w-14 object-contain"
           />
           <div className="leading-tight border-l border-copper/15 pl-3 sm:pl-4">

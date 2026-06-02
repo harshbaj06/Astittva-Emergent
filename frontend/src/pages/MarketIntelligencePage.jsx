@@ -31,6 +31,8 @@ const FILTERS = [
   { key: "cat:Luxury Property", label: "Luxury" },
   { key: "cat:Policy", label: "Policy" },
   { key: "cat:Investment", label: "Investment" },
+  { key: "cat:Economy", label: "Economy" },
+  { key: "cat:Technology", label: "Technology" },
 ];
 
 const OPPORTUNITIES = [
@@ -118,7 +120,8 @@ function NewsCard({ a, idx }) {
       {/* Tag row */}
       <div className="flex flex-wrap items-center gap-1.5 mb-5">
         {a.city && a.city !== "—" && <Tag variant="geo">{a.city}</Tag>}
-        {a.country && a.country !== "—" && a.country !== a.city && <Tag variant="geo">{a.country}</Tag>}
+        {a.state && a.state !== "—" && a.state !== a.city && <Tag variant="geo">{a.state}</Tag>}
+        {a.country && a.country !== "—" && a.country !== a.city && a.country !== a.state && <Tag variant="geo">{a.country}</Tag>}
         {a.category && <Tag variant="cat">{a.category}</Tag>}
         <span className={`text-[9px] tracking-[0.3em] uppercase px-2.5 py-1 border ${imp.ring} ${imp.text} ${imp.bg} ml-auto`}>
           {a.impact} Impact
@@ -180,13 +183,13 @@ function NewsGrid({ articles, loading }) {
 function SEO() {
   useEffect(() => {
     const prevTitle = document.title;
-    document.title = "Market Intelligence · Kolkata Real Estate News & Investment Insights · Astitva";
+    document.title = "Market Intelligence · Kolkata Real Estate News & Investment Insights · Astittva";
     const ensureMeta = (name, content) => {
       let el = document.querySelector(`meta[name="${name}"]`);
       if (!el) { el = document.createElement("meta"); el.setAttribute("name", name); document.head.appendChild(el); }
       el.setAttribute("content", content);
     };
-    ensureMeta("description", "Live Kolkata real estate news, India property market trends, infrastructure updates, luxury property news and global investment insights — curated by Astitva.");
+    ensureMeta("description", "Live Kolkata real estate news, India property market trends, infrastructure updates, luxury property news and global investment insights — curated by Astittva.");
     ensureMeta("keywords", "Kolkata real estate news, India property market trends, real estate investment news India, luxury property news, New Town infrastructure updates, Rajarhat property updates, Indian real estate market");
     // Open Graph
     const ensureProp = (prop, content) => {
@@ -194,7 +197,7 @@ function SEO() {
       if (!el) { el = document.createElement("meta"); el.setAttribute("property", prop); document.head.appendChild(el); }
       el.setAttribute("content", content);
     };
-    ensureProp("og:title", "Market Intelligence · Astitva");
+    ensureProp("og:title", "Market Intelligence · Astittva");
     ensureProp("og:description", "Live insights on Kolkata, India and global luxury real estate markets.");
     ensureProp("og:type", "website");
     return () => { document.title = prevTitle; };
@@ -221,7 +224,7 @@ export default function MarketIntelligencePage() {
     if (activeFilter === "all") return all;
     const [k, v] = activeFilter.split(":");
     return all.filter((a) => {
-      if (k === "geo") return (a.city === v || a.country === v);
+      if (k === "geo") return (a.city === v || a.state === v || a.country === v);
       if (k === "country") {
         if (v === "Global") return a.country && a.country !== "India" && a.country !== "—";
         return a.country === v;
@@ -241,7 +244,7 @@ export default function MarketIntelligencePage() {
         <div className="relative max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-16">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9 }} className="max-w-4xl">
             <div className="eyebrow-line mb-6 sm:mb-8">
-              <span className="text-[10px] tracking-[0.5em] uppercase text-white/55">Astitva Intelligence Hub</span>
+              <span className="text-[10px] tracking-[0.5em] uppercase text-white/55">ASTITTVA Intelligence Hub</span>
             </div>
             <h1 className="section-title text-[2rem] sm:text-5xl lg:text-7xl leading-[1.05]">Market Intelligence</h1>
             <p className="mt-6 sm:mt-8 text-muted-fg text-base sm:text-lg max-w-3xl leading-[1.75] font-light">
@@ -415,7 +418,7 @@ export default function MarketIntelligencePage() {
           <motion.div {...fadeUp} className="mb-12 sm:mb-16 max-w-3xl">
             <div className="eyebrow-line mb-6"><span className="text-[10px] tracking-[0.5em] uppercase text-white/55">Section · 06 · Coverage</span></div>
             <h2 className="section-title text-3xl sm:text-4xl lg:text-5xl leading-[1.05]">Markets We Track.</h2>
-            <p className="mt-5 text-muted-fg font-light leading-[1.8]">Cities and corridors where Astitva sources opportunity for its investor network.</p>
+            <p className="mt-5 text-muted-fg font-light leading-[1.8]">Cities and corridors where Astittva sources opportunity for its investor network.</p>
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-px bg-white/[0.05]">
             {MARKETS.map((m, i) => (
@@ -457,7 +460,7 @@ export default function MarketIntelligencePage() {
             ))}
           </div>
           <div className="mt-14 sm:mt-16 text-center">
-            <Link to="/contact" className="btn-primary">Speak to an Astitva Advisor</Link>
+            <Link to="/contact" className="btn-primary">Speak to an Astittva Advisor</Link>
           </div>
         </div>
       </section>

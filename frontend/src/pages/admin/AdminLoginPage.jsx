@@ -33,8 +33,8 @@ export default function AdminLoginPage() {
     <div data-testid="admin-login-page" className="min-h-screen bg-charcoal flex items-center justify-center px-6 py-12">
       <div className="w-full max-w-md">
         <div className="text-center mb-10">
-          <img src={LOGO_URL} alt="Astitva" className="h-20 w-20 mx-auto mb-6 ring-1 ring-copper/40 object-cover" />
-          <div className="overline mb-2">Astitva Group</div>
+          <img src={LOGO_URL} alt="Astittva" className="h-20 w-20 mx-auto mb-6 ring-1 ring-copper/40 object-cover" />
+          <div className="overline mb-2">Astittva Group</div>
           <h1 className="font-display font-light text-3xl text-ivory">Admin Console</h1>
         </div>
 

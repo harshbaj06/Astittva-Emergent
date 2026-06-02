@@ -32,7 +32,7 @@ export default function FloatingWhatsApp() {
                 <MessageCircle className="w-4 h-4 text-[#25D366]" strokeWidth={1.5} />
               </div>
               <div>
-                <div className="text-ivory text-sm font-medium">Astitva Advisory</div>
+                <div className="text-ivory text-sm font-medium">Astittva Advisory</div>
                 <div className="text-white/40 text-[10px] tracking-[0.2em] uppercase">Replies within minutes</div>
               </div>
               <button
@@ -49,7 +49,7 @@ export default function FloatingWhatsApp() {
                 Hello! Looking to invest in <span className="text-copper">New Town, Rajarhat or Kolkata</span>? Our advisors will guide you to the right opportunity — verified, RERA-compliant, ready to view.
               </p>
               <a
-                href={whatsappLink("Hi Astitva, I'd like advice on premium properties in Kolkata.")}
+                href={whatsappLink("Hi Astittva, I'd like advice on premium properties in Kolkata.")}
                 target="_blank"
                 rel="noopener noreferrer"
                 data-testid="whatsapp-start-chat"
