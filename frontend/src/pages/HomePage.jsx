@@ -130,15 +130,24 @@ export default function HomePage() {
             className="max-w-3xl"
           >
             <div className="eyebrow-line mb-6 sm:mb-10" data-testid="hero-overline">
-              <span className="text-[9px] sm:text-[10px] tracking-[0.4em] sm:tracking-[0.5em] uppercase text-white/60">Astittva · Kolkata · Est. 2026</span>
+              <span
+                className="text-[9px] sm:text-[10px] tracking-[0.4em] sm:tracking-[0.5em] uppercase text-white/70"
+                style={{ textShadow: "0 1px 6px rgba(0,0,0,0.6)" }}
+              >Astittva · Kolkata · Est. 2026</span>
             </div>
 
-            <h1 className="section-title text-[1.9rem] leading-[1.08] sm:text-[3.25rem] lg:text-[5rem] sm:leading-[1] tracking-[-0.015em]">
+            <h1
+              className="section-title text-[1.9rem] leading-[1.08] sm:text-[3.25rem] lg:text-[5rem] sm:leading-[1] tracking-[-0.015em]"
+              style={{ textShadow: "0 2px 18px rgba(0,0,0,0.55), 0 1px 4px rgba(0,0,0,0.4)" }}
+            >
               Invest With Confidence.
               <span className="block mt-1.5 sm:mt-3"><span className="gold-text">Build your future</span> with Astittva.</span>
             </h1>
 
-            <p className="mt-5 sm:mt-10 text-white/65 text-[14px] sm:text-base lg:text-lg max-w-xl leading-[1.65] sm:leading-[1.75] font-light">
+            <p
+              className="mt-5 sm:mt-10 text-white/80 text-[14px] sm:text-base lg:text-lg max-w-xl leading-[1.65] sm:leading-[1.75] font-light"
+              style={{ textShadow: "0 2px 12px rgba(0,0,0,0.5)" }}
+            >
               Discover verified residential and commercial opportunities across Kolkata's fastest-growing real estate destinations — curated by advisors who measure success in decades, not deals.
             </p>
 

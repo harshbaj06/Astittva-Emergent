@@ -374,7 +374,7 @@ export default function MarketIntelligencePage() {
   }, [all, activeFilter]);
 
   return (
-    <div data-testid="market-intelligence-page" className="bg-charcoal text-ivory">
+    <div data-testid="market-intelligence-page" className="relative text-ivory">
       <SEO />
 
       {/* ============== HERO ============== */}

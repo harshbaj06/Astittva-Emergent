@@ -43,7 +43,7 @@ export default function ContactPage() {
   };
 
   return (
-    <div data-testid="contact-page" className="bg-charcoal text-ivory">
+    <div data-testid="contact-page" className="relative text-ivory">
       <section className="pt-32 sm:pt-40 pb-12 sm:pb-16 border-b border-copper/10">
         <div className="max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-16">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
