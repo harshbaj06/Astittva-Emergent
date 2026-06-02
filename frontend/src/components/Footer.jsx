@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin, Instagram, Linkedin, Facebook, ArrowRight, MessageCircle } from "lucide-react";
-import { whatsappLink, PHONE_DISPLAY, EMAIL } from "@/lib/site";
-
-const LOGO_URL = "https://customer-assets.emergentagent.com/job_astitva-luxury-1/artifacts/c212hx9z_ASTITTVA%20MARKETING%20FINAL.png";
+import { whatsappLink, PHONE_DISPLAY, EMAIL, LOGO_URL, BRAND_NAME, BRAND_TAGLINE } from "@/lib/site";
 
 export default function Footer() {
   return (
@@ -43,8 +41,8 @@ export default function Footer() {
             <div className="flex items-center gap-4 mb-8">
               <img src={LOGO_URL} alt="Astitva" className="h-14 w-14 sm:h-16 sm:w-16 object-contain" />
               <div className="border-l border-copper/15 pl-4">
-                <div className="font-serif-display tracking-[0.32em] text-ivory text-xl">ASTITVA</div>
-                <div className="text-copper/70 text-[9px] tracking-[0.5em] uppercase mt-1">Luxury Real Estate</div>
+                <div className="font-serif-display tracking-[0.32em] text-ivory text-xl">{BRAND_NAME}</div>
+                <div className="text-copper/70 text-[9px] tracking-[0.5em] uppercase mt-1">{BRAND_TAGLINE}</div>
               </div>
             </div>
             <p className="text-muted-fg text-sm leading-[1.9] font-light max-w-md">

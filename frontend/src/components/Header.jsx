@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
-
-const LOGO_URL = "https://customer-assets.emergentagent.com/job_astitva-luxury-1/artifacts/c212hx9z_ASTITTVA%20MARKETING%20FINAL.png";
+import { LOGO_URL, BRAND_NAME, BRAND_TAGLINE } from "@/lib/site";
 
 const nav = [
   { to: "/", label: "Home" },
@@ -47,8 +46,8 @@ export default function Header() {
             className="h-10 w-10 sm:h-12 sm:w-12 lg:h-14 lg:w-14 object-contain"
           />
           <div className="leading-tight border-l border-copper/15 pl-3 sm:pl-4">
-            <div className="text-ivory font-serif-display tracking-[0.32em] text-[13px] sm:text-base lg:text-lg">ASTITVA</div>
-            <div className="text-copper/70 text-[8px] sm:text-[9px] tracking-[0.5em] uppercase mt-0.5 hidden sm:block">Luxury Real Estate</div>
+            <div className="text-ivory font-serif-display tracking-[0.32em] text-[13px] sm:text-base lg:text-lg">{BRAND_NAME}</div>
+            <div className="text-copper/70 text-[8px] sm:text-[9px] tracking-[0.5em] uppercase mt-0.5 hidden sm:block">{BRAND_TAGLINE}</div>
           </div>
         </Link>
 

@@ -1,61 +1,56 @@
-# Astitva Real Estate — PRD
+# Astitva — Luxury Real Estate Platform · PRD
 
-## Problem Statement
-Build a premium luxury real estate platform for Astitva Real Estate — a real estate advisory and development company serving New Town, Rajarhat, and Kolkata, with a vision to expand to Greater Kolkata, West Bengal, India and global destinations.
-
-Brand personality: Luxury, Trustworthy, Sophisticated, Modern, Architectural, Premium, Investment-focused.
+## Brand
+- **Name:** ASTITVA (wordmark) · "Luxury Real Estate" (tagline)
+- **Logo:** Official Astitva monogram (copper "A" on burgundy)
+- **Palette:** Background #050505 · Card #0E0A0A · Copper #C47B3A · Copper-Hover #D58A47 · Burgundy #4A0F14 · Ivory #F5F2EE · Muted #9D948B
+- **Type:** Cormorant Garamond (display) · Poppins (headings) · Inter (body)
 
 ## Architecture
-- **Backend:** FastAPI + MongoDB (Motor async client) — `/api` prefix
-- **Frontend:** React 19, React Router v7, Framer Motion, Tailwind CSS, Sonner toasts
-- **Storage:** Emergent Object Storage for property images (uploaded via admin panel)
-- **Auth:** JWT (HttpOnly cookies + localStorage Bearer fallback) with role-based access (admin / sales / marketing)
-- **Design:** Dark luxury — Charcoal #1B1B1B, Copper #B87333, Rose Gold #C68E6D, Ivory #F8F5F1. Poppins + Cormorant Garamond + Inter typography.
-- **Imagery:** AI-generated Biswa Bangla Gate + City Centre 2 Rajarhat via Gemini Nano Banana (gemini-3.1-flash-image-preview).
+- **Backend:** FastAPI + MongoDB (Motor)
+- **Frontend:** React 19, React Router v7, Framer Motion, Tailwind, Sonner
+- **Storage:** Emergent Object Storage (property images)
+- **Auth:** JWT (HttpOnly cookies + Bearer fallback) · roles admin/sales/marketing
+- **News:** Google News RSS via `feedparser` cached in MongoDB (TTL 6h)
 
 ## What's been implemented
 
-### v1 (initial MVP)
-- ✅ FastAPI backend: auth, role-protected user CRUD, property CRUD with status workflow, leads, image upload, stats endpoint
-- ✅ Single-admin seeding (admin@astitva.com / Astitva@2026) + brute-force protection
-- ✅ 6 sample featured properties seeded
-- ✅ Public site: Home (all 8 sections), Properties listing, Property Detail, About, Contact
-- ✅ Admin panel: Login, Dashboard, Properties CRUD, Leads CRM, Users management
+### v1 — MVP
+- Auth + admin panel, properties CRUD, image upload, leads, multi-page site
 
-### v2 (Comprehensive UI/UX Audit & Refinement)
-- ✅ **Hero**: refined editorial layout, gold-text italic on "Build your future", reduced mobile headline by 30% with proper line breaks
-- ✅ **Trust Strip** below hero: RERA-Verified · Trusted Developer Partnerships · Senior Expert Advisory · End-to-End Investment Guidance
-- ✅ **Stats redesign**: Massive Cormorant numbers (5-6rem) — 12–18%, ₹40K Cr, 150+, 3rd
-- ✅ **Enriched Location Cards**: starting price (₹1.2 Cr / ₹35 L / ₹4.5 Cr), category chip (Luxury · Premium etc.), refined gradient overlay
-- ✅ **WhatsApp integration**: Floating green FAB bottom-right with expandable advisory card + dedicated "Need Property Advice?" CTA section + WhatsApp Inquiry button on each property detail page
-- ✅ **Lead form upgrade**: Added Budget field, trust bullets (No spam ever / Confidential / 24h response), elegant Thank-You state with WhatsApp follow-up CTA, inline error banner
-- ✅ **Mobile-first responsiveness**: hamburger drawer with Framer Motion animation + body-scroll lock, hero compressed to 100svh / 1.9rem headline, full-width stacked CTAs, lazy-loaded images, 48px tap targets, no horizontal scroll
-- ✅ **Header refinement**: smaller logo on mobile (h-9), serif drawer typography, active-state copper underline
+### v2 — UI/UX audit
+- Trust strip, redesigned stats, enriched location cards, WhatsApp integration (FAB + section + property), lead form upgrade (budget + thank-you state), full mobile responsiveness
 
-## User Personas
-1. **HNI / NRI Investor** — desktop research → WhatsApp first contact → consultation
-2. **Family Buyer** — mobile-first browsing → lead form → site visit
-3. **Business Owner** — quick discovery → phone/WhatsApp follow-up
-4. **Admin (super)** — manages users, properties, leads
-5. **Sales / Marketing** — manages properties & leads
+### v3 — Final premium polish (current)
+- ✅ Official Astitva logo (header + footer + favicon) · centralized in `/app/frontend/src/lib/site.js`
+- ✅ New luxury palette (#050505 bg, #C47B3A copper, #4A0F14 burgundy accents)
+- ✅ Header: added **MARKET INTELLIGENCE** nav; sharper kerning, sticky transparency, lg-breakpoint mobile menu
+- ✅ Footer: CTA strip (Book Consultation + WhatsApp), 4-column directory, market links incl. Market Intelligence
+- ✅ HomePage: 6 Why-Astitva pillars (RERA, Verified Developers, Expert Advisory, Legal Support, Site Visit Assistance, End-to-End Guidance) · updated WhatsApp section headline ("Need Immediate Property Advice?")
+- ✅ Contact: extended form (Preferred Locality / Investment Purpose / Property Type / Budget / Timeline) + Thank-You state + WhatsApp CTA
+- ✅ **Market Intelligence Page** with 8 sections:
+  1. Hero
+  2. Market Snapshot (6 cards) + Investment Signals (High/Medium/Low impact)
+  3. Trending News (live RSS)
+  4. Local Market Intelligence (New Town + Rajarhat + Kolkata + WB)
+  5. India Real Estate Intelligence (REIT, RBI, Policy, Infra)
+  6. Global Property Intelligence (Dubai/Singapore/London/US)
+  7. Investment Insights (curated cards + Today's Watchlist from live feed)
+  8. Future Expansion Tracker
+- ✅ Backend news service: `/api/news/trending`, `/api/news/group/{local|india|global}`, `/api/news/topics`, `/api/admin/news/refresh`
+- ✅ Extended Lead model with `preferred_locality`, `investment_purpose`, `property_type`, `timeline`
 
-## Test Results
-- v1: 32/32 backend pytest passing
-- v2: 34/34 backend pytest passing (+ 2 budget-field tests)
-- All frontend critical flows verified on desktop + mobile (390×844)
+## Tests
+- v1: 32 / 32 ✓
+- v2: 34 / 34 ✓ (+budget)
+- v3: **43 / 43 ✓** (+7 news + 1 extended lead test)
+- Frontend: all critical flows verified desktop + mobile (390×844) — zero issues
 
 ## Prioritised Backlog
-- **P1:** Email/SMS notification on new lead (Resend / Twilio)
-- **P1:** SEO meta tags + sitemap + structured data for properties
-- **P1:** Property comparison tool
-- **P1:** Investor Brochure PDF download (email-gated)
-- **P2:** Multi-language (Bengali / Hindi)
-- **P2:** Image gallery lightbox with zoom on property detail
+- **P1:** Resend email + Twilio SMS instant lead notifications
+- **P1:** SEO meta tags + sitemap + JSON-LD for properties
+- **P1:** Investor Brochure email-gate (per-property PDF download)
+- **P2:** Property comparison tool · Multi-language (Bengali / Hindi)
 - **P2:** Saved searches / favourites (investor login)
-- **P3:** Split HomePage.jsx into per-section components for maintainability
-- **P3:** ¥/₹/$ currency toggle for international visitors
-
-## Next Tasks
-- Implement P1 email notification (Resend)
-- Add SEO meta/sitemap
-- Investor brochure email-gate flow
+- **P3:** Currency toggle (₹/$/£) · Image gallery lightbox
+- **P3:** Refactor HomePage.jsx into per-section components
