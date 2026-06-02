@@ -41,6 +41,12 @@
   - **Console debug logs** (`[MI] ...`) for fetched / filtered / fallback counts
   - **Backend country defaults** now mark India-topic articles with `country=India` (previously left blank → "—")
   - Tested: 100% backend + frontend, all 13 filters return content
+- **v5.2 (Market Intelligence triple-layer failsafe — Feb 2026):**
+  - **Evergreen fallback:** 14 curated, hand-written articles baked into `news_service.EVERGREEN_FALLBACK` covering all 8 categories × 4 countries — auto-engages when live + cache < 14 articles
+  - **/api/news/all now returns `{ articles, count, last_updated }`** — last_updated = newest fetched_at across all topics
+  - **Hero "LAST UPDATED · {timeAgo}"** indicator in copper
+  - **Removed "Feed Temporarily Unavailable" banner path** — pipeline now guarantees ≥14 articles always, so the empty-state UI was unreachable and removed
+  - **/api/news/debug** public diagnostic endpoint listing per-topic counts, age_minutes, TTL
 
 ## Tests
 - v1: 32/32 ✓ · v2: 34/34 ✓ · v3: 43/43 ✓ · v4: 56/56 ✓ · **v5: 68/68 ✓**

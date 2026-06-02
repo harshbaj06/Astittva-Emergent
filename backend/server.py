@@ -25,7 +25,10 @@ from pydantic import BaseModel, Field, EmailStr, BeforeValidator, ConfigDict
 
 import io
 
-from news_service import fetch_topic, fetch_group, fetch_all_classified, TOPICS, GROUPS, CACHE_TTL_HOURS, ROLLING_ARCHIVE_LIMIT
+from news_service import (
+    fetch_topic, fetch_group, fetch_all_classified, latest_fetched_at,
+    TOPICS, GROUPS, CACHE_TTL_HOURS, ROLLING_ARCHIVE_LIMIT,
+)
 
 # ---------------------------------------------------------------------------
 # Config & Setup
@@ -633,7 +636,8 @@ async def news_trending():
 async def news_all():
     """Unified classified feed across all topics — for Market Intelligence filterable view."""
     articles = await fetch_all_classified(db)
-    return {"articles": articles}
+    last_updated = await latest_fetched_at(db)
+    return {"articles": articles, "last_updated": last_updated, "count": len(articles)}
 
 
 @api_router.get("/news/group/{group}")

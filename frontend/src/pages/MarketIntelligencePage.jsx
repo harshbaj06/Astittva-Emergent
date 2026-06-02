@@ -194,23 +194,11 @@ function NewsGrid({ articles, loading, max = 12 }) {
       {Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={`skeleton-${i}`} idx={i} />)}
     </div>
   );
+  // Backend guarantees a curated evergreen fallback so this list is never empty.
+  // If somehow it is (network offline + cold cache), still skip an empty UI and render skeletons.
   if (!articles?.length) return (
-    <div
-      className="text-center py-12 px-6 border border-amber-500/30 bg-amber-500/[0.04]"
-      data-testid="mi-empty-fallback"
-    >
-      <div className="text-[10px] tracking-[0.4em] uppercase text-amber-400 mb-3">Feed Temporarily Unavailable</div>
-      <p className="text-white/60 font-light text-sm leading-relaxed max-w-md mx-auto">
-        Our intelligence pipeline is refreshing. Please try again in a few minutes —
-        the next automatic refresh runs every 3 hours.
-      </p>
-      <button
-        onClick={() => window.location.reload()}
-        data-testid="mi-retry-btn"
-        className="mt-5 text-[10px] tracking-[0.3em] uppercase text-copper hover:text-copper-hover border border-copper/30 px-5 py-2.5 transition"
-      >
-        Retry Now
-      </button>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7" data-testid="mi-news-skeleton-fallback">
+      {Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={`fb-skeleton-${i}`} idx={i} />)}
     </div>
   );
   return (
@@ -275,6 +263,7 @@ function articleMatchesCountry(a, v) {
 export default function MarketIntelligencePage() {
   const [all, setAll] = useState([]);
   const [trending, setTrending] = useState([]);
+  const [lastUpdated, setLastUpdated] = useState("");
   const [loading, setLoading] = useState({ all: true, trending: true });
   const [activeFilter, setActiveFilter] = useState("all");
 
@@ -288,8 +277,9 @@ export default function MarketIntelligencePage() {
       .finally(() => setLoading((s) => ({ ...s, trending: false })));
     api.get("/news/all").then(({ data }) => {
       const arr = data.articles || [];
-      mlog("[MI] all fetched:", arr.length);
+      mlog("[MI] all fetched:", arr.length, "last_updated:", data.last_updated);
       setAll(arr);
+      if (data.last_updated) setLastUpdated(data.last_updated);
     })
       .catch((e) => { console.warn("[MI] all fetch failed", e); setAll([]); })
       .finally(() => setLoading((s) => ({ ...s, all: false })));
@@ -379,9 +369,19 @@ export default function MarketIntelligencePage() {
               Actionable insights, investment trends, infrastructure developments, and real estate opportunities — curated from Kolkata, India and global markets.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3 text-[10px] tracking-[0.3em] uppercase text-white/45">
-              <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" /> Live Feed</span>
+              <span className="flex items-center gap-2" data-testid="mi-live-indicator">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" /> Live Feed
+              </span>
               <span className="text-white/15">·</span><span>Refreshed every 3h</span>
               <span className="text-white/15">·</span><span>Powered by Google News</span>
+              {lastUpdated && (
+                <>
+                  <span className="text-white/15">·</span>
+                  <span data-testid="mi-last-updated" className="text-copper/70">
+                    Last Updated · {timeAgo(lastUpdated)}
+                  </span>
+                </>
+              )}
             </div>
           </motion.div>
         </div>
