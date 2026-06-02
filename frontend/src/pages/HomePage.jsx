@@ -127,8 +127,19 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-            className="max-w-3xl"
+            className="max-w-3xl relative"
           >
+            {/* Localized contrast halo behind hero copy — guarantees readability on any slide */}
+            <div
+              aria-hidden="true"
+              className="absolute -inset-x-8 -inset-y-10 sm:-inset-x-12 sm:-inset-y-14 -z-10 pointer-events-none"
+              style={{
+                background:
+                  "radial-gradient(ellipse 75% 70% at 30% 50%, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.30) 45%, transparent 78%)",
+                filter: "blur(8px)",
+              }}
+            />
+
             <div className="eyebrow-line mb-6 sm:mb-10" data-testid="hero-overline">
               <span
                 className="text-[9px] sm:text-[10px] tracking-[0.4em] sm:tracking-[0.5em] uppercase text-white/70"
@@ -155,7 +166,12 @@ export default function HomePage() {
               <Link to="/properties" data-testid="explore-properties-btn" className="btn-primary w-full sm:w-auto">
                 Explore Properties <ArrowRight className="w-3.5 h-3.5" />
               </Link>
-              <a href="#consultation" data-testid="book-consultation-btn" className="btn-ghost justify-center sm:justify-start w-full sm:w-auto">
+              <a
+                href="#consultation"
+                data-testid="book-consultation-btn"
+                className="btn-ghost justify-center sm:justify-start w-full sm:w-auto"
+                style={{ textShadow: "0 1px 6px rgba(0,0,0,0.7)" }}
+              >
                 Book a Consultation <ArrowRight className="w-3 h-3" />
               </a>
             </div>

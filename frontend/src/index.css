@@ -122,6 +122,9 @@
   background-clip: text;
   color: transparent;
   background-size: 200% auto;
+  /* drop-shadow works on the painted glyph (incl. gradient-clipped text) where
+     text-shadow does not — keeps the gold readable on bright hero backgrounds. */
+  filter: drop-shadow(0 2px 10px rgba(0,0,0,0.55)) drop-shadow(0 1px 3px rgba(0,0,0,0.7));
 }
 
 /* Subtle burgundy ambient — used at top of every page (luxury wine glow) */
