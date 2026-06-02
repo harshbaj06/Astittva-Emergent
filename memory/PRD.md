@@ -8,7 +8,7 @@
 - **Ambient:** Sitewide burgundy radial + copper sheen (`AmbientGlow` component)
 
 ## Architecture
-- **Backend:** FastAPI + MongoDB + feedparser (Google News RSS, 6h cache)
+- **Backend:** FastAPI + MongoDB + feedparser (Google News RSS, **3h cache, rolling archive**)
 - **Frontend:** React 19, React Router v7, Framer Motion, Tailwind
 - **Storage:** Emergent Object Storage
 - **Auth:** JWT (HttpOnly + Bearer fallback) · roles admin/sales/marketing
@@ -31,6 +31,16 @@
   - **2 new filter chips:** ECONOMY · TECHNOLOGY (with proper backend classification rules)
   - **CinematicHero**: rotating Kolkata landmarks every 6s with Ken Burns zoom + 1.6s crossfade + slide caption + progress dots — 6 hand-curated images (Biswa Bangla Gate, Howrah Bridge, Victoria Memorial, New Town Skyline, Eco Park, City Centre 2)
   - Page title updated to "Astittva · Luxury Real Estate Advisory · Kolkata"
+- **v5.1 (Market Intelligence resilience — Feb 2026):**
+  - **Multi-tag classification:** every keyword pattern adds a category (no early break) — articles surface in all relevant filters
+  - **Added missing topics:** `economy`, `technology` (queries against Google News RSS for India macro & PropTech)
+  - **Rolling archive cache:** `_merge_articles()` merges new+old, dedupes by link, keeps newest 100 per topic — empty/failed fetches never wipe data
+  - **TTL:** 3h (was 6h); failed refresh shortens retry window to 30 min instead of holding a full 3h lockout
+  - **Frontend fallback cascade:** when a filter returns 0, cascade to related-category → India → Global → latest — graceful banner ("No direct matches found. Showing the latest relevant market intelligence.") instead of empty state
+  - **Skeleton loaders** replace plain spinner during first uncached load
+  - **Console debug logs** (`[MI] ...`) for fetched / filtered / fallback counts
+  - **Backend country defaults** now mark India-topic articles with `country=India` (previously left blank → "—")
+  - Tested: 100% backend + frontend, all 13 filters return content
 
 ## Tests
 - v1: 32/32 ✓ · v2: 34/34 ✓ · v3: 43/43 ✓ · v4: 56/56 ✓ · **v5: 68/68 ✓**
