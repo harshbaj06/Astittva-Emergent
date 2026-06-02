@@ -1,56 +1,46 @@
-# Astitva — Luxury Real Estate Platform · PRD
+# Astitva — Luxury Real Estate Platform · PRD (v4)
 
 ## Brand
-- **Name:** ASTITVA (wordmark) · "Luxury Real Estate" (tagline)
-- **Logo:** Official Astitva monogram (copper "A" on burgundy)
-- **Palette:** Background #050505 · Card #0E0A0A · Copper #C47B3A · Copper-Hover #D58A47 · Burgundy #4A0F14 · Ivory #F5F2EE · Muted #9D948B
+- **Wordmark:** ASTITVA (single line, no tagline below)
+- **Logo:** Official Astitva monogram (copper A on burgundy)
+- **Palette (final):** Background #050505 · Burgundy #2A0608 · Deep Wine #3A0B10 · Copper #C68642 · Rose Gold #D4A373 · Warm Gold #B7792E · Ivory #F7F3EE · Muted #B8AEA4
 - **Type:** Cormorant Garamond (display) · Poppins (headings) · Inter (body)
+- **Ambient:** Sitewide burgundy radial glow + copper sheen behind every public page (Aman / Sotheby's editorial atmosphere)
 
 ## Architecture
-- **Backend:** FastAPI + MongoDB (Motor)
+- **Backend:** FastAPI + MongoDB + Motor + feedparser
 - **Frontend:** React 19, React Router v7, Framer Motion, Tailwind, Sonner
-- **Storage:** Emergent Object Storage (property images)
+- **Storage:** Emergent Object Storage
 - **Auth:** JWT (HttpOnly cookies + Bearer fallback) · roles admin/sales/marketing
-- **News:** Google News RSS via `feedparser` cached in MongoDB (TTL 6h)
+- **News:** Google News RSS via feedparser, classified (city/country/category/impact + why-it-matters), cached 6h in MongoDB
 
 ## What's been implemented
 
-### v1 — MVP
-- Auth + admin panel, properties CRUD, image upload, leads, multi-page site
-
-### v2 — UI/UX audit
-- Trust strip, redesigned stats, enriched location cards, WhatsApp integration (FAB + section + property), lead form upgrade (budget + thank-you state), full mobile responsiveness
-
-### v3 — Final premium polish (current)
-- ✅ Official Astitva logo (header + footer + favicon) · centralized in `/app/frontend/src/lib/site.js`
-- ✅ New luxury palette (#050505 bg, #C47B3A copper, #4A0F14 burgundy accents)
-- ✅ Header: added **MARKET INTELLIGENCE** nav; sharper kerning, sticky transparency, lg-breakpoint mobile menu
-- ✅ Footer: CTA strip (Book Consultation + WhatsApp), 4-column directory, market links incl. Market Intelligence
-- ✅ HomePage: 6 Why-Astitva pillars (RERA, Verified Developers, Expert Advisory, Legal Support, Site Visit Assistance, End-to-End Guidance) · updated WhatsApp section headline ("Need Immediate Property Advice?")
-- ✅ Contact: extended form (Preferred Locality / Investment Purpose / Property Type / Budget / Timeline) + Thank-You state + WhatsApp CTA
-- ✅ **Market Intelligence Page** with 8 sections:
-  1. Hero
-  2. Market Snapshot (6 cards) + Investment Signals (High/Medium/Low impact)
-  3. Trending News (live RSS)
-  4. Local Market Intelligence (New Town + Rajarhat + Kolkata + WB)
-  5. India Real Estate Intelligence (REIT, RBI, Policy, Infra)
-  6. Global Property Intelligence (Dubai/Singapore/London/US)
-  7. Investment Insights (curated cards + Today's Watchlist from live feed)
-  8. Future Expansion Tracker
-- ✅ Backend news service: `/api/news/trending`, `/api/news/group/{local|india|global}`, `/api/news/topics`, `/api/admin/news/refresh`
-- ✅ Extended Lead model with `preferred_locality`, `investment_purpose`, `property_type`, `timeline`
+- **v1:** MVP backend + admin + multi-page site
+- **v2:** UI/UX refinement (trust strip, huge stats, enriched locations, WhatsApp integration, lead form upgrade)
+- **v3:** New logo, deeper palette, Market Intelligence page (8 sections, live RSS), extended contact form
+- **v4 (current):** Final brand consistency
+  - Deeper burgundy palette + sitewide AmbientGlow component
+  - Header & Footer: ASTITVA wordmark only (tagline removed)
+  - Home hero: burgundy radial overlay tinting the dramatic Biswa Bangla Gate
+  - Market Intelligence v2:
+    - Classified news cards (City · Country · Category tags + High/Medium/Low Impact pill)
+    - "Why It Matters" insight card on every High-Impact article
+    - **Filter bar**: All · Kolkata · West Bengal · India · Global · Infrastructure · Residential · Commercial · Luxury · Policy · Investment
+    - **Market Opportunities** section (6 curated cards: Location · Asset · Horizon · Risk · Upside)
+    - **Markets We Track** section (5 country cards with flags: India · UAE · Singapore · UK · USA)
+    - SEO meta (title + description + keywords + Open Graph) via React useEffect
 
 ## Tests
-- v1: 32 / 32 ✓
-- v2: 34 / 34 ✓ (+budget)
-- v3: **43 / 43 ✓** (+7 news + 1 extended lead test)
-- Frontend: all critical flows verified desktop + mobile (390×844) — zero issues
+- v1: 32 / 32 ✓ · v2: 34 / 34 ✓ · v3: 43 / 43 ✓ · v4: **56 / 56 ✓**
+- Mobile verified at 375 / 390 / 414 — zero overflow, single-column stacking, scrollable filter bar
+- Brand colors verified by playwright: body=#050505, primary button=#C68642, tagline absent, ambient glow rendered
 
 ## Prioritised Backlog
-- **P1:** Resend email + Twilio SMS instant lead notifications
-- **P1:** SEO meta tags + sitemap + JSON-LD for properties
-- **P1:** Investor Brochure email-gate (per-property PDF download)
-- **P2:** Property comparison tool · Multi-language (Bengali / Hindi)
-- **P2:** Saved searches / favourites (investor login)
-- **P3:** Currency toggle (₹/$/£) · Image gallery lightbox
-- **P3:** Refactor HomePage.jsx into per-section components
+- **P1:** Resend instant-email + Twilio SMS on new lead
+- **P1:** JSON-LD structured data on property pages + sitemap.xml
+- **P1:** Investor brochure PDF email-gate
+- **P2:** Property comparison · saved searches · favourites
+- **P2:** Multi-language (Bengali / Hindi)
+- **P3:** Currency toggle (₹/$/£) · Image lightbox · Split HomePage into per-section components
+- **P3:** react-helmet-async for cleaner SEO management across routes

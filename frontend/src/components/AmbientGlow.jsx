@@ -5,7 +5,7 @@
  */
 export default function AmbientGlow() {
   return (
-    <div className="pointer-events-none fixed inset-x-0 top-0 z-0 h-[820px] overflow-hidden">
+    <div aria-hidden="true" className="pointer-events-none fixed inset-x-0 top-0 z-0 h-[820px] overflow-hidden">
       {/* Primary burgundy ellipse — top center, large */}
       <div className="absolute inset-0 burgundy-gradient" />
       {/* Soft copper sheen — left */}
