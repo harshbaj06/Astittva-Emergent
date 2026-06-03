@@ -1,8 +1,7 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
+import { LOGO_URL } from "@/lib/site";
 import { LayoutDashboard, Building2, Users, Inbox, LogOut } from "lucide-react";
-
-const LOGO_URL = "https://customer-assets.emergentagent.com/job_50ac1e2c-4ee3-4d48-ad5e-fd37063ae3c0/artifacts/13645h8f_Astittva%20group%20logo.jpeg";
 
 export default function AdminLayout() {
   const { user, logout } = useAuth();
@@ -25,7 +24,7 @@ export default function AdminLayout() {
       <aside data-testid="admin-sidebar" className="w-64 border-r border-copper/15 bg-charcoal-2/30 flex flex-col">
         <div className="p-6 border-b border-copper/15">
           <div className="flex items-center gap-3">
-            <img src={LOGO_URL} alt="Astittva" className="h-10 w-10 ring-1 ring-copper/40 object-cover" />
+            <img src={LOGO_URL} alt="Astittva" className="h-10 w-10 object-contain" />
             <div className="leading-tight">
               <div className="text-ivory font-display tracking-[0.25em] text-xs">ASTITTVA</div>
               <div className="text-copper text-[10px] tracking-[0.4em]">ADMIN</div>
