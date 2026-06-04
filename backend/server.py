@@ -230,8 +230,8 @@ class PropertyIn(BaseModel):
     city: str
     starting_price: Optional[float] = None
     price_label: Optional[str] = ""
-    property_type: str  # Residential / Commercial / Villa / Apartment / Plot
-    property_category: Optional[str] = ""  # Luxury / Premium / Affordable
+    property_type: str  # Residential / Commercial / Retail / Office Space / Villa / Apartment / Penthouse / Plot
+    property_category: Optional[str] = ""  # Luxury / Ultra Luxury / Investment / Commercial / Waterfront / Golf Facing / Smart Home
     description: str
     images: List[str] = Field(default_factory=list)  # storage paths
     rera_number: Optional[str] = ""
@@ -240,7 +240,8 @@ class PropertyIn(BaseModel):
     bedrooms: Optional[str] = ""
     area_sqft: Optional[str] = ""
     amenities: List[str] = Field(default_factory=list)
-    status: str = "draft"  # draft / published / unpublished
+    status: str = "draft"  # draft / published / unpublished (publication state)
+    availability: Optional[str] = "Under Construction"  # Ready To Move / Under Construction / New Launch / Sold Out
     is_featured: bool = False
 
 
@@ -423,19 +424,39 @@ def serialize_property(doc: dict) -> dict:
 @api_router.get("/properties")
 async def list_properties(
     city: Optional[str] = None,
+    location: Optional[str] = None,
     property_type: Optional[str] = None,
     category: Optional[str] = None,
+    builder: Optional[str] = None,
+    availability: Optional[str] = None,
+    min_price: Optional[float] = None,
+    max_price: Optional[float] = None,
     featured: Optional[bool] = None,
-    limit: int = 50,
+    limit: int = 100,
 ):
-    """Public endpoint - only returns published properties."""
+    """Public endpoint - only returns published properties. All filters AND-combined."""
     query: dict = {"status": "published"}
     if city:
         query["city"] = city
+    if location:
+        # Match against the location field OR the city field — luxury micro-markets
+        # like "New Town" / "Action Area II" can live in either column historically.
+        query["$or"] = [{"location": location}, {"city": location}]
     if property_type:
         query["property_type"] = property_type
     if category:
         query["property_category"] = category
+    if builder:
+        query["builder"] = builder
+    if availability:
+        query["availability"] = availability
+    if min_price is not None or max_price is not None:
+        price_q: dict = {}
+        if min_price is not None:
+            price_q["$gte"] = float(min_price)
+        if max_price is not None:
+            price_q["$lte"] = float(max_price)
+        query["starting_price"] = price_q
     if featured is not None:
         query["is_featured"] = featured
     docs = await db.properties.find(query).sort("created_at", -1).to_list(limit)

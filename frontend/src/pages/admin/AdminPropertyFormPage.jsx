@@ -22,6 +22,7 @@ const emptyProperty = {
   area_sqft: "",
   amenities: [],
   status: "draft",
+  availability: "Under Construction",
   is_featured: false,
 };
 
@@ -148,8 +149,11 @@ export default function AdminPropertyFormPage() {
               <select required data-testid="form-type" className="input-filled" value={form.property_type} onChange={(e) => set("property_type", e.target.value)}>
                 <option>Residential</option>
                 <option>Commercial</option>
+                <option>Retail</option>
+                <option>Office Space</option>
                 <option>Villa</option>
                 <option>Apartment</option>
+                <option>Penthouse</option>
                 <option>Plot</option>
               </select>
             </div>
@@ -157,8 +161,21 @@ export default function AdminPropertyFormPage() {
               <label className="input-label">Property Category</label>
               <select data-testid="form-category" className="input-filled" value={form.property_category} onChange={(e) => set("property_category", e.target.value)}>
                 <option>Luxury</option>
-                <option>Premium</option>
-                <option>Affordable</option>
+                <option>Ultra Luxury</option>
+                <option>Investment</option>
+                <option>Commercial</option>
+                <option>Waterfront</option>
+                <option>Golf Facing</option>
+                <option>Smart Home</option>
+              </select>
+            </div>
+            <div>
+              <label className="input-label">Availability</label>
+              <select data-testid="form-availability" className="input-filled" value={form.availability} onChange={(e) => set("availability", e.target.value)}>
+                <option>Ready To Move</option>
+                <option>Under Construction</option>
+                <option>New Launch</option>
+                <option>Sold Out</option>
               </select>
             </div>
             <div>
