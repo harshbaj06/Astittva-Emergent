@@ -82,22 +82,27 @@ export default function Footer() {
         <div className="relative max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-16 py-16 sm:py-20">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
             <div className="md:col-span-5">
-              {/* Premium brand card — high-contrast, intentional luxury presence */}
+              {/* Brand signature — mobile: clean stacked signature, no card.
+                  Desktop: subtle premium card with softened border (70% lighter than v1). */}
               <div
-                className="inline-flex items-center gap-5 p-6 sm:p-7 rounded-2xl mb-7 max-w-full"
-                style={{
-                  background: "rgba(255,255,255,0.03)",
-                  border: "1px solid rgba(199,139,71,0.18)",
-                  backdropFilter: "blur(8px)",
-                }}
+                className="
+                  flex flex-col items-start gap-5 mb-8 max-w-full
+                  md:inline-flex md:flex-row md:items-center md:gap-5
+                  md:p-7 md:rounded-2xl md:mb-7
+                  md:bg-[rgba(255,255,255,0.025)]
+                  md:border md:border-[rgba(199,139,71,0.05)]
+                "
               >
-                <img src={LOGO_URL} alt="Astittva Marketing" className="h-[72px] w-[72px] sm:h-[88px] sm:w-[88px] object-contain shrink-0" />
-                <div className="border-l border-[#C78B47]/45 pl-5">
+                <img
+                  src={LOGO_URL}
+                  alt="Astittva Marketing"
+                  className="h-[68px] w-[68px] sm:h-[80px] sm:w-[80px] md:h-[88px] md:w-[88px] object-contain shrink-0"
+                />
+                <div className="md:border-l md:border-[#C78B47]/40 md:pl-5">
                   <div
-                    className="font-serif-display"
+                    className="font-serif-display text-[1.35rem] sm:text-[1.55rem] md:text-[1.6rem]"
                     style={{
                       color: "#F5EFE7",
-                      fontSize: "1.6rem",
                       letterSpacing: "0.18em",
                       fontWeight: 600,
                       lineHeight: 1.1,
@@ -107,13 +112,13 @@ export default function Footer() {
                     ASTITTVA MARKETING
                   </div>
                   <div
+                    className="text-[10px] sm:text-[11px]"
                     style={{
                       color: "#C78B47",
-                      fontSize: "11px",
                       letterSpacing: "0.42em",
                       textTransform: "uppercase",
                       fontWeight: 600,
-                      marginTop: "8px",
+                      marginTop: "10px",
                     }}
                   >
                     Luxury Real Estate Advisory
