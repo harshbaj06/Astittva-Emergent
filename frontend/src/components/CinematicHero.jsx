@@ -73,20 +73,20 @@ export default function CinematicHero() {
         style={{ background: "linear-gradient(180deg, rgba(250,248,245,0.0) 0%, rgba(250,248,245,0.55) 70%, #FAF8F5 100%)" }}
       />
 
-      {/* Editorial readability gradient — invisible to the eye, designed so that
-          the user notices the headline, never the overlay itself. */}
+      {/* Editorial readability gradient — reduced 35% so the photo dominates.
+          User notices the photograph first, the overlay second. */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "linear-gradient(90deg, rgba(26,26,26,0.42) 0%, rgba(26,26,26,0.28) 18%, rgba(26,26,26,0.12) 38%, rgba(26,26,26,0.03) 60%, transparent 80%)",
+            "linear-gradient(90deg, rgba(26,26,26,0.27) 0%, rgba(26,26,26,0.18) 18%, rgba(26,26,26,0.08) 38%, rgba(26,26,26,0.02) 60%, transparent 80%)",
         }}
       />
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(circle at left center, rgba(92,20,33,0.08), transparent 70%)",
+            "radial-gradient(circle at left center, rgba(92,20,33,0.05), transparent 70%)",
         }}
       />
 
