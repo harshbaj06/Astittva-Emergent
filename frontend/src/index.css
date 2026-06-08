@@ -125,14 +125,12 @@
 .gold-text {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
-  font-weight: 500;
+  font-weight: 600;
   background: linear-gradient(135deg, #B87333 0%, #D9A063 50%, #B87333 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   background-size: 200% auto;
-  /* light theme — soft warm drop-shadow for hero contrast on photographs */
-  filter: drop-shadow(0 1px 6px rgba(94,31,40,0.25)) drop-shadow(0 1px 2px rgba(184,115,51,0.20));
 }
 
 /* Soft warm radial ambient — replaces the heavy burgundy wash from dark theme */
@@ -218,8 +216,13 @@
 }
 .btn-ghost:hover { color: #5E1F28; }
 @media (min-width: 640px) {
-  .btn-ghost { padding: 0 0 0.4rem 0; border: none; border-bottom: 1px solid transparent; min-height: auto; }
-  .btn-ghost:hover { border-bottom-color: #B87333; }
+  .btn-ghost {
+    padding: 0 0 0.5rem 0;
+    border: none;
+    border-bottom: 1px solid rgba(184,115,51,0.45);
+    min-height: auto;
+  }
+  .btn-ghost:hover { border-bottom-color: #5E1F28; color: #5E1F28; }
 }
 
 /* ────────────────────────────────────────────────────────────────
@@ -281,10 +284,58 @@ label.input-label {
 
 .section-title {
   font-family: 'Cormorant Garamond', serif;
-  font-weight: 400;
-  letter-spacing: -0.01em;
+  font-weight: 500;
+  letter-spacing: -0.02em;
   color: #1C1C1C;
-  line-height: 1.05;
+  line-height: 1.02;
+}
+
+/* World-class display headline — Sotheby's / Aman / Christie's caliber.
+   Heavy serif, tight letterspacing, deep charcoal. */
+.display-headline {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 0.98;
+  color: #1C1C1C;
+}
+
+/* Authoritative section eyebrow — small, copper, generously letterspaced. */
+.section-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #B87333;
+}
+.section-eyebrow::before {
+  content: "";
+  width: 32px;
+  height: 1px;
+  background: #B87333;
+}
+
+/* Premium body — Inter, slightly larger, more contrasted than the airy default. */
+.body-luxe {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: #2A2A2A;
+  letter-spacing: 0.005em;
+}
+
+/* HERO IMAGE BLEND OVERLAY — warm golden wash that makes any photograph
+   harmonize with the ivory page. Used by CinematicHero on top of slides. */
+.hero-golden-wash {
+  background:
+    linear-gradient(180deg, rgba(250,248,245,0.0) 0%, rgba(250,248,245,0.10) 40%, rgba(250,248,245,0.80) 88%, #FAF8F5 100%),
+    linear-gradient(95deg, rgba(250,248,245,0.45) 0%, rgba(250,248,245,0.10) 45%, rgba(250,248,245,0.0) 70%),
+    radial-gradient(ellipse 70% 60% at 50% 25%, rgba(184,115,51,0.10) 0%, transparent 75%);
 }
 
 .hairline {

@@ -49,7 +49,6 @@ export default function Header() {
           />
           <div className="leading-tight border-l border-copper/25 pl-3 sm:pl-4">
             <div className="text-[#1C1C1C] font-serif-display tracking-[0.22em] sm:tracking-[0.26em] text-[12px] sm:text-sm lg:text-base font-medium">{BRAND_NAME}</div>
-            <div className="text-[#B87333] text-[8px] sm:text-[9px] tracking-[0.4em] uppercase mt-0.5">Kolkata</div>
           </div>
         </Link>
 

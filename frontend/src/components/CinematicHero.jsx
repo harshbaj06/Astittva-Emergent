@@ -66,24 +66,17 @@ export default function CinematicHero() {
         );
       })}
 
-      {/* Top burgundy glow — landmark photography stays clear */}
-      <div
-        className="absolute inset-x-0 top-0 h-[55%] pointer-events-none"
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(90,10,20,0.30) 0%, rgba(90,10,20,0.15) 30%, transparent 70%)",
-        }}
-      />
-      {/* Subtle left wash so hero copy stays readable, lighter than before */}
-      <div className="absolute inset-y-0 left-0 w-[55%] bg-gradient-to-r from-[#0a0306]/65 via-[#0a0306]/30 to-transparent pointer-events-none" />
-      {/* Bottom fade into page */}
-      <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-b from-transparent to-[#050505] pointer-events-none" />
+      {/* Warm golden wash — blends the photograph into the ivory page below.
+          Top stays clear for photographic impact, bottom fades to page bg #FAF8F5. */}
+      <div className="absolute inset-0 hero-golden-wash pointer-events-none" />
+
+      {/* Subtle left content wash so hero copy stays crisp on bright photographs */}
+      <div className="absolute inset-y-0 left-0 w-[58%] bg-gradient-to-r from-white/70 via-white/35 to-transparent pointer-events-none" />
 
       {/* Slide caption + progress dots — bottom right (desktop only) */}
       <div className="absolute bottom-8 right-8 lg:right-16 hidden md:flex flex-col items-end gap-3 pointer-events-none z-10">
         <div
-          className="text-[10px] tracking-[0.4em] uppercase text-white/75"
-          style={{ textShadow: "0 1px 8px rgba(0,0,0,0.55)" }}
+          className="text-[10px] tracking-[0.4em] uppercase text-[#1C1C1C]/70 font-medium"
         >
           {SLIDES[idx].caption}
         </div>
@@ -92,7 +85,7 @@ export default function CinematicHero() {
             <span
               key={s.src}
               className={`h-px transition-all duration-500 ${
-                i === idx ? "w-8 bg-copper" : "w-4 bg-white/20"
+                i === idx ? "w-8 bg-copper" : "w-4 bg-[#1C1C1C]/20"
               }`}
             />
           ))}

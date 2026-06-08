@@ -142,22 +142,19 @@ export default function HomePage() {
 
             <div className="eyebrow-line mb-6 sm:mb-10" data-testid="hero-overline">
               <span
-                className="text-[9px] sm:text-[10px] tracking-[0.4em] sm:tracking-[0.5em] uppercase text-white/70"
-                style={{ textShadow: "0 1px 6px rgba(0,0,0,0.6)" }}
-              >Astittva Marketing · Kolkata · Est. 2026</span>
+                className="text-[9px] sm:text-[10px] tracking-[0.4em] sm:tracking-[0.5em] uppercase text-[#5E1F28] font-semibold"
+              >Astittva Marketing · Est. 2026</span>
             </div>
 
             <h1
-              className="section-title text-[1.9rem] leading-[1.08] sm:text-[3.25rem] lg:text-[5rem] sm:leading-[1] tracking-[-0.015em]"
-              style={{ textShadow: "0 2px 18px rgba(0,0,0,0.55), 0 1px 4px rgba(0,0,0,0.4)" }}
+              className="display-headline text-[2.1rem] leading-[0.98] sm:text-[3.5rem] lg:text-[5.25rem] tracking-[-0.03em]"
             >
               Invest With Confidence.
-              <span className="block mt-1.5 sm:mt-3"><span className="gold-text">Build your future</span> with Astittva Marketing.</span>
+              <span className="block mt-1.5 sm:mt-3"><span className="gold-text">Build your future</span> <span className="text-[#1C1C1C]">with Astittva Marketing.</span></span>
             </h1>
 
             <p
-              className="mt-5 sm:mt-10 text-white/80 text-[14px] sm:text-base lg:text-lg max-w-xl leading-[1.65] sm:leading-[1.75] font-light"
-              style={{ textShadow: "0 2px 12px rgba(0,0,0,0.5)" }}
+              className="mt-5 sm:mt-9 text-[#2A2A2A] text-[15px] sm:text-base lg:text-lg max-w-xl leading-[1.75] font-normal"
             >
               Discover verified residential and commercial opportunities across Kolkata&apos;s fastest-growing real estate destinations — curated by advisors who measure success in decades, not deals.
             </p>
@@ -170,7 +167,6 @@ export default function HomePage() {
                 href="#consultation"
                 data-testid="book-consultation-btn"
                 className="btn-ghost justify-center sm:justify-start w-full sm:w-auto"
-                style={{ textShadow: "0 1px 6px rgba(0,0,0,0.7)" }}
               >
                 Book a Consultation <ArrowRight className="w-3 h-3" />
               </a>
