@@ -67,12 +67,17 @@ export default function CinematicHero() {
         );
       })}
 
-      {/* Warm golden wash — blends the photograph into the ivory page below.
-          Top stays clear for photographic impact, bottom fades to page bg #FAF8F5. */}
-      <div className="absolute inset-0 hero-golden-wash pointer-events-none" />
+      {/* Subtle bottom fade into page — keeps photo dominant */}
+      <div
+        className="absolute inset-x-0 bottom-0 h-[38%] pointer-events-none"
+        style={{ background: "linear-gradient(180deg, rgba(250,248,245,0.0) 0%, rgba(250,248,245,0.55) 70%, #FAF8F5 100%)" }}
+      />
 
-      {/* Subtle left content wash so hero copy stays crisp on bright photographs */}
-      <div className="absolute inset-y-0 left-0 w-[58%] bg-gradient-to-r from-white/70 via-white/35 to-transparent pointer-events-none" />
+      {/* Focused vignette behind hero copy only — protects typography on bright slides */}
+      <div
+        className="absolute inset-y-0 left-0 w-[48%] pointer-events-none"
+        style={{ background: "linear-gradient(95deg, rgba(28,16,18,0.50) 0%, rgba(28,16,18,0.28) 30%, rgba(28,16,18,0.10) 55%, transparent 80%)" }}
+      />
 
       {/* Slide caption + progress dots — bottom right (desktop only) */}
       <div className="absolute bottom-8 right-8 lg:right-16 hidden md:flex flex-col items-end gap-3 pointer-events-none z-10">

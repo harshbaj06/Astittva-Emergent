@@ -291,13 +291,13 @@ label.input-label {
 }
 
 /* World-class display headline — Sotheby's / Aman / Christie's caliber.
-   Heavy serif, tight letterspacing, deep charcoal. */
+   Heavy serif, tight letterspacing. Color is set by the consumer so the
+   same class works on both light pages and over photographic heroes. */
 .display-headline {
   font-family: 'Cormorant Garamond', serif;
   font-weight: 600;
   letter-spacing: -0.025em;
   line-height: 0.98;
-  color: #1C1C1C;
 }
 
 /* Authoritative section eyebrow — small, copper, generously letterspaced. */

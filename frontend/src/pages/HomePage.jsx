@@ -142,19 +142,22 @@ export default function HomePage() {
 
             <div className="eyebrow-line mb-6 sm:mb-10" data-testid="hero-overline">
               <span
-                className="text-[9px] sm:text-[10px] tracking-[0.4em] sm:tracking-[0.5em] uppercase text-[#5E1F28] font-semibold"
+                className="text-[9px] sm:text-[10px] tracking-[0.4em] sm:tracking-[0.5em] uppercase text-white/85 font-semibold"
+                style={{ textShadow: "0 1px 8px rgba(0,0,0,0.5)" }}
               >Astittva Marketing · Est. 2026</span>
             </div>
 
             <h1
-              className="display-headline text-[2.1rem] leading-[0.98] sm:text-[3.5rem] lg:text-[5.25rem] tracking-[-0.03em]"
+              className="display-headline text-[2.1rem] leading-[0.98] sm:text-[3.5rem] lg:text-[5.25rem] tracking-[-0.03em] text-white"
+              style={{ textShadow: "0 2px 24px rgba(0,0,0,0.45), 0 1px 4px rgba(0,0,0,0.3)" }}
             >
               Invest With Confidence.
-              <span className="block mt-1.5 sm:mt-3"><span className="gold-text">Build your future</span> <span className="text-[#1C1C1C]">with Astittva Marketing.</span></span>
+              <span className="block mt-1.5 sm:mt-3"><span className="gold-text">Build your future</span> with Astittva Marketing.</span>
             </h1>
 
             <p
-              className="mt-5 sm:mt-9 text-[#2A2A2A] text-[15px] sm:text-base lg:text-lg max-w-xl leading-[1.75] font-normal"
+              className="mt-5 sm:mt-9 text-white/90 text-[15px] sm:text-base lg:text-lg max-w-xl leading-[1.75] font-normal"
+              style={{ textShadow: "0 1px 12px rgba(0,0,0,0.5)" }}
             >
               Discover verified residential and commercial opportunities across Kolkata&apos;s fastest-growing real estate destinations — curated by advisors who measure success in decades, not deals.
             </p>
@@ -166,7 +169,7 @@ export default function HomePage() {
               <a
                 href="#consultation"
                 data-testid="book-consultation-btn"
-                className="btn-ghost justify-center sm:justify-start w-full sm:w-auto"
+                className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-7 py-4 text-[10.5px] tracking-[0.3em] uppercase font-medium bg-white/10 backdrop-blur-md border border-white/70 text-white hover:bg-white hover:text-[#1C1C1C] transition-all duration-300"
               >
                 Book a Consultation <ArrowRight className="w-3 h-3" />
               </a>

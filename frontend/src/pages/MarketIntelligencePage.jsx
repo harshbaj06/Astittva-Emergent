@@ -88,12 +88,11 @@ function timeAgo(iso) {
   return new Date(iso).toLocaleDateString("en-IN", { day: "numeric", month: "short" });
 }
 
-// Luxury impact pip — small filled circle + uppercase label. Replaces noisy
-// emerald/amber pill that didn't fit the warm ivory theme.
+// Luxury investment-grade impact palette (Sotheby's / Knight Frank tier — no neon).
 const impactStyles = {
-  High: { dot: "bg-[#5E1F28]", text: "text-[#5E1F28]" },
-  Medium: { dot: "bg-[#B87333]", text: "text-[#B87333]" },
-  Low: { dot: "bg-[#9D948B]", text: "text-[#9D948B]" },
+  High: { dot: "bg-[#6A1E2D]", text: "text-[#6A1E2D]" },        // Deep Burgundy
+  Medium: { dot: "bg-[#B68D40]", text: "text-[#B68D40]" },      // Champagne Gold
+  Low: { dot: "bg-[#8FA68E]", text: "text-[#8FA68E]" },         // Luxury Sage Green
 };
 
 function Tag({ children, variant = "default" }) {

@@ -143,7 +143,7 @@ export default function Header() {
                 </Link>
               </motion.div>
               <div className="mt-7 pt-5 border-t border-[#E8DED2] text-[10px] tracking-[0.4em] uppercase text-[#5F5F5F]">
-                Kolkata · India
+                Real Estate Consulting &amp; Marketing
               </div>
             </nav>
           </motion.div>
