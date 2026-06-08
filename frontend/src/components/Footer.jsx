@@ -1,110 +1,150 @@
 import { Link } from "react-router-dom";
-import { Mail, Phone, MapPin, Instagram, Linkedin, Facebook, ArrowRight, MessageCircle } from "lucide-react";
-import { whatsappLink, PHONE_DISPLAY, EMAIL, LOGO_URL, BRAND_NAME, BRAND_TAGLINE } from "@/lib/site";
+import { Mail, Phone, MapPin, Instagram, Linkedin, Facebook, ArrowRight, MessageCircle, ShieldCheck, Users, MessageSquareQuote } from "lucide-react";
+import { whatsappLink, PHONE_DISPLAY, EMAIL, LOGO_URL, BRAND_NAME } from "@/lib/site";
 
 export default function Footer() {
   return (
-    <footer data-testid="site-footer" className="relative bg-[#2D0F14] border-t border-copper/25 text-white">
-      {/* Subtle copper top sheen */}
-      <div aria-hidden="true" className="absolute inset-x-0 top-0 h-32 pointer-events-none" style={{ background: "linear-gradient(180deg, rgba(184,115,51,0.08) 0%, transparent 100%)" }} />
-      {/* CTA strip */}
-      <div className="border-b border-copper/10">
-        <div className="max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-16 py-12 sm:py-16">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
-            <div className="lg:col-span-8">
-              <div className="overline mb-4">Ready to Invest?</div>
-              <h3 className="section-title text-3xl sm:text-4xl lg:text-5xl leading-[1.05]">
-                Speak with an Astittva Marketing <span className="italic text-white/55">advisor.</span>
-              </h3>
-              <p className="mt-5 text-white/70 font-light leading-[1.85] max-w-xl">
-                Verified projects, honest counsel, end-to-end guidance. Begin in 30 minutes.
-              </p>
-            </div>
-            <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3">
-              <Link to="/contact" data-testid="footer-cta" className="btn-primary w-full sm:flex-1 lg:w-full">
-                Book Consultation <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-              <a
-                href={whatsappLink("Hi Astittva, I'd like to speak with an advisor.")}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full sm:flex-1 lg:w-full inline-flex items-center justify-center gap-2 text-[#C47B3A] hover:text-[#D58A47] py-3 text-xs tracking-[0.18em] uppercase border border-copper/30 hover:border-copper transition"
-              >
-                <MessageCircle className="w-4 h-4" /> WhatsApp Us
-              </a>
-            </div>
+    <footer data-testid="site-footer" className="relative">
+      {/* ──────────────────────────────────────────────────────────────
+       *  LUXURY CONCIERGE CTA — ivory/champagne, Four Seasons-grade
+       *  Anchored by a serif headline, supporting trust pillars, dual CTA.
+       * ────────────────────────────────────────────────────────────── */}
+      <section data-testid="footer-cta" className="relative overflow-hidden bg-[#F8F6F2]">
+        {/* Champagne radial halo */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(ellipse 70% 50% at 50% 0%, rgba(182,141,64,0.10) 0%, transparent 65%)," +
+              "radial-gradient(ellipse 40% 30% at 15% 100%, rgba(106,30,45,0.06) 0%, transparent 55%)",
+          }}
+        />
+        {/* Hairline divider top */}
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#B68D40]/35 to-transparent" />
+
+        <div className="relative max-w-[1240px] mx-auto px-6 sm:px-10 lg:px-16 py-20 sm:py-28 text-center">
+          <div className="section-eyebrow justify-center mb-6">Astittva Concierge</div>
+          <h2 className="display-headline text-[#1C1C1C] text-[2.25rem] sm:text-[3.5rem] lg:text-[4.5rem] leading-[1.02] max-w-3xl mx-auto">
+            Speak with an
+            <span className="block mt-1.5"><span className="italic" style={{ color: "#B68D40" }}>Astittva Marketing</span> advisor.</span>
+          </h2>
+
+          {/* Trust pillars */}
+          <div className="mt-8 sm:mt-10 flex flex-wrap justify-center items-center gap-x-6 gap-y-3 text-[#2A2A2A]">
+            {[
+              { icon: ShieldCheck, label: "Verified projects" },
+              { icon: MessageSquareQuote, label: "Trusted advice" },
+              { icon: Users, label: "End-to-end guidance" },
+            ].map(({ icon: Icon, label }, i) => (
+              <span key={i} className="inline-flex items-center gap-2 text-[11px] sm:text-sm font-medium tracking-wide">
+                <Icon className="w-4 h-4 text-[#B68D40]" strokeWidth={1.6} />
+                {label}
+              </span>
+            ))}
+          </div>
+
+          <p className="mt-7 text-[#3A3A3A] text-base sm:text-lg leading-[1.7] font-normal max-w-2xl mx-auto">
+            Book your consultation today. Most conversations begin within 30 minutes — by phone, WhatsApp or at our New Town office.
+          </p>
+
+          {/* Dual luxury CTA */}
+          <div className="mt-10 sm:mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              to="/contact"
+              data-testid="cta-primary"
+              className="group relative inline-flex items-center justify-center gap-2.5 px-10 py-4 bg-[#B87333] hover:bg-[#6A1E2D] border border-[#B87333] hover:border-[#6A1E2D] text-white text-[11px] tracking-[0.32em] uppercase font-semibold transition-all duration-500 min-w-[230px] shadow-[0_6px_24px_-8px_rgba(184,115,51,0.45)] hover:shadow-[0_12px_30px_-8px_rgba(106,30,45,0.55)]"
+            >
+              Book Consultation
+              <ArrowRight className="w-3.5 h-3.5 transition-transform duration-500 group-hover:translate-x-1" />
+            </Link>
+            <a
+              href={whatsappLink("Hi Astittva Marketing, I'd like to speak with an advisor.")}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-testid="cta-whatsapp"
+              className="group inline-flex items-center justify-center gap-2.5 px-10 py-4 bg-white hover:bg-[#1C1C1C] border border-[#1C1C1C] text-[#1C1C1C] hover:text-white text-[11px] tracking-[0.32em] uppercase font-semibold transition-all duration-500 min-w-[230px]"
+            >
+              <MessageCircle className="w-4 h-4" strokeWidth={1.8} />
+              WhatsApp Us
+            </a>
           </div>
         </div>
-      </div>
+      </section>
 
-      <div className="max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-16 py-16 sm:py-20">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
-          <div className="md:col-span-5">
-            <div className="flex items-center gap-4 mb-8">
-              <img src={LOGO_URL} alt="Astittva Marketing" className="h-14 w-14 sm:h-16 sm:w-16 object-contain" />
-              <div className="border-l border-copper/35 pl-4">
-                <div className="font-serif-display tracking-[0.26em] text-white text-xl sm:text-2xl">{BRAND_NAME}</div>
+      {/* ──────────────────────────────────────────────────────────────
+       *  FOOTER PROPER — deep merlot, high-contrast hierarchy
+       * ────────────────────────────────────────────────────────────── */}
+      <div className="relative bg-[#1A0A0E] text-white border-t border-[#B68D40]/30">
+        {/* Top copper sheen */}
+        <div aria-hidden="true" className="absolute inset-x-0 top-0 h-40 pointer-events-none" style={{ background: "linear-gradient(180deg, rgba(182,141,64,0.07) 0%, transparent 100%)" }} />
+
+        <div className="relative max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-16 py-16 sm:py-20">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
+            <div className="md:col-span-5">
+              <div className="flex items-center gap-4 mb-7">
+                <img src={LOGO_URL} alt="Astittva Marketing" className="h-14 w-14 sm:h-16 sm:w-16 object-contain" />
+                <div className="border-l border-[#B68D40]/45 pl-4">
+                  <div className="font-serif-display tracking-[0.22em] text-white text-xl sm:text-[1.65rem] font-medium">{BRAND_NAME}</div>
+                  <div className="text-[#B68D40] text-[9px] sm:text-[10px] tracking-[0.4em] uppercase mt-1 font-semibold">Real Estate Consulting</div>
+                </div>
+              </div>
+              <p className="text-white/85 text-sm sm:text-[15px] leading-[1.85] font-normal max-w-md">
+                Verified projects, honest counsel, end-to-end guidance — across <span className="text-[#E5C68C] font-medium">New Town · Rajarhat · Kolkata</span>, expanding across India and global investment markets.
+              </p>
+              <div className="flex gap-3 mt-8">
+                {[Instagram, Linkedin, Facebook].map((Icon, i) => (
+                  <a key={i} href="#" aria-label="Social" className="w-11 h-11 border border-white/25 hover:border-[#B68D40] hover:bg-white/5 flex items-center justify-center transition-all duration-500">
+                    <Icon className="w-[18px] h-[18px] text-white/85" strokeWidth={1.4} />
+                  </a>
+                ))}
               </div>
             </div>
-            <p className="text-white/70 text-sm leading-[1.9] font-light max-w-md">
-              Real Estate Consulting &amp; Marketing
-              <br />
-              <span className="text-white/85">New Town &middot; Rajarhat &middot; Kolkata</span>
-              <br />
-              Expanding Across India.
-            </p>
-            <div className="flex gap-3 mt-8">
-              {[Instagram, Linkedin, Facebook].map((Icon, i) => (
-                <a key={i} href="#" aria-label="Social" className="w-10 h-10 border border-white/10 flex items-center justify-center hover:border-copper transition-colors duration-500">
-                  <Icon className="w-4 h-4 text-white/55" strokeWidth={1.2} />
-                </a>
-              ))}
+
+            <div className="md:col-span-2">
+              <h4 className="text-[10px] tracking-[0.4em] uppercase text-[#B68D40] mb-6 font-semibold">Explore</h4>
+              <ul className="space-y-3.5 text-sm text-white/85 font-light">
+                <li><Link to="/" className="hover:text-[#E5C68C] transition">Home</Link></li>
+                <li><Link to="/properties" className="hover:text-[#E5C68C] transition">Properties</Link></li>
+                <li><Link to="/market-intelligence" className="hover:text-[#E5C68C] transition">Market Intelligence</Link></li>
+                <li><Link to="/about" className="hover:text-[#E5C68C] transition">About</Link></li>
+                <li><Link to="/contact" className="hover:text-[#E5C68C] transition">Contact</Link></li>
+              </ul>
+            </div>
+
+            <div className="md:col-span-2">
+              <h4 className="text-[10px] tracking-[0.4em] uppercase text-[#B68D40] mb-6 font-semibold">Markets</h4>
+              <ul className="space-y-3.5 text-sm text-white/85 font-light">
+                <li>New Town</li>
+                <li>Rajarhat</li>
+                <li>Kolkata</li>
+                <li className="text-white/55 italic font-serif-display text-xs pt-2">Greater Kolkata · India · Global</li>
+              </ul>
+            </div>
+
+            <div className="md:col-span-3">
+              <h4 className="text-[10px] tracking-[0.4em] uppercase text-[#B68D40] mb-6 font-semibold">Reach Us</h4>
+              <ul className="space-y-4 text-sm text-white/85 font-light">
+                <li className="flex items-start gap-3">
+                  <MapPin className="w-4 h-4 text-[#B68D40] mt-0.5 shrink-0" strokeWidth={1.5} />
+                  <span className="leading-[1.7]">PS IXL Building, 5th Flr, Room 511<br />Biswa Bangla Sarani, Atghara<br />New Town, Kolkata, WB 700136</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <Phone className="w-4 h-4 text-[#B68D40] shrink-0" strokeWidth={1.5} />
+                  <a href={`tel:${PHONE_DISPLAY.replace(/\s/g, "")}`} className="hover:text-[#E5C68C] transition">{PHONE_DISPLAY}</a>
+                </li>
+                <li className="flex items-center gap-3">
+                  <Mail className="w-4 h-4 text-[#B68D40] shrink-0" strokeWidth={1.5} />
+                  <a href={`mailto:${EMAIL}`} className="hover:text-[#E5C68C] transition">{EMAIL}</a>
+                </li>
+              </ul>
             </div>
           </div>
 
-          <div className="md:col-span-2">
-            <h4 className="text-[10px] tracking-[0.4em] uppercase text-white/40 mb-6">Explore</h4>
-            <ul className="space-y-4 text-sm text-white/60 font-light">
-              <li><Link to="/" className="hover:text-copper transition">Home</Link></li>
-              <li><Link to="/properties" className="hover:text-copper transition">Properties</Link></li>
-              <li><Link to="/market-intelligence" className="hover:text-copper transition">Market Intelligence</Link></li>
-              <li><Link to="/about" className="hover:text-copper transition">About</Link></li>
-              <li><Link to="/contact" className="hover:text-copper transition">Contact</Link></li>
-            </ul>
+          <div className="mt-16 sm:mt-20 pt-7 border-t border-white/15 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-white/70 text-xs tracking-wider">© {new Date().getFullYear()} Astittva Marketing · All rights reserved.</p>
+            <p className="text-white/70 text-[10px] tracking-[0.4em] uppercase">Crafted with conviction · Real Estate Consulting &amp; Marketing</p>
           </div>
-
-          <div className="md:col-span-2">
-            <h4 className="text-[10px] tracking-[0.4em] uppercase text-white/40 mb-6">Markets</h4>
-            <ul className="space-y-4 text-sm text-white/60 font-light">
-              <li>New Town</li>
-              <li>Rajarhat</li>
-              <li>Kolkata</li>
-              <li className="text-white/35 italic font-serif-display text-xs pt-2">Greater Kolkata · India · Global</li>
-            </ul>
-          </div>
-
-          <div className="md:col-span-3">
-            <h4 className="text-[10px] tracking-[0.4em] uppercase text-white/40 mb-6">Reach Us</h4>
-            <ul className="space-y-4 text-sm text-white/60 font-light">
-              <li className="flex items-start gap-3">
-                <MapPin className="w-4 h-4 text-copper mt-0.5 shrink-0" strokeWidth={1.2} />
-                <span>PS IXL Building, 5th Flr, Room 511<br />Biswa Bangla Sarani, Atghara<br />New Town, Kolkata, WB 700136</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <Phone className="w-4 h-4 text-copper shrink-0" strokeWidth={1.2} />
-                <a href={`tel:${PHONE_DISPLAY.replace(/\s/g, "")}`} className="hover:text-copper transition">{PHONE_DISPLAY}</a>
-              </li>
-              <li className="flex items-center gap-3">
-                <Mail className="w-4 h-4 text-copper shrink-0" strokeWidth={1.2} />
-                <a href={`mailto:${EMAIL}`} className="hover:text-copper transition">{EMAIL}</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="mt-16 sm:mt-20 pt-8 border-t border-white/[0.06] flex flex-col md:flex-row justify-between items-center gap-5">
-          <p className="text-white/45 text-xs tracking-wider">© {new Date().getFullYear()} Astittva Marketing · All rights reserved.</p>
-          <p className="text-white/45 text-[10px] tracking-[0.4em] uppercase">Crafted with conviction · Kolkata, India</p>
         </div>
       </div>
     </footer>

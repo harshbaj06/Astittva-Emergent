@@ -20,7 +20,7 @@ const LOCATIONS = [
   {
     name: "New Town",
     tag: "Smart City Hub",
-    img: "/images/biswa-bangla-newtown.png",
+    img: "/images/luxe/locations_newtown.jpg",
     blurb: "India's first planned smart-city — IT corridors and rising luxury sky-residences.",
     starting: "₹1.2 Cr",
     category: "Luxury · Premium",
@@ -28,7 +28,7 @@ const LOCATIONS = [
   {
     name: "Rajarhat",
     tag: "Investment Frontier",
-    img: "/images/city-centre-2-rajarhat.png",
+    img: "/images/luxe/locations_rajarhat.jpg",
     blurb: "The fastest-appreciating corridor of Greater Kolkata, anchored by Eco Park & global IT.",
     starting: "₹35 L",
     category: "Premium · Plots",
@@ -36,7 +36,7 @@ const LOCATIONS = [
   {
     name: "Kolkata",
     tag: "Cultural Capital",
-    img: "https://images.pexels.com/photos/36613128/pexels-photo-36613128.jpeg",
+    img: "/images/luxe/locations_kolkata.jpg",
     blurb: "A legacy city reimagined — heritage, art, and a new wave of luxury residences.",
     starting: "₹4.5 Cr",
     category: "Heritage · Luxury",
@@ -254,7 +254,7 @@ export default function HomePage() {
             </Link>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-2">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-7">
             {LOCATIONS.map((loc, i) => (
               <motion.div
                 key={loc.name}
@@ -262,31 +262,30 @@ export default function HomePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] }}
-                className="group relative overflow-hidden cursor-pointer"
+                className="group relative overflow-hidden cursor-pointer bg-white border border-[#E8DED2] hover:border-[#B87333] transition-all duration-700 shadow-[0_1px_3px_rgba(28,28,28,0.04),0_4px_16px_-8px_rgba(94,31,40,0.06)] hover:shadow-[0_4px_12px_rgba(28,28,28,0.06),0_24px_48px_-16px_rgba(184,115,51,0.22)] hover:-translate-y-1"
               >
                 <Link to={`/properties?city=${encodeURIComponent(loc.name)}`} data-testid={`location-card-${loc.name.toLowerCase().replace(' ', '-')}`}>
-                  <div className="relative aspect-[4/5] sm:aspect-[3/4] overflow-hidden bg-[#FAF8F5]">
-                    <img loading="lazy" src={loc.img} alt={loc.name} className="w-full h-full object-cover transition-all duration-[1.8s] ease-out group-hover:scale-105" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/65 to-[#0a0a0a]/15" />
-                    {/* Category chip top-left */}
-                    <div className="absolute top-5 left-5 flex items-center gap-2 bg-[#FAF8F5]/70 backdrop-blur-md border border-[#E8DED2] px-3 py-1.5">
-                      <span className="w-1 h-1 rounded-full bg-copper" />
-                      <span className="text-white/80 text-[10px] tracking-[0.25em] uppercase">{loc.category}</span>
+                  <div className="relative aspect-[4/3] overflow-hidden bg-[#F5F1EC]">
+                    <img loading="lazy" src={loc.img} alt={loc.name} className="w-full h-full object-cover transition-transform duration-[1.8s] ease-out group-hover:scale-105" />
+                    {/* Subtle bottom gradient — only behind chip, photograph stays bright */}
+                    <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/35 to-transparent pointer-events-none" />
+                    <div className="absolute top-5 left-5 inline-flex items-center gap-2 bg-white/90 backdrop-blur-sm border border-[#E8DED2] px-3 py-1.5">
+                      <span className="w-1 h-1 rounded-full bg-[#B87333]" />
+                      <span className="text-[#1C1C1C] text-[9px] tracking-[0.28em] uppercase font-semibold">{loc.category}</span>
+                    </div>
+                    <div className="absolute bottom-4 left-5 text-white text-[9px] tracking-[0.4em] uppercase font-semibold" style={{ textShadow: "0 1px 6px rgba(0,0,0,0.6)" }}>
+                      {loc.tag}
                     </div>
                   </div>
-                  <div className="absolute inset-0 flex flex-col justify-end p-7 sm:p-10">
-                    <div className="overflow-hidden">
-                      <div className="text-copper text-[10px] tracking-[0.4em] uppercase mb-3 transition-transform duration-500 group-hover:-translate-y-1">{loc.tag}</div>
-                    </div>
-                    <h3 className="font-serif-display text-3xl sm:text-4xl text-ivory mb-3">{loc.name}</h3>
-                    <p className="text-[#3A3A3A] text-sm leading-[1.7] font-light max-w-xs">{loc.blurb}</p>
-
+                  <div className="p-7 sm:p-8">
+                    <h3 className="font-serif-display text-2xl sm:text-3xl text-[#1C1C1C] mb-3 leading-[1.1] tracking-[-0.01em] group-hover:text-[#B87333] transition-colors duration-500">{loc.name}</h3>
+                    <p className="text-[#2A2A2A] text-sm leading-[1.7] font-normal min-h-[3.5rem]">{loc.blurb}</p>
                     <div className="mt-6 flex items-end justify-between gap-4 pt-5 border-t border-[#E8DED2]">
                       <div>
-                        <div className="text-[9px] tracking-[0.3em] uppercase text-[#737373] mb-1">Starting</div>
-                        <div className="font-serif-display text-xl sm:text-2xl text-ivory">{loc.starting}</div>
+                        <div className="text-[9px] tracking-[0.3em] uppercase text-[#737373] mb-1.5 font-medium">Starting</div>
+                        <div className="font-serif-display text-2xl sm:text-[1.7rem] text-[#1C1C1C] font-semibold tracking-tight">{loc.starting}</div>
                       </div>
-                      <div className="inline-flex items-center gap-2 text-copper text-[10px] tracking-[0.4em] uppercase border-b border-copper/40 group-hover:border-copper pb-1 transition-all duration-500">
+                      <div className="inline-flex items-center gap-2 text-[#B87333] text-[10px] tracking-[0.35em] uppercase border-b border-[#B87333]/40 group-hover:border-[#B87333] pb-1 transition-all duration-500 font-semibold">
                         Discover <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-1" />
                       </div>
                     </div>
