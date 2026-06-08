@@ -73,11 +73,21 @@ export default function CinematicHero() {
         style={{ background: "linear-gradient(180deg, rgba(250,248,245,0.0) 0%, rgba(250,248,245,0.55) 70%, #FAF8F5 100%)" }}
       />
 
-      {/* Stronger focused vignette behind hero copy — guarantees readability on every slide,
-          including bright Victoria Memorial / sunrise frames. */}
+      {/* Editorial readability gradient — invisible to the eye, designed so that
+          the user notices the headline, never the overlay itself. */}
       <div
-        className="absolute inset-y-0 left-0 w-[62%] pointer-events-none"
-        style={{ background: "linear-gradient(95deg, rgba(20,12,14,0.78) 0%, rgba(20,12,14,0.55) 22%, rgba(20,12,14,0.28) 48%, rgba(20,12,14,0.08) 70%, transparent 88%)" }}
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(90deg, rgba(26,26,26,0.42) 0%, rgba(26,26,26,0.28) 18%, rgba(26,26,26,0.12) 38%, rgba(26,26,26,0.03) 60%, transparent 80%)",
+        }}
+      />
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(circle at left center, rgba(92,20,33,0.08), transparent 70%)",
+        }}
       />
 
       {/* Slide caption + progress dots — bottom right (desktop only) */}
