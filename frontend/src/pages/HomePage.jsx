@@ -328,7 +328,7 @@ export default function HomePage() {
                   <Link to={`/properties/${p.id}`}>
                     <div className="aspect-[4/3] overflow-hidden bg-[#FAF8F5]">
                       <img loading="lazy"
-                        src={p.images?.[0] ? fileUrl(p.images[0]) : "https://images.pexels.com/photos/24805054/pexels-photo-24805054.jpeg"}
+                        src={p.images?.[0] ? fileUrl(p.images[0]) : "/images/luxe/luxury_villa.jpg"}
                         alt={p.project_name}
                         className="w-full h-full object-cover transition-transform duration-[1.8s] ease-out group-hover:scale-105"
                       />

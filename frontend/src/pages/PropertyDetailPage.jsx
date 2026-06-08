@@ -62,7 +62,7 @@ export default function PropertyDetailPage() {
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8 }} className="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-12">
           <div className={`${images.length > 1 ? "lg:col-span-9" : "lg:col-span-12"} aspect-[16/10] overflow-hidden`}>
             <img loading="lazy"
-              src={images[activeImg] ? fileUrl(images[activeImg]) : "https://images.pexels.com/photos/24805054/pexels-photo-24805054.jpeg"}
+              src={images[activeImg] ? fileUrl(images[activeImg]) : "/images/luxe/luxury_villa.jpg"}
               alt={property.project_name}
               className="w-full h-full object-cover"
             />

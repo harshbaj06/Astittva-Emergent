@@ -88,20 +88,22 @@ function timeAgo(iso) {
   return new Date(iso).toLocaleDateString("en-IN", { day: "numeric", month: "short" });
 }
 
+// Luxury impact pip — small filled circle + uppercase label. Replaces noisy
+// emerald/amber pill that didn't fit the warm ivory theme.
 const impactStyles = {
-  High: { ring: "border-emerald-500/40", text: "text-emerald-400", bg: "bg-emerald-500/5" },
-  Medium: { ring: "border-amber-500/40", text: "text-amber-400", bg: "bg-amber-500/5" },
-  Low: { ring: "border-[#E8DED2]", text: "text-[#737373]", bg: "bg-white/[0.02]" },
+  High: { dot: "bg-[#5E1F28]", text: "text-[#5E1F28]" },
+  Medium: { dot: "bg-[#B87333]", text: "text-[#B87333]" },
+  Low: { dot: "bg-[#9D948B]", text: "text-[#9D948B]" },
 };
 
 function Tag({ children, variant = "default" }) {
   const styles = {
-    default: "border-[#E8DED2] text-[#2A2A2A] bg-white/[0.025]",
-    geo: "border-copper/30 text-copper bg-copper/[0.05]",
-    cat: "border-rose-gold/25 text-rose-gold bg-[#3A0B10]/30",
+    default: "border-[#E8DED2] text-[#2A2A2A] bg-white",
+    geo: "border-copper/40 text-copper bg-[#FAF4EC]",
+    cat: "border-[#5E1F28]/25 text-[#5E1F28] bg-[#F7EDEE]",
   };
   return (
-    <span className={`text-[9px] tracking-[0.3em] uppercase px-2.5 py-1 border ${styles[variant]}`}>
+    <span className={`text-[9px] tracking-[0.3em] uppercase px-2.5 py-1 border ${styles[variant]} font-medium`}>
       {children}
     </span>
   );
@@ -115,7 +117,7 @@ function NewsCard({ a, idx }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: Math.min(idx, 8) * 0.04 }}
-      className="luxury-card group p-6 sm:p-7 flex flex-col hover:bg-burgundy/15 transition-colors duration-500"
+      className="luxury-card group p-6 sm:p-7 flex flex-col transition-colors duration-500"
       data-testid={`news-card-${idx}`}
     >
       {/* Tag row */}
@@ -124,7 +126,8 @@ function NewsCard({ a, idx }) {
         {a.state && a.state !== "—" && a.state !== a.city && <Tag variant="geo">{a.state}</Tag>}
         {a.country && a.country !== "—" && a.country !== a.city && a.country !== a.state && <Tag variant="geo">{a.country}</Tag>}
         {a.category && <Tag variant="cat">{a.category}</Tag>}
-        <span className={`text-[9px] tracking-[0.3em] uppercase px-2.5 py-1 border ${imp.ring} ${imp.text} ${imp.bg} ml-auto`}>
+        <span className={`text-[9px] tracking-[0.3em] uppercase font-semibold ml-auto flex items-center gap-1.5 ${imp.text}`}>
+          <span className={`w-1.5 h-1.5 rounded-full ${imp.dot}`} />
           {a.impact} Impact
         </span>
       </div>

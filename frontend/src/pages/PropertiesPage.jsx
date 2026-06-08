@@ -285,7 +285,7 @@ export default function PropertiesPage() {
                   <div className="aspect-[4/3] overflow-hidden relative">
                     <img
                       loading="lazy"
-                      src={p.images?.[0] ? fileUrl(p.images[0]) : "https://images.pexels.com/photos/24805054/pexels-photo-24805054.jpeg"}
+                      src={p.images?.[0] ? fileUrl(p.images[0]) : "/images/luxe/luxury_villa.jpg"}
                       alt={p.project_name}
                       className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110"
                     />
