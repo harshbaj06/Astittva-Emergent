@@ -7,8 +7,9 @@ export const EMAIL = "sales@astittva.in";
 
 export const LOGO_URL = "https://customer-assets.emergentagent.com/job_astitva-luxury-1/artifacts/c212hx9z_ASTITTVA%20MARKETING%20FINAL.png";
 
-export const BRAND_NAME = "ASTITTVA";
-export const BRAND_TAGLINE = "Luxury Real Estate";
+export const BRAND_NAME = "ASTITTVA MARKETING";
+export const BRAND_SHORT = "ASTITTVA";
+export const BRAND_TAGLINE = "Real Estate Consulting & Marketing";
 
 export const OFFICE_ADDRESS = {
   building: "PS IXL Building",
@@ -31,6 +32,6 @@ export const OFFICE_ADDRESS_LINES = [
 ];
 
 export function whatsappLink(message = "") {
-  const text = encodeURIComponent(message || "Hi ASTITTVA, I'd like to know more about your properties.");
+  const text = encodeURIComponent(message || "Hi ASTITTVA MARKETING, I'd like to know more about your properties.");
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${text}`;
 }

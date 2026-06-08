@@ -91,12 +91,12 @@ function timeAgo(iso) {
 const impactStyles = {
   High: { ring: "border-emerald-500/40", text: "text-emerald-400", bg: "bg-emerald-500/5" },
   Medium: { ring: "border-amber-500/40", text: "text-amber-400", bg: "bg-amber-500/5" },
-  Low: { ring: "border-white/15", text: "text-white/45", bg: "bg-white/[0.02]" },
+  Low: { ring: "border-[#E8DED2]", text: "text-[#737373]", bg: "bg-white/[0.02]" },
 };
 
 function Tag({ children, variant = "default" }) {
   const styles = {
-    default: "border-white/10 text-white/70 bg-white/[0.025]",
+    default: "border-[#E8DED2] text-[#2A2A2A] bg-white/[0.025]",
     geo: "border-copper/30 text-copper bg-copper/[0.05]",
     cat: "border-rose-gold/25 text-rose-gold bg-[#3A0B10]/30",
   };
@@ -134,7 +134,7 @@ function NewsCard({ a, idx }) {
           {stripHtml(a.title)}
         </h3>
         {a.summary && (
-          <p className="text-white/55 text-sm font-light leading-[1.65] line-clamp-2">
+          <p className="text-[#5F5F5F] text-sm font-light leading-[1.65] line-clamp-2">
             {stripHtml(a.summary).slice(0, 170)}{stripHtml(a.summary).length > 170 ? "…" : ""}
           </p>
         )}
@@ -145,13 +145,13 @@ function NewsCard({ a, idx }) {
           <div className="text-[9px] tracking-[0.35em] uppercase text-copper mb-1.5 flex items-center gap-2">
             <Lightbulb className="w-3 h-3" strokeWidth={1.5} /> Why It Matters
           </div>
-          <p className="text-white/70 text-[13px] font-light leading-[1.6]">{a.why_it_matters}</p>
+          <p className="text-[#2A2A2A] text-[13px] font-light leading-[1.6]">{a.why_it_matters}</p>
         </div>
       )}
 
-      <div className="mt-6 pt-5 border-t border-white/[0.05] flex items-center justify-between text-[10px] tracking-[0.25em] uppercase">
-        <span className="text-white/40 truncate max-w-[55%]">{a.source || "News"}</span>
-        <span className="text-white/40">{timeAgo(a.published)}</span>
+      <div className="mt-6 pt-5 border-t border-[#E8DED2] flex items-center justify-between text-[10px] tracking-[0.25em] uppercase">
+        <span className="text-[#737373] truncate max-w-[55%]">{a.source || "News"}</span>
+        <span className="text-[#737373]">{timeAgo(a.published)}</span>
       </div>
 
       <a href={a.link} target="_blank" rel="noopener noreferrer"
@@ -181,7 +181,7 @@ function SkeletonCard({ idx }) {
       <div className="h-5 w-[60%] bg-white/[0.08] mb-5" />
       <div className="h-3 w-full bg-white/[0.04] mb-2" />
       <div className="h-3 w-[80%] bg-white/[0.04] mb-6" />
-      <div className="border-t border-white/[0.05] pt-5 flex justify-between">
+      <div className="border-t border-[#E8DED2] pt-5 flex justify-between">
         <div className="h-3 w-20 bg-white/[0.05]" />
         <div className="h-3 w-12 bg-white/[0.05]" />
       </div>
@@ -383,21 +383,21 @@ export default function MarketIntelligencePage() {
         <div className="relative max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-16">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9 }} className="max-w-4xl">
             <div className="eyebrow-line mb-6 sm:mb-8">
-              <span className="text-[10px] tracking-[0.5em] uppercase text-white/55">ASTITTVA Intelligence Hub</span>
+              <span className="text-[10px] tracking-[0.5em] uppercase text-[#5F5F5F]">ASTITTVA Intelligence Hub</span>
             </div>
             <h1 className="section-title text-[2rem] sm:text-5xl lg:text-7xl leading-[1.05]">Market Intelligence</h1>
             <p className="mt-6 sm:mt-8 text-muted-fg text-base sm:text-lg max-w-3xl leading-[1.75] font-light">
               Actionable insights, investment trends, infrastructure developments, and real estate opportunities — curated from Kolkata, India and global markets.
             </p>
-            <div className="mt-8 flex flex-wrap items-center gap-3 text-[10px] tracking-[0.3em] uppercase text-white/45">
+            <div className="mt-8 flex flex-wrap items-center gap-3 text-[10px] tracking-[0.3em] uppercase text-[#737373]">
               <span className="flex items-center gap-2" data-testid="mi-live-indicator">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" /> Live Feed
               </span>
-              <span className="text-white/15">·</span><span>Refreshed every 3h</span>
-              <span className="text-white/15">·</span><span>Powered by Google News</span>
+              <span className="text-[#C8C8C8]">·</span><span>Refreshed every 3h</span>
+              <span className="text-[#C8C8C8]">·</span><span>Powered by Google News</span>
               {lastUpdated && (
                 <>
-                  <span className="text-white/15">·</span>
+                  <span className="text-[#C8C8C8]">·</span>
                   <span data-testid="mi-last-updated" className="text-copper/70">
                     Last Updated · {timeAgo(lastUpdated)}
                   </span>
@@ -412,7 +412,7 @@ export default function MarketIntelligencePage() {
       <section data-testid="market-snapshot" className="relative py-16 sm:py-24 border-t border-copper/10 bg-charcoal-2">
         <div className="max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-16">
           <motion.div {...fadeUp} className="mb-12 sm:mb-16 max-w-3xl">
-            <div className="eyebrow-line mb-6"><span className="text-[10px] tracking-[0.5em] uppercase text-white/55">Section · 02</span></div>
+            <div className="eyebrow-line mb-6"><span className="text-[10px] tracking-[0.5em] uppercase text-[#5F5F5F]">Section · 02</span></div>
             <h2 className="section-title text-3xl sm:text-4xl lg:text-5xl leading-[1.05]">Market Snapshot.</h2>
             <p className="mt-5 text-muted-fg font-light leading-[1.8]">A real-time pulse on the indicators that move premium real estate.</p>
           </motion.div>
@@ -422,11 +422,11 @@ export default function MarketIntelligencePage() {
                 key={s.title}
                 initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
                 transition={{ duration: 0.55, delay: i * 0.06 }}
-                className="bg-charcoal p-7 sm:p-10 group hover:bg-burgundy/15 transition-colors"
+                className="bg-white border border-[#E8DED2] p-7 sm:p-10 group hover:bg-burgundy/15 transition-colors"
                 data-testid={`snapshot-card-${i}`}
               >
                 <s.icon className="w-7 h-7 text-copper mb-6" strokeWidth={1.1} />
-                <div className="text-[10px] tracking-[0.35em] uppercase text-white/45 mb-3">{s.title}</div>
+                <div className="text-[10px] tracking-[0.35em] uppercase text-[#737373] mb-3">{s.title}</div>
                 <div className="font-serif-display text-2xl sm:text-3xl text-ivory mb-3 leading-tight">{s.value}</div>
                 <div className="text-muted-fg text-sm font-light">{s.note}</div>
               </motion.div>
@@ -440,13 +440,13 @@ export default function MarketIntelligencePage() {
         <div className="max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-16">
           <motion.div {...fadeUp} className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10 sm:mb-12">
             <div className="max-w-2xl">
-              <div className="eyebrow-line mb-6"><span className="text-[10px] tracking-[0.5em] uppercase text-white/55">Section · 03 · Live Intelligence</span></div>
+              <div className="eyebrow-line mb-6"><span className="text-[10px] tracking-[0.5em] uppercase text-[#5F5F5F]">Section · 03 · Live Intelligence</span></div>
               <h2 className="section-title text-3xl sm:text-4xl lg:text-5xl leading-[1.05]">The latest, classified.</h2>
               <p className="mt-5 text-muted-fg font-light leading-[1.8] max-w-xl">
-                Every story tagged by city, country, category and impact — so you understand instantly what's happening and why.
+                Every story tagged by city, country, category and impact — so you understand instantly what&apos;s happening and why.
               </p>
             </div>
-            <div className="text-[10px] tracking-[0.3em] uppercase text-white/40 flex items-center gap-2">
+            <div className="text-[10px] tracking-[0.3em] uppercase text-[#737373] flex items-center gap-2">
               <RefreshCcw className="w-3 h-3 text-copper" /> Refreshed every 3h
             </div>
           </motion.div>
@@ -463,7 +463,7 @@ export default function MarketIntelligencePage() {
                   className={`shrink-0 text-[10px] tracking-[0.25em] uppercase px-4 py-2.5 border transition-all duration-300 ${
                     activeFilter === f.key
                       ? "border-copper text-copper bg-burgundy/40"
-                      : "border-white/10 text-white/55 hover:border-copper/40 hover:text-ivory"
+                      : "border-[#E8DED2] text-[#5F5F5F] hover:border-copper/40 hover:text-ivory"
                   }`}
                 >
                   {f.label}
@@ -485,7 +485,7 @@ export default function MarketIntelligencePage() {
                   className="mb-6 border border-copper/25 bg-burgundy/10 px-5 py-3.5 flex items-center gap-3 text-[11px] tracking-[0.25em] uppercase text-copper"
                 >
                   <Lightbulb className="w-4 h-4 shrink-0" strokeWidth={1.4} />
-                  <span className="font-light tracking-[0.2em] normal-case text-white/70 text-sm">
+                  <span className="font-light tracking-[0.2em] normal-case text-[#2A2A2A] text-sm">
                     {view.fallbackMsg}
                   </span>
                 </div>
@@ -500,7 +500,7 @@ export default function MarketIntelligencePage() {
       <section data-testid="investment-insights" className="relative py-16 sm:py-24 bg-charcoal-2 border-y border-copper/10">
         <div className="max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-16">
           <motion.div {...fadeUp} className="mb-12 sm:mb-16 max-w-3xl">
-            <div className="eyebrow-line mb-6"><span className="text-[10px] tracking-[0.5em] uppercase text-white/55">Section · 04 · Investor Lens</span></div>
+            <div className="eyebrow-line mb-6"><span className="text-[10px] tracking-[0.5em] uppercase text-[#5F5F5F]">Section · 04 · Investor Lens</span></div>
             <h2 className="section-title text-3xl sm:text-4xl lg:text-5xl leading-[1.05]">Investment Insights.</h2>
             <p className="mt-5 text-muted-fg font-light leading-[1.8]">What investors should be watching this quarter.</p>
           </motion.div>
@@ -513,7 +513,7 @@ export default function MarketIntelligencePage() {
               <motion.div key={c.title}
                 initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
                 transition={{ duration: 0.55, delay: i * 0.08 }}
-                className="bg-charcoal p-8 sm:p-10"
+                className="bg-white border border-[#E8DED2] p-8 sm:p-10"
               >
                 <c.icon className="w-7 h-7 text-copper mb-7" strokeWidth={1.1} />
                 <h3 className="font-serif-display text-xl sm:text-2xl text-ivory mb-4">{c.title}</h3>
@@ -528,7 +528,7 @@ export default function MarketIntelligencePage() {
       <section data-testid="market-opportunities" className="relative py-16 sm:py-24">
         <div className="max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-16">
           <motion.div {...fadeUp} className="mb-12 sm:mb-16 max-w-3xl">
-            <div className="eyebrow-line mb-6"><span className="text-[10px] tracking-[0.5em] uppercase text-white/55">Section · 05 · Curated for Investors</span></div>
+            <div className="eyebrow-line mb-6"><span className="text-[10px] tracking-[0.5em] uppercase text-[#5F5F5F]">Section · 05 · Curated for Investors</span></div>
             <h2 className="section-title text-3xl sm:text-4xl lg:text-5xl leading-[1.05]">Market Opportunities.</h2>
             <p className="mt-5 text-muted-fg font-light leading-[1.8]">A handpicked set of asset-classes worth tracking across our coverage map.</p>
           </motion.div>
@@ -550,13 +550,13 @@ export default function MarketIntelligencePage() {
                 </div>
                 <h3 className="font-serif-display text-2xl text-ivory mb-2">{o.location}</h3>
                 <p className="text-muted-fg text-sm font-light mb-6">{o.asset}</p>
-                <dl className="space-y-3 pt-5 border-t border-white/[0.06]">
+                <dl className="space-y-3 pt-5 border-t border-[#E8DED2]">
                   <div className="flex justify-between text-sm">
-                    <dt className="text-white/45 text-[10px] tracking-[0.25em] uppercase">Horizon</dt>
+                    <dt className="text-[#737373] text-[10px] tracking-[0.25em] uppercase">Horizon</dt>
                     <dd className="text-ivory font-light">{o.horizon}</dd>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <dt className="text-white/45 text-[10px] tracking-[0.25em] uppercase">Upside</dt>
+                    <dt className="text-[#737373] text-[10px] tracking-[0.25em] uppercase">Upside</dt>
                     <dd className="text-copper font-serif-display">{o.upside}</dd>
                   </div>
                 </dl>
@@ -570,7 +570,7 @@ export default function MarketIntelligencePage() {
       <section data-testid="markets-we-track" className="relative py-16 sm:py-24 bg-charcoal-2 border-y border-copper/10 overflow-hidden">
         <div className="max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-16">
           <motion.div {...fadeUp} className="mb-12 sm:mb-16 max-w-3xl">
-            <div className="eyebrow-line mb-6"><span className="text-[10px] tracking-[0.5em] uppercase text-white/55">Section · 06 · Coverage</span></div>
+            <div className="eyebrow-line mb-6"><span className="text-[10px] tracking-[0.5em] uppercase text-[#5F5F5F]">Section · 06 · Coverage</span></div>
             <h2 className="section-title text-3xl sm:text-4xl lg:text-5xl leading-[1.05]">Markets We Track.</h2>
             <p className="mt-5 text-muted-fg font-light leading-[1.8]">Cities and corridors where Astittva sources opportunity for its investor network.</p>
           </motion.div>
@@ -579,13 +579,13 @@ export default function MarketIntelligencePage() {
               <motion.div key={m.country}
                 initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
                 transition={{ duration: 0.55, delay: i * 0.08 }}
-                className="bg-charcoal p-7 sm:p-8 group"
+                className="bg-white border border-[#E8DED2] p-7 sm:p-8 group"
                 data-testid={`market-${m.country}`}
               >
                 <div className="text-4xl mb-4" aria-hidden="true">{m.flag}</div>
                 <h3 className="font-serif-display text-xl text-ivory mb-2">{m.country}</h3>
-                <p className="text-white/55 text-[12px] font-light leading-relaxed mb-4">{m.cities}</p>
-                <div className="text-[9px] tracking-[0.3em] uppercase text-copper border-t border-white/[0.06] pt-3">{m.focus}</div>
+                <p className="text-[#5F5F5F] text-[12px] font-light leading-relaxed mb-4">{m.cities}</p>
+                <div className="text-[9px] tracking-[0.3em] uppercase text-copper border-t border-[#E8DED2] pt-3">{m.focus}</div>
               </motion.div>
             ))}
           </div>
@@ -606,7 +606,7 @@ export default function MarketIntelligencePage() {
               <motion.div key={r.phase}
                 initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
                 transition={{ duration: 0.55, delay: i * 0.1 }}
-                className="bg-charcoal p-10 sm:p-12 text-center"
+                className="bg-white border border-[#E8DED2] p-10 sm:p-12 text-center"
               >
                 <div className="text-copper text-[10px] tracking-[0.4em] uppercase mb-5">{r.phase}</div>
                 <div className="font-serif-display text-2xl sm:text-3xl text-ivory leading-tight">{r.area}</div>

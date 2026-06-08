@@ -1,65 +1,72 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Poppins:wght@200;300;400;500;600&family=Inter:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Poppins:wght@200;300;400;500;600&family=Inter:wght@300;400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * ASTITTVA MARKETING — LUXURY LIGHT THEME
+ * Warm ivory backgrounds · copper accents · maroon-merlot for premium emphasis.
+ * Class names are deliberately preserved (.bg-charcoal, .text-ivory, .luxury-card)
+ * so the entire component tree flips themes without per-file edits.
+ */
+
 @layer base {
   :root {
-    /* Astittva Final Luxury Palette */
-    --background: 0 0% 2%;            /* #050505 */
-    --foreground: 30 22% 95%;         /* #F7F3EE */
-    --card: 354 56% 9%;               /* #2A0608 burgundy */
-    --card-foreground: 30 22% 95%;
-    --popover: 0 0% 4%;
-    --popover-foreground: 30 22% 95%;
-    --primary: 28 53% 51%;            /* #C68642 copper */
-    --primary-foreground: 0 0% 4%;
-    --secondary: 354 64% 13%;         /* #3A0B10 deep wine */
-    --secondary-foreground: 30 22% 95%;
-    --muted: 0 17% 7%;
-    --muted-foreground: 28 11% 68%;   /* #B8AEA4 */
-    --accent: 33 55% 65%;             /* #D4A373 rose gold */
-    --accent-foreground: 0 0% 4%;
+    --background: 36 35% 97%;          /* #FAF8F5 warm ivory */
+    --foreground: 0 0% 11%;            /* #1C1C1C primary text */
+    --card: 0 0% 100%;                 /* #FFFFFF */
+    --card-foreground: 0 0% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 11%;
+    --primary: 27 56% 46%;             /* #B87333 copper */
+    --primary-foreground: 36 35% 97%;
+    --secondary: 30 32% 94%;           /* #F5F1EC secondary surface */
+    --secondary-foreground: 0 0% 11%;
+    --muted: 30 25% 94%;
+    --muted-foreground: 0 0% 37%;      /* #5F5F5F */
+    --accent: 27 41% 55%;              /* #C58A52 premium copper */
+    --accent-foreground: 36 35% 97%;
     --destructive: 0 65% 50%;
-    --destructive-foreground: 30 22% 95%;
-    --border: 28 53% 51%;
-    --input: 0 0% 9%;
-    --ring: 28 53% 51%;
+    --destructive-foreground: 36 35% 97%;
+    --border: 32 36% 86%;              /* #E8DED2 */
+    --input: 0 0% 100%;
+    --ring: 27 56% 46%;
     --radius: 0.125rem;
   }
+  /* dark scope kept for shadcn primitives but mirrors light values */
   .dark {
-    --background: 0 0% 2%;
-    --foreground: 30 22% 95%;
-    --card: 354 56% 9%;
-    --card-foreground: 30 22% 95%;
-    --popover: 0 0% 4%;
-    --popover-foreground: 30 22% 95%;
-    --primary: 28 53% 51%;
-    --primary-foreground: 0 0% 4%;
-    --secondary: 354 64% 13%;
-    --secondary-foreground: 30 22% 95%;
-    --muted: 0 17% 7%;
-    --muted-foreground: 28 11% 68%;
-    --accent: 33 55% 65%;
-    --accent-foreground: 0 0% 4%;
+    --background: 36 35% 97%;
+    --foreground: 0 0% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 11%;
+    --primary: 27 56% 46%;
+    --primary-foreground: 36 35% 97%;
+    --secondary: 30 32% 94%;
+    --secondary-foreground: 0 0% 11%;
+    --muted: 30 25% 94%;
+    --muted-foreground: 0 0% 37%;
+    --accent: 27 41% 55%;
+    --accent-foreground: 36 35% 97%;
     --destructive: 0 65% 50%;
-    --destructive-foreground: 30 22% 95%;
-    --border: 28 53% 51%;
-    --input: 0 0% 9%;
-    --ring: 28 53% 51%;
+    --destructive-foreground: 36 35% 97%;
+    --border: 32 36% 86%;
+    --input: 0 0% 100%;
+    --ring: 27 56% 46%;
   }
 }
 
 @layer base {
-  * { border-color: hsl(var(--border) / 0.10); }
+  * { border-color: hsl(var(--border) / 0.55); }
   html { scroll-behavior: smooth; }
   body {
     margin: 0;
-    background-color: #050505;
-    color: #F7F3EE;
+    background-color: #FAF8F5;
+    color: #1C1C1C;
     font-family: 'Inter', sans-serif;
-    font-weight: 300;
+    font-weight: 400;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     letter-spacing: 0.01em;
@@ -67,39 +74,41 @@
     -webkit-tap-highlight-color: transparent;
   }
   img { max-width: 100%; height: auto; }
-  h1, h2, h3, h4, h5, h6 { font-family: 'Poppins', sans-serif; font-weight: 300; letter-spacing: -0.01em; }
-  ::selection { background-color: #C68642; color: #050505; }
+  h1, h2, h3, h4, h5, h6 { font-family: 'Poppins', sans-serif; font-weight: 400; letter-spacing: -0.01em; color: #1C1C1C; }
+  ::selection { background-color: #B87333; color: #FAF8F5; }
 }
 
 ::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: #050505; }
-::-webkit-scrollbar-thumb { background: rgba(198,134,66,0.4); }
-::-webkit-scrollbar-thumb:hover { background: #C68642; }
+::-webkit-scrollbar-track { background: #F5F1EC; }
+::-webkit-scrollbar-thumb { background: rgba(184,115,51,0.45); }
+::-webkit-scrollbar-thumb:hover { background: #B87333; }
 
-/* Brand utilities — Final palette */
-.text-copper { color: #C68642; }
-.text-copper-hover { color: #D9A063; }
-.text-rose-gold { color: #D4A373; }
-.text-gold { color: #B7792E; }
-.text-ivory { color: #F7F3EE; }
-.text-muted-fg { color: #B8AEA4; }
-.bg-charcoal { background-color: #050505; }
-.bg-charcoal-2 { background-color: #0c0708; }
-.bg-burgundy { background-color: #2A0608; }
-.bg-wine { background-color: #3A0B10; }
-.bg-copper { background-color: #C68642; }
-.border-copper { border-color: #C68642; }
-.border-burgundy { border-color: #3A0B10; }
+/* ────────────────────────────────────────────────────────────────
+ * BRAND UTILITY CLASSES — kept by name, repointed to light palette
+ * ──────────────────────────────────────────────────────────────── */
+.text-copper { color: #B87333; }
+.text-copper-hover { color: #C58A52; }
+.text-rose-gold { color: #C58A52; }
+.text-gold { color: #B87333; }
+.text-ivory { color: #1C1C1C; }                   /* was light text on dark; now dark text on light */
+.text-muted-fg { color: #5F5F5F; }
+.bg-charcoal { background-color: #FAF8F5; }       /* page bg */
+.bg-charcoal-2 { background-color: #F5F1EC; }     /* secondary surface */
+.bg-burgundy { background-color: #5E1F28; }       /* footer / dark luxury accent */
+.bg-wine { background-color: #5E1F28; }
+.bg-copper { background-color: #B87333; }
+.border-copper { border-color: #B87333; }
+.border-burgundy { border-color: #5E1F28; }
 
-.font-serif-display { font-family: 'Cormorant Garamond', 'Poppins', serif; font-weight: 400; letter-spacing: -0.015em; }
+.font-serif-display { font-family: 'Cormorant Garamond', 'Poppins', serif; font-weight: 500; letter-spacing: -0.015em; color: #1C1C1C; }
 
 .overline {
   font-family: 'Inter', sans-serif;
   font-size: 0.7rem;
   letter-spacing: 0.35em;
   text-transform: uppercase;
-  color: #C68642;
-  font-weight: 400;
+  color: #B87333;
+  font-weight: 500;
 }
 
 .eyebrow-line { display: inline-flex; align-items: center; gap: 1rem; }
@@ -107,58 +116,59 @@
   content: "";
   width: 32px;
   height: 1px;
-  background: #C68642;
+  background: #B87333;
   display: inline-block;
 }
 
-.copper-divider { width: 48px; height: 1px; background: #C68642; opacity: 0.7; }
+.copper-divider { width: 48px; height: 1px; background: #B87333; opacity: 0.7; }
 
 .gold-text {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
-  font-weight: 400;
-  background: linear-gradient(135deg, #C68642 0%, #E0A06A 50%, #C68642 100%);
+  font-weight: 500;
+  background: linear-gradient(135deg, #B87333 0%, #D9A063 50%, #B87333 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   background-size: 200% auto;
-  /* drop-shadow works on the painted glyph (incl. gradient-clipped text) where
-     text-shadow does not — keeps the gold readable on bright hero backgrounds. */
-  filter: drop-shadow(0 2px 10px rgba(0,0,0,0.55)) drop-shadow(0 1px 3px rgba(0,0,0,0.7));
+  /* light theme — soft warm drop-shadow for hero contrast on photographs */
+  filter: drop-shadow(0 1px 6px rgba(94,31,40,0.25)) drop-shadow(0 1px 2px rgba(184,115,51,0.20));
 }
 
-/* Subtle burgundy ambient — used at top of every page (luxury wine glow) */
+/* Soft warm radial ambient — replaces the heavy burgundy wash from dark theme */
 .burgundy-gradient {
   background:
-    radial-gradient(ellipse 90% 60% at 50% 0%, rgba(58,11,16,0.65) 0%, rgba(58,11,16,0.18) 35%, transparent 70%),
-    radial-gradient(ellipse 40% 30% at 15% 5%, rgba(198,134,66,0.10) 0%, transparent 60%),
-    radial-gradient(ellipse 40% 30% at 85% 0%, rgba(58,11,16,0.32) 0%, transparent 60%);
+    radial-gradient(ellipse 90% 60% at 50% 0%, rgba(94,31,40,0.10) 0%, rgba(184,115,51,0.05) 35%, transparent 70%),
+    radial-gradient(ellipse 40% 30% at 15% 5%, rgba(184,115,51,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 85% 0%, rgba(94,31,40,0.06) 0%, transparent 60%);
 }
 .burgundy-gradient-soft {
   background:
-    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(58,11,16,0.32) 0%, transparent 65%),
-    linear-gradient(180deg, rgba(58,11,16,0.10) 0%, transparent 100%);
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(184,115,51,0.10) 0%, transparent 65%),
+    linear-gradient(180deg, rgba(94,31,40,0.04) 0%, transparent 100%);
 }
 .copper-glow {
-  background: radial-gradient(ellipse 50% 40% at 50% 50%, rgba(198,134,66,0.08) 0%, transparent 70%);
+  background: radial-gradient(ellipse 50% 40% at 50% 50%, rgba(184,115,51,0.10) 0%, transparent 70%);
 }
 
-/* Tailwind tag for tailwind ambient overlay component */
 .ambient-burgundy::before {
   content: "";
   position: fixed; inset: 0 0 auto 0; height: 720px; pointer-events: none; z-index: 1;
   background:
-    radial-gradient(ellipse 70% 60% at 50% 0%, rgba(58,11,16,0.55) 0%, rgba(42,6,8,0.18) 35%, transparent 70%),
-    radial-gradient(ellipse 35% 25% at 18% 5%, rgba(198,134,66,0.08) 0%, transparent 60%),
-    radial-gradient(ellipse 35% 30% at 82% 2%, rgba(58,11,16,0.30) 0%, transparent 60%);
+    radial-gradient(ellipse 70% 60% at 50% 0%, rgba(184,115,51,0.10) 0%, rgba(94,31,40,0.04) 35%, transparent 70%),
+    radial-gradient(ellipse 35% 25% at 18% 5%, rgba(184,115,51,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 35% 30% at 82% 2%, rgba(94,31,40,0.06) 0%, transparent 60%);
 }
 
+/* ────────────────────────────────────────────────────────────────
+ * BUTTONS
+ * ──────────────────────────────────────────────────────────────── */
 .btn-primary {
-  background-color: #C68642;
-  color: #050505;
+  background-color: #B87333;
+  color: #FFFFFF;
   font-weight: 500;
   padding: 1rem 2rem;
-  border: 1px solid #C68642;
+  border: 1px solid #B87333;
   transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   display: inline-flex; align-items: center; justify-content: center;
   gap: 0.625rem;
@@ -170,13 +180,13 @@
   min-height: 48px;
 }
 @media (min-width: 640px) { .btn-primary { padding: 1.1rem 2.5rem; } }
-.btn-primary:hover { background-color: #D9A063; border-color: #D9A063; transform: translateY(-1px); box-shadow: 0 10px 30px -10px rgba(198,134,66,0.45); }
+.btn-primary:hover { background-color: #5E1F28; border-color: #5E1F28; transform: translateY(-1px); box-shadow: 0 10px 30px -10px rgba(94,31,40,0.35); }
 
 .btn-outline {
-  background-color: transparent;
-  color: #F7F3EE;
-  border: 1px solid rgba(247,243,238,0.22);
-  font-weight: 400;
+  background-color: #FFFFFF;
+  color: #B87333;
+  border: 1px solid #B87333;
+  font-weight: 500;
   padding: 1rem 2rem;
   transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   display: inline-flex; align-items: center; justify-content: center;
@@ -189,16 +199,16 @@
   min-height: 48px;
 }
 @media (min-width: 640px) { .btn-outline { padding: 1.1rem 2.5rem; } }
-.btn-outline:hover { border-color: #C68642; color: #C68642; }
+.btn-outline:hover { background-color: #B87333; color: #FFFFFF; }
 
 .btn-ghost {
   background: transparent;
   border: none;
-  color: #C68642;
+  color: #B87333;
   font-size: 0.7rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  font-weight: 400;
+  font-weight: 500;
   cursor: pointer;
   padding: 0.95rem 1.25rem;
   border: 1px solid transparent;
@@ -206,73 +216,80 @@
   display: inline-flex; align-items: center; gap: 0.5rem;
   min-height: 48px;
 }
-.btn-ghost:hover { color: #D9A063; }
+.btn-ghost:hover { color: #5E1F28; }
 @media (min-width: 640px) {
   .btn-ghost { padding: 0 0 0.4rem 0; border: none; border-bottom: 1px solid transparent; min-height: auto; }
-  .btn-ghost:hover { border-bottom-color: #C68642; }
+  .btn-ghost:hover { border-bottom-color: #B87333; }
 }
 
+/* ────────────────────────────────────────────────────────────────
+ * CARDS & INPUTS
+ * ──────────────────────────────────────────────────────────────── */
 .luxury-card {
-  background: transparent;
-  border: 1px solid rgba(247,243,238,0.05);
+  background: #FFFFFF;
+  border: 1px solid #E8DED2;
+  box-shadow: 0 1px 3px rgba(28,28,28,0.04), 0 4px 16px -8px rgba(94,31,40,0.06);
   transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.luxury-card:hover { border-color: rgba(198,134,66,0.32); transform: translateY(-2px); }
+.luxury-card:hover {
+  border-color: #B87333;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(28,28,28,0.06), 0 18px 40px -12px rgba(184,115,51,0.20);
+}
 
 .input-luxury {
   background: transparent;
   border: none;
-  border-bottom: 1px solid rgba(247,243,238,0.16);
-  color: #F7F3EE;
+  border-bottom: 1px solid #E8DED2;
+  color: #1C1C1C;
   padding: 0.85rem 0;
   width: 100%;
   font-family: 'Inter', sans-serif;
   font-size: 0.95rem;
-  font-weight: 300;
+  font-weight: 400;
   transition: border-color 0.3s ease;
   border-radius: 0;
 }
-.input-luxury:focus { outline: none; border-bottom-color: #C68642; }
-.input-luxury::placeholder { color: rgba(247,243,238,0.3); font-weight: 300; }
+.input-luxury:focus { outline: none; border-bottom-color: #B87333; }
+.input-luxury::placeholder { color: #9D948B; font-weight: 400; }
 
 .input-filled {
-  background: rgba(255,255,255,0.025);
-  border: 1px solid rgba(247,243,238,0.08);
-  color: #F7F3EE;
+  background: #FFFFFF;
+  border: 1px solid #E8DED2;
+  color: #1C1C1C;
   padding: 0.85rem 1rem;
   width: 100%;
   font-family: 'Inter', sans-serif;
   font-size: 0.9rem;
-  font-weight: 300;
+  font-weight: 400;
   transition: all 0.2s ease;
   border-radius: 2px;
   min-height: 44px;
 }
-.input-filled:focus { outline: none; border-color: rgba(198,134,66,0.55); background: rgba(255,255,255,0.04); }
-.input-filled::placeholder { color: rgba(247,243,238,0.3); }
+.input-filled:focus { outline: none; border-color: #B87333; background: #FFFFFF; box-shadow: 0 0 0 3px rgba(184,115,51,0.08); }
+.input-filled::placeholder { color: #9D948B; }
 
 label.input-label {
   font-size: 0.65rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: rgba(247,243,238,0.45);
+  color: #5F5F5F;
   margin-bottom: 0.6rem;
   display: block;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .section-title {
   font-family: 'Cormorant Garamond', serif;
-  font-weight: 300;
+  font-weight: 400;
   letter-spacing: -0.01em;
-  color: #F7F3EE;
+  color: #1C1C1C;
   line-height: 1.05;
 }
 
-/* Premium hairline divider used between sections */
 .hairline {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(198,134,66,0.35), transparent);
+  background: linear-gradient(90deg, transparent, rgba(184,115,51,0.40), transparent);
 }
 
 /* Mobile menu drawer locking */

@@ -105,8 +105,8 @@ export default function PropertyDetailPage() {
                 ["Possession", property.possession_date || "—"],
                 ["Starting Price", property.price_label || (property.starting_price ? `₹${property.starting_price}` : "On request")],
               ].map(([k, v]) => (
-                <div key={k} className="bg-charcoal p-5">
-                  <div className="text-[10px] text-ivory/40 tracking-[0.25em] uppercase mb-2">{k}</div>
+                <div key={k} className="bg-white border border-[#E8DED2] p-5">
+                  <div className="text-[10px] text-[#737373] tracking-[0.25em] uppercase mb-2">{k}</div>
                   <div className="text-ivory font-display text-sm font-light">{v}</div>
                 </div>
               ))}

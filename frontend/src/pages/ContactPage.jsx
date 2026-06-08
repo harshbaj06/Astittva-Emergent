@@ -47,9 +47,9 @@ export default function ContactPage() {
       <section className="pt-32 sm:pt-40 pb-12 sm:pb-16 border-b border-copper/10">
         <div className="max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-16">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-            <div className="eyebrow-line mb-6"><span className="text-[10px] tracking-[0.5em] uppercase text-white/55">Contact</span></div>
+            <div className="eyebrow-line mb-6"><span className="text-[10px] tracking-[0.5em] uppercase text-[#5F5F5F]">Contact</span></div>
             <h1 className="section-title text-3xl sm:text-5xl lg:text-6xl leading-[1.05] max-w-3xl">
-              Let's begin a <span className="italic text-white/55">conversation.</span>
+              Let&apos;s begin a <span className="italic text-[#5F5F5F]">conversation.</span>
             </h1>
             <p className="mt-5 sm:mt-6 text-muted-fg font-light max-w-2xl leading-[1.85] text-base">
               Reach out for a private consultation, property visit, or general advisory. We respond within one business day.
@@ -79,16 +79,16 @@ export default function ContactPage() {
               ].map((b) => (
                 <div key={b.label}>
                   <div className="overline mb-3">{b.label}</div>
-                  <div className="flex items-start gap-4 text-white/75 font-light">
+                  <div className="flex items-start gap-4 text-[#2A2A2A] font-light">
                     <b.icon className="w-5 h-5 text-copper mt-0.5 shrink-0" strokeWidth={1.2} />
                     <div>{b.value}</div>
                   </div>
                 </div>
               ))}
 
-              <div className="pt-8 border-t border-white/[0.06]">
+              <div className="pt-8 border-t border-[#E8DED2]">
                 <div className="overline mb-3">Hours</div>
-                <p className="text-white/75 font-light text-sm">Mon – Sat &nbsp;·&nbsp; 10:00 AM – 7:00 PM IST</p>
+                <p className="text-[#2A2A2A] font-light text-sm">Mon – Sat &nbsp;·&nbsp; 10:00 AM – 7:00 PM IST</p>
               </div>
 
               <a
@@ -189,7 +189,7 @@ export default function ContactPage() {
                     <button type="submit" disabled={submitting} data-testid="contact-submit" className="btn-primary disabled:opacity-50 w-full sm:w-auto">
                       {submitting ? "Sending..." : "Send Enquiry"} <ArrowRight className="w-3.5 h-3.5" />
                     </button>
-                    <span className="text-white/35 text-[10px] tracking-[0.25em] uppercase font-light sm:ml-2">100% Confidential · No Spam</span>
+                    <span className="text-[#9D948B] text-[10px] tracking-[0.25em] uppercase font-light sm:ml-2">100% Confidential · No Spam</span>
                   </div>
                 </form>
               )}

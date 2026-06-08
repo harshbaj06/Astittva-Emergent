@@ -1,26 +1,29 @@
 /**
- * Sitewide luxury burgundy ambient overlay.
- * TOP-anchored gradient — every page (Home, Properties, Market Intelligence, About, Contact)
- * inherits the same brand mood. No heavy left wash that obstructs imagery.
+ * Sitewide ambient — LIGHT THEME edition.
+ * Soft warm cream wash anchored at the top of every page. Provides brand mood
+ * without obscuring photography. Same component is used by every public page.
  */
 export default function AmbientGlow() {
   return (
     <div aria-hidden="true" className="pointer-events-none fixed inset-x-0 top-0 z-0 h-[820px] overflow-hidden">
-      {/* Primary top burgundy gradient — same recipe used inside CinematicHero */}
+      {/* Soft warm cream wash from the top */}
       <div
         className="absolute inset-x-0 top-0 h-full"
         style={{
           background:
-            "linear-gradient(180deg, rgba(90,10,20,0.30) 0%, rgba(90,10,20,0.15) 30%, transparent 70%)",
+            "linear-gradient(180deg, rgba(245,241,236,0.85) 0%, rgba(250,248,245,0.5) 35%, transparent 70%)",
         }}
       />
-      {/* Soft copper sheen — top center, very subtle */}
+      {/* Subtle copper top-centre halo */}
       <div
-        className="absolute left-1/2 top-[-12%] w-[70%] h-[55%] -translate-x-1/2 rounded-full blur-[140px] opacity-25"
-        style={{ background: "radial-gradient(circle, rgba(198,134,66,0.18) 0%, transparent 60%)" }}
+        className="absolute left-1/2 top-[-10%] w-[70%] h-[55%] -translate-x-1/2 rounded-full blur-[140px] opacity-25"
+        style={{ background: "radial-gradient(circle, rgba(184,115,51,0.18) 0%, transparent 60%)" }}
       />
-      {/* Fade-out into page background */}
-      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-[#050505]" />
+      {/* Maroon whisper on the right edge */}
+      <div
+        className="absolute right-[-5%] top-[5%] w-[35%] h-[40%] rounded-full blur-[160px] opacity-20"
+        style={{ background: "radial-gradient(circle, rgba(94,31,40,0.18) 0%, transparent 65%)" }}
+      />
     </div>
   );
 }

@@ -35,18 +35,21 @@ export default function Header() {
     <header
       data-testid="site-header"
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled || open ? "bg-[#050505]/92 backdrop-blur-xl border-b border-copper/10" : "bg-transparent"
+        scrolled || open
+          ? "bg-[#FAF8F5]/85 backdrop-blur-xl border-b border-[#E8DED2] shadow-[0_1px_20px_-10px_rgba(94,31,40,0.15)]"
+          : "bg-[#FAF8F5]/40 backdrop-blur-md"
       }`}
     >
       <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-16 flex items-center justify-between h-16 sm:h-20 md:h-24">
         <Link to="/" data-testid="logo-link" className="flex items-center gap-3 sm:gap-4 group">
           <img
             src={LOGO_URL}
-            alt="Astittva"
+            alt="Astittva Marketing"
             className="h-10 w-10 sm:h-12 sm:w-12 lg:h-14 lg:w-14 object-contain"
           />
-          <div className="leading-tight border-l border-copper/15 pl-3 sm:pl-4">
-            <div className="text-ivory font-serif-display tracking-[0.32em] text-[15px] sm:text-lg lg:text-xl">{BRAND_NAME}</div>
+          <div className="leading-tight border-l border-copper/25 pl-3 sm:pl-4">
+            <div className="text-[#1C1C1C] font-serif-display tracking-[0.22em] sm:tracking-[0.26em] text-[12px] sm:text-sm lg:text-base font-medium">{BRAND_NAME}</div>
+            <div className="text-[#B87333] text-[8px] sm:text-[9px] tracking-[0.4em] uppercase mt-0.5">Kolkata</div>
           </div>
         </Link>
 
@@ -58,7 +61,7 @@ export default function Header() {
               data-testid={`nav-${n.label.toLowerCase().replace(/\s+/g, '-')}`}
               className={({ isActive }) =>
                 `relative text-[10.5px] tracking-[0.3em] uppercase transition-colors duration-300 py-2 ${
-                  isActive ? "text-ivory" : "text-white/55 hover:text-ivory"
+                  isActive ? "text-[#1C1C1C]" : "text-[#5F5F5F] hover:text-[#B87333]"
                 }`
               }
             >
@@ -80,7 +83,7 @@ export default function Header() {
 
         <button
           data-testid="mobile-menu-toggle"
-          className="lg:hidden text-ivory relative w-10 h-10 flex items-center justify-center -mr-2"
+          className="lg:hidden text-[#1C1C1C] relative w-10 h-10 flex items-center justify-center -mr-2"
           onClick={() => setOpen(!open)}
           aria-label={open ? "Close menu" : "Open menu"}
         >
@@ -107,7 +110,7 @@ export default function Header() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="lg:hidden overflow-hidden bg-[#050505]/98 backdrop-blur-xl border-t border-copper/10"
+            className="lg:hidden overflow-hidden bg-[#FAF8F5]/98 backdrop-blur-xl border-t border-[#E8DED2]"
           >
             <nav className="px-6 py-7 flex flex-col">
               {nav.map((n, i) => (
@@ -121,8 +124,8 @@ export default function Header() {
                     to={n.to}
                     data-testid={`mobile-nav-${n.label.toLowerCase().replace(/\s+/g, '-')}`}
                     className={({ isActive }) =>
-                      `block py-4 text-[17px] font-serif-display tracking-[0.06em] border-b border-white/[0.05] ${
-                        isActive ? "text-copper" : "text-white/85"
+                      `block py-4 text-[17px] font-serif-display tracking-[0.06em] border-b border-[#E8DED2] ${
+                        isActive ? "text-copper" : "text-[#1C1C1C]"
                       }`
                     }
                   >
@@ -140,7 +143,7 @@ export default function Header() {
                   Book Consultation
                 </Link>
               </motion.div>
-              <div className="mt-7 pt-5 border-t border-white/[0.05] text-[10px] tracking-[0.4em] uppercase text-white/40">
+              <div className="mt-7 pt-5 border-t border-[#E8DED2] text-[10px] tracking-[0.4em] uppercase text-[#5F5F5F]">
                 Kolkata · India
               </div>
             </nav>

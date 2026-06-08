@@ -109,7 +109,7 @@ export default function HomePage() {
   return (
     <div data-testid="home-page">
       {/* ===================== HERO ===================== */}
-      <section data-testid="hero-section" className="relative min-h-[640px] h-[100svh] sm:min-h-[760px] sm:h-screen w-full overflow-hidden bg-[#0a0a0a]">
+      <section data-testid="hero-section" className="relative min-h-[640px] h-[100svh] sm:min-h-[760px] sm:h-screen w-full overflow-hidden bg-[#FAF8F5]">
         <div className="absolute inset-0">
           <CinematicHero />
         </div>
@@ -144,7 +144,7 @@ export default function HomePage() {
               <span
                 className="text-[9px] sm:text-[10px] tracking-[0.4em] sm:tracking-[0.5em] uppercase text-white/70"
                 style={{ textShadow: "0 1px 6px rgba(0,0,0,0.6)" }}
-              >Astittva · Kolkata · Est. 2026</span>
+              >Astittva Marketing · Kolkata · Est. 2026</span>
             </div>
 
             <h1
@@ -152,14 +152,14 @@ export default function HomePage() {
               style={{ textShadow: "0 2px 18px rgba(0,0,0,0.55), 0 1px 4px rgba(0,0,0,0.4)" }}
             >
               Invest With Confidence.
-              <span className="block mt-1.5 sm:mt-3"><span className="gold-text">Build your future</span> with Astittva.</span>
+              <span className="block mt-1.5 sm:mt-3"><span className="gold-text">Build your future</span> with Astittva Marketing.</span>
             </h1>
 
             <p
               className="mt-5 sm:mt-10 text-white/80 text-[14px] sm:text-base lg:text-lg max-w-xl leading-[1.65] sm:leading-[1.75] font-light"
               style={{ textShadow: "0 2px 12px rgba(0,0,0,0.5)" }}
             >
-              Discover verified residential and commercial opportunities across Kolkata's fastest-growing real estate destinations — curated by advisors who measure success in decades, not deals.
+              Discover verified residential and commercial opportunities across Kolkata&apos;s fastest-growing real estate destinations — curated by advisors who measure success in decades, not deals.
             </p>
 
             <div className="mt-7 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-5 items-stretch sm:items-center">
@@ -186,7 +186,7 @@ export default function HomePage() {
       </section>
 
       {/* ===================== TRUST STRIP ===================== */}
-      <section data-testid="trust-strip" className="relative border-y border-white/[0.06] bg-[#0e0e0e]">
+      <section data-testid="trust-strip" className="relative border-y border-[#E8DED2] bg-[#F5F1EC]">
         <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-16 py-8 sm:py-10">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-y-7 gap-x-6 sm:gap-x-10">
             {TRUST_SIGNALS.map((t, i) => (
@@ -199,7 +199,7 @@ export default function HomePage() {
                 className="flex items-center gap-3 sm:gap-4"
               >
                 <t.icon className="w-5 h-5 sm:w-6 sm:h-6 text-copper shrink-0" strokeWidth={1.2} />
-                <span className="text-white/70 text-[11px] sm:text-xs tracking-[0.15em] uppercase font-light leading-snug">{t.label}</span>
+                <span className="text-[#2A2A2A] text-[11px] sm:text-xs tracking-[0.15em] uppercase font-light leading-snug">{t.label}</span>
               </motion.div>
             ))}
           </div>
@@ -211,11 +211,11 @@ export default function HomePage() {
         <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-16">
           <motion.div {...fadeUp} className="max-w-3xl mb-12 sm:mb-16">
             <div className="eyebrow-line mb-8">
-              <span className="text-[10px] tracking-[0.5em] uppercase text-white/50">The Astittva Difference</span>
+              <span className="text-[10px] tracking-[0.5em] uppercase text-[#5F5F5F]">The Astittva Difference</span>
             </div>
             <h2 className="section-title text-3xl sm:text-5xl lg:text-6xl leading-[1.05]">
               A new standard for real estate<br />
-              <span className="text-white/50 italic font-serif-display">advisory in Eastern India.</span>
+              <span className="text-[#5F5F5F] italic font-serif-display">advisory in Eastern India.</span>
             </h2>
           </motion.div>
 
@@ -227,11 +227,11 @@ export default function HomePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                className="bg-[#121212] p-7 sm:p-10 lg:p-12 group"
+                className="bg-white p-7 sm:p-10 lg:p-12 group"
               >
                 <p.icon className="w-7 h-7 text-copper mb-10 transition-colors duration-500" strokeWidth={1} />
                 <h3 className="font-serif-display text-2xl text-ivory mb-4">{p.title}</h3>
-                <p className="text-white/55 leading-[1.7] font-light text-[15px]">{p.body}</p>
+                <p className="text-[#5F5F5F] leading-[1.7] font-light text-[15px]">{p.body}</p>
               </motion.div>
             ))}
           </div>
@@ -239,15 +239,15 @@ export default function HomePage() {
       </section>
 
       {/* ===================== FEATURED LOCATIONS ===================== */}
-      <section data-testid="locations-section" className="py-16 sm:py-24 bg-[#0e0e0e]">
+      <section data-testid="locations-section" className="py-16 sm:py-24 bg-[#F5F1EC]">
         <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-16">
           <motion.div {...fadeUp} className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12 sm:mb-16">
             <div className="max-w-2xl">
               <div className="eyebrow-line mb-8">
-                <span className="text-[10px] tracking-[0.5em] uppercase text-white/50">Featured Locations</span>
+                <span className="text-[10px] tracking-[0.5em] uppercase text-[#5F5F5F]">Featured Locations</span>
               </div>
               <h2 className="section-title text-3xl sm:text-5xl lg:text-6xl leading-[1.05]">
-                Where Kolkata's future<br /><span className="italic text-white/50">is being built.</span>
+                Where Kolkata&apos;s future<br /><span className="italic text-[#5F5F5F]">is being built.</span>
               </h2>
             </div>
             <Link to="/properties" className="btn-ghost">
@@ -266,11 +266,11 @@ export default function HomePage() {
                 className="group relative overflow-hidden cursor-pointer"
               >
                 <Link to={`/properties?city=${encodeURIComponent(loc.name)}`} data-testid={`location-card-${loc.name.toLowerCase().replace(' ', '-')}`}>
-                  <div className="relative aspect-[4/5] sm:aspect-[3/4] overflow-hidden bg-[#0a0a0a]">
+                  <div className="relative aspect-[4/5] sm:aspect-[3/4] overflow-hidden bg-[#FAF8F5]">
                     <img loading="lazy" src={loc.img} alt={loc.name} className="w-full h-full object-cover transition-all duration-[1.8s] ease-out group-hover:scale-105" />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/65 to-[#0a0a0a]/15" />
                     {/* Category chip top-left */}
-                    <div className="absolute top-5 left-5 flex items-center gap-2 bg-[#0a0a0a]/70 backdrop-blur-md border border-white/10 px-3 py-1.5">
+                    <div className="absolute top-5 left-5 flex items-center gap-2 bg-[#FAF8F5]/70 backdrop-blur-md border border-[#E8DED2] px-3 py-1.5">
                       <span className="w-1 h-1 rounded-full bg-copper" />
                       <span className="text-white/80 text-[10px] tracking-[0.25em] uppercase">{loc.category}</span>
                     </div>
@@ -280,11 +280,11 @@ export default function HomePage() {
                       <div className="text-copper text-[10px] tracking-[0.4em] uppercase mb-3 transition-transform duration-500 group-hover:-translate-y-1">{loc.tag}</div>
                     </div>
                     <h3 className="font-serif-display text-3xl sm:text-4xl text-ivory mb-3">{loc.name}</h3>
-                    <p className="text-white/65 text-sm leading-[1.7] font-light max-w-xs">{loc.blurb}</p>
+                    <p className="text-[#3A3A3A] text-sm leading-[1.7] font-light max-w-xs">{loc.blurb}</p>
 
-                    <div className="mt-6 flex items-end justify-between gap-4 pt-5 border-t border-white/[0.08]">
+                    <div className="mt-6 flex items-end justify-between gap-4 pt-5 border-t border-[#E8DED2]">
                       <div>
-                        <div className="text-[9px] tracking-[0.3em] uppercase text-white/40 mb-1">Starting</div>
+                        <div className="text-[9px] tracking-[0.3em] uppercase text-[#737373] mb-1">Starting</div>
                         <div className="font-serif-display text-xl sm:text-2xl text-ivory">{loc.starting}</div>
                       </div>
                       <div className="inline-flex items-center gap-2 text-copper text-[10px] tracking-[0.4em] uppercase border-b border-copper/40 group-hover:border-copper pb-1 transition-all duration-500">
@@ -304,17 +304,17 @@ export default function HomePage() {
         <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-16">
           <motion.div {...fadeUp} className="mb-10 sm:mb-14 max-w-3xl">
             <div className="eyebrow-line mb-8">
-              <span className="text-[10px] tracking-[0.5em] uppercase text-white/50">Featured Projects</span>
+              <span className="text-[10px] tracking-[0.5em] uppercase text-[#5F5F5F]">Featured Projects</span>
             </div>
             <h2 className="section-title text-3xl sm:text-5xl lg:text-6xl leading-[1.05]">
               A handpicked portfolio.<br />
-              <span className="italic text-white/50">Verified. Premium. Ready.</span>
+              <span className="italic text-[#5F5F5F]">Verified. Premium. Ready.</span>
             </h2>
           </motion.div>
 
           {projects.length === 0 ? (
-            <div className="text-center py-24 border border-white/[0.06]">
-              <p className="text-white/40 italic font-serif-display text-lg mb-8">New projects are being curated.</p>
+            <div className="text-center py-24 border border-[#E8DED2]">
+              <p className="text-[#737373] italic font-serif-display text-lg mb-8">New projects are being curated.</p>
               <Link to="/contact" className="btn-outline">Speak to an Advisor</Link>
             </div>
           ) : (
@@ -330,7 +330,7 @@ export default function HomePage() {
                   data-testid={`project-card-${p.id}`}
                 >
                   <Link to={`/properties/${p.id}`}>
-                    <div className="aspect-[4/3] overflow-hidden bg-[#0a0a0a]">
+                    <div className="aspect-[4/3] overflow-hidden bg-[#FAF8F5]">
                       <img loading="lazy"
                         src={p.images?.[0] ? fileUrl(p.images[0]) : "https://images.pexels.com/photos/24805054/pexels-photo-24805054.jpeg"}
                         alt={p.project_name}
@@ -338,12 +338,12 @@ export default function HomePage() {
                       />
                     </div>
                     <div className="pt-8">
-                      <div className="text-white/40 text-[10px] tracking-[0.4em] uppercase mb-3 flex items-center gap-2">
+                      <div className="text-[#737373] text-[10px] tracking-[0.4em] uppercase mb-3 flex items-center gap-2">
                         <span className="w-4 h-px bg-copper" /> {p.city}
                       </div>
                       <h3 className="font-serif-display text-2xl text-ivory mb-3 group-hover:text-copper transition-colors duration-500">{p.project_name}</h3>
-                      <p className="text-white/55 text-sm font-light line-clamp-2 leading-[1.7]">{p.description}</p>
-                      <div className="mt-6 flex items-center justify-between pt-6 border-t border-white/[0.06]">
+                      <p className="text-[#5F5F5F] text-sm font-light line-clamp-2 leading-[1.7]">{p.description}</p>
+                      <div className="mt-6 flex items-center justify-between pt-6 border-t border-[#E8DED2]">
                         <span className="text-ivory/80 font-serif-display text-base italic">{p.price_label || "Price on request"}</span>
                         <ArrowRight className="w-4 h-4 text-copper transition-transform duration-500 group-hover:translate-x-1" />
                       </div>
@@ -357,7 +357,7 @@ export default function HomePage() {
       </section>
 
       {/* ===================== WHY INVEST IN KOLKATA ===================== */}
-      <section data-testid="why-kolkata-section" className="relative py-16 sm:py-24 bg-[#0e0e0e] overflow-hidden">
+      <section data-testid="why-kolkata-section" className="relative py-16 sm:py-24 bg-[#F5F1EC] overflow-hidden">
         <div className="absolute inset-0 opacity-[0.08]">
           <img loading="lazy" src={TEXTURE} alt="" className="w-full h-full object-cover" />
         </div>
@@ -366,13 +366,13 @@ export default function HomePage() {
           <motion.div {...fadeUp} className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
             <div className="lg:col-span-5">
               <div className="eyebrow-line mb-8">
-                <span className="text-[10px] tracking-[0.5em] uppercase text-white/50">Why Invest in Kolkata</span>
+                <span className="text-[10px] tracking-[0.5em] uppercase text-[#5F5F5F]">Why Invest in Kolkata</span>
               </div>
               <h2 className="section-title text-3xl sm:text-5xl lg:text-6xl leading-[1.05]">
-                The next great Indian real estate story <span className="italic text-white/50">is being written here.</span>
+                The next great Indian real estate story <span className="italic text-[#5F5F5F]">is being written here.</span>
               </h2>
-              <p className="mt-10 text-white/60 leading-[1.85] font-light text-base">
-                Kolkata — and Greater Kolkata in particular — is experiencing a quiet renaissance. Lower entry points than Mumbai or Bangalore, strong rental yields, and a wave of infrastructure that's redrawing the map of Eastern India.
+              <p className="mt-10 text-[#5F5F5F] leading-[1.85] font-light text-base">
+                Kolkata — and Greater Kolkata in particular — is experiencing a quiet renaissance. Lower entry points than Mumbai or Bangalore, strong rental yields, and a wave of infrastructure that&apos;s redrawing the map of Eastern India.
               </p>
             </div>
 
@@ -384,14 +384,14 @@ export default function HomePage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.7, delay: i * 0.1 }}
-                  className="bg-[#0e0e0e] p-8 sm:p-10 lg:p-14 group hover:bg-[#121212] transition-colors duration-500"
+                  className="bg-[#F5F1EC] p-8 sm:p-10 lg:p-14 group hover:bg-white transition-colors duration-500"
                 >
                   <div className="font-serif-display text-[3.5rem] sm:text-[5rem] lg:text-[6rem] leading-[0.95] tracking-[-0.02em] text-ivory mb-4 sm:mb-6">
                     {f.stat}
                   </div>
                   <div className="flex items-center gap-3">
                     <span className="w-6 h-px bg-copper" />
-                    <div className="text-white/65 text-[11px] sm:text-xs tracking-[0.2em] uppercase">{f.label}</div>
+                    <div className="text-[#3A3A3A] text-[11px] sm:text-xs tracking-[0.2em] uppercase">{f.label}</div>
                   </div>
                 </motion.div>
               ))}
@@ -405,12 +405,12 @@ export default function HomePage() {
         <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-16">
           <motion.div {...fadeUp} className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
             <div className="eyebrow-line justify-center mb-8" style={{ display: "inline-flex" }}>
-              <span className="text-[10px] tracking-[0.5em] uppercase text-white/50">Future Expansion</span>
+              <span className="text-[10px] tracking-[0.5em] uppercase text-[#5F5F5F]">Future Expansion</span>
             </div>
             <h2 className="section-title text-3xl sm:text-5xl lg:text-6xl leading-[1.05] mt-2">
-              From Kolkata<br /><span className="italic text-white/50">to the world.</span>
+              From Kolkata<br /><span className="italic text-[#5F5F5F]">to the world.</span>
             </h2>
-            <p className="mt-8 text-white/55 font-light leading-[1.85] text-base">
+            <p className="mt-8 text-[#5F5F5F] font-light leading-[1.85] text-base">
               Built on a foundation of local trust, designed for global ambition. Our roadmap charts a deliberate expansion across India and into key international investment markets.
             </p>
           </motion.div>
@@ -428,7 +428,7 @@ export default function HomePage() {
                 className="relative text-center flex flex-col items-center"
                 data-testid={`roadmap-step-${i}`}
               >
-                <div className="w-24 h-24 rounded-full border border-white/15 bg-[#121212] flex items-center justify-center mb-8 relative group hover:border-copper transition-colors duration-500">
+                <div className="w-24 h-24 rounded-full border border-[#E8DED2] bg-white flex items-center justify-center mb-8 relative group hover:border-copper transition-colors duration-500">
                   <step.icon className="w-7 h-7 text-copper" strokeWidth={1} />
                 </div>
                 <div className="text-copper text-[10px] tracking-[0.4em] uppercase mb-3">{step.phase}</div>
@@ -440,7 +440,7 @@ export default function HomePage() {
       </section>
 
       {/* ===================== WHATSAPP CTA STRIP ===================== */}
-      <section data-testid="whatsapp-cta" className="relative bg-[#0a0a0a] border-y border-white/[0.06]">
+      <section data-testid="whatsapp-cta" className="relative bg-[#FAF8F5] border-y border-[#E8DED2]">
         <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-16 py-14 sm:py-20">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
             <div className="lg:col-span-7">
@@ -448,7 +448,7 @@ export default function HomePage() {
                 <span className="w-10 h-10 rounded-full bg-[#25D366]/10 border border-[#25D366]/30 flex items-center justify-center">
                   <MessageCircle className="w-4 h-4 text-[#25D366]" strokeWidth={1.5} />
                 </span>
-                <span className="text-[10px] tracking-[0.4em] uppercase text-white/50">Direct Advisory</span>
+                <span className="text-[10px] tracking-[0.4em] uppercase text-[#5F5F5F]">Direct Advisory</span>
               </div>
               <h2 className="section-title text-3xl sm:text-4xl lg:text-5xl leading-[1.05]">
                 Need Immediate Property Advice?
@@ -476,32 +476,32 @@ export default function HomePage() {
       </section>
 
       {/* ===================== LEAD FORM ===================== */}
-      <section id="consultation" data-testid="lead-form-section" className="relative py-16 sm:py-24 bg-[#0e0e0e]">
+      <section id="consultation" data-testid="lead-form-section" className="relative py-16 sm:py-24 bg-[#F5F1EC]">
         <div className="absolute inset-0 opacity-[0.06]"><img loading="lazy" src={TEXTURE} alt="" className="w-full h-full object-cover" /></div>
 
         <div className="relative max-w-[1200px] mx-auto px-6 sm:px-8 lg:px-16">
           <motion.div {...fadeUp} className="grid grid-cols-1 lg:grid-cols-12 gap-10 sm:gap-12 lg:gap-16">
             <div className="lg:col-span-5">
               <div className="eyebrow-line mb-8">
-                <span className="text-[10px] tracking-[0.5em] uppercase text-white/50">Book a Consultation</span>
+                <span className="text-[10px] tracking-[0.5em] uppercase text-[#5F5F5F]">Book a Consultation</span>
               </div>
               <h2 className="section-title text-3xl sm:text-5xl lg:text-[3.5rem] leading-[1.05]">
-                Let's design your<br /><span className="italic text-white/50">investment journey.</span>
+                Let&apos;s design your<br /><span className="italic text-[#5F5F5F]">investment journey.</span>
               </h2>
-              <p className="mt-8 sm:mt-10 text-white/55 font-light leading-[1.85] text-base">
+              <p className="mt-8 sm:mt-10 text-[#5F5F5F] font-light leading-[1.85] text-base">
                 Share a few details. A senior advisor will reach out within one business day with a curated shortlist tailored to your goals.
               </p>
 
               <ul className="mt-8 space-y-3">
                 {["No spam — ever", "Confidential & RERA-compliant", "Response within 24 hours"].map((b) => (
-                  <li key={b} className="flex items-center gap-3 text-white/55 text-sm font-light">
+                  <li key={b} className="flex items-center gap-3 text-[#5F5F5F] text-sm font-light">
                     <Check className="w-4 h-4 text-copper" strokeWidth={1.4} /> {b}
                   </li>
                 ))}
               </ul>
 
-              <div className="mt-10 pt-8 sm:pt-10 border-t border-white/[0.06]">
-                <div className="text-[10px] tracking-[0.4em] uppercase text-white/40 mb-3">Or call us directly</div>
+              <div className="mt-10 pt-8 sm:pt-10 border-t border-[#E8DED2]">
+                <div className="text-[10px] tracking-[0.4em] uppercase text-[#737373] mb-3">Or call us directly</div>
                 <a href={`tel:${PHONE_DISPLAY.replace(/\s/g, "")}`} className="font-serif-display text-2xl text-ivory hover:text-copper transition">{PHONE_DISPLAY}</a>
               </div>
             </div>
@@ -519,7 +519,7 @@ export default function HomePage() {
                     <Check className="w-7 h-7 text-copper" strokeWidth={1.4} />
                   </div>
                   <h3 className="font-serif-display text-3xl sm:text-4xl text-ivory mb-4">Thank you.</h3>
-                  <p className="text-white/60 font-light leading-[1.85] max-w-md mx-auto">
+                  <p className="text-[#5F5F5F] font-light leading-[1.85] max-w-md mx-auto">
                     Your request has been received. A senior Astittva advisor will reach out within one business day with a curated shortlist for you.
                   </p>
                   <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
@@ -580,7 +580,7 @@ export default function HomePage() {
                     <button type="submit" disabled={submitting} data-testid="lead-submit-btn" className="btn-primary disabled:opacity-50 w-full sm:w-auto">
                       {submitting ? "Sending..." : "Request Consultation"} <ArrowRight className="w-3.5 h-3.5" />
                     </button>
-                    <span className="text-white/35 text-[10px] tracking-[0.25em] uppercase font-light sm:ml-2">100% Confidential</span>
+                    <span className="text-[#9D948B] text-[10px] tracking-[0.25em] uppercase font-light sm:ml-2">100% Confidential</span>
                   </div>
                   {submitError && (
                     <div data-testid="lead-error" className="text-red-400 text-sm font-light border border-red-500/30 bg-red-500/5 px-4 py-3">
