@@ -73,77 +73,93 @@ export default function Footer() {
       </section>
 
       {/* ──────────────────────────────────────────────────────────────
-       *  FOOTER PROPER — deep merlot, high-contrast hierarchy
+       *  FOOTER PROPER — luxury merlot, Sotheby's/Knight Frank-grade contrast
        * ────────────────────────────────────────────────────────────── */}
-      <div className="relative bg-[#1A0A0E] text-white border-t border-[#B68D40]/30">
-        {/* Top copper sheen */}
-        <div aria-hidden="true" className="absolute inset-x-0 top-0 h-40 pointer-events-none" style={{ background: "linear-gradient(180deg, rgba(182,141,64,0.07) 0%, transparent 100%)" }} />
+      <div className="relative text-[#F5EFE7] border-t border-[#C78B47]/30" style={{ backgroundColor: "#2A080C" }}>
+        {/* Top champagne sheen */}
+        <div aria-hidden="true" className="absolute inset-x-0 top-0 h-40 pointer-events-none" style={{ background: "linear-gradient(180deg, rgba(199,139,71,0.10) 0%, transparent 100%)" }} />
 
         <div className="relative max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-16 py-16 sm:py-20">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
             <div className="md:col-span-5">
-              <div className="flex items-center gap-4 mb-7">
-                <img src={LOGO_URL} alt="Astittva Marketing" className="h-14 w-14 sm:h-16 sm:w-16 object-contain" />
-                <div className="border-l border-[#B68D40]/45 pl-4">
-                  <div className="font-serif-display tracking-[0.22em] text-white text-xl sm:text-[1.65rem] font-medium">{BRAND_NAME}</div>
-                  <div className="text-[#B68D40] text-[9px] sm:text-[10px] tracking-[0.4em] uppercase mt-1 font-semibold">Real Estate Consulting</div>
+              {/* Premium brand lockup — larger, high-contrast */}
+              <div className="flex items-center gap-5 mb-7">
+                <img src={LOGO_URL} alt="Astittva Marketing" className="h-16 w-16 sm:h-20 sm:w-20 object-contain" />
+                <div className="border-l border-[#C78B47]/55 pl-5">
+                  <div
+                    className="font-serif-display tracking-[0.18em] text-[#F5EFE7] text-[1.45rem] sm:text-[1.85rem] font-semibold leading-tight"
+                    style={{ textShadow: "0 1px 12px rgba(199,139,71,0.15)" }}
+                  >
+                    {BRAND_NAME}
+                  </div>
+                  <div className="text-[#C78B47] text-[10px] sm:text-[11px] tracking-[0.42em] uppercase mt-1.5 font-semibold">
+                    Luxury Real Estate Advisory
+                  </div>
                 </div>
               </div>
-              <p className="text-white/85 text-sm sm:text-[15px] leading-[1.85] font-normal max-w-md">
-                Verified projects, honest counsel, end-to-end guidance — across <span className="text-[#E5C68C] font-medium">New Town · Rajarhat · Kolkata</span>, expanding across India and global investment markets.
+
+              <p className="text-[#F5EFE7]/90 text-[15px] leading-[1.85] font-normal max-w-md">
+                Verified projects · Strategic investments · End-to-end advisory.
+                <br />
+                Across <span className="text-[#E5C68C] font-medium">New Town, Rajarhat &amp; Kolkata</span> — expanding nationally and into global investment markets.
               </p>
-              <div className="flex gap-3 mt-8">
+
+              {/* Champagne hairline divider */}
+              <div className="mt-8 mb-8 w-16 h-px" style={{ background: "linear-gradient(90deg, #C78B47, rgba(199,139,71,0))" }} />
+
+              <div className="flex gap-3">
                 {[Instagram, Linkedin, Facebook].map((Icon, i) => (
-                  <a key={i} href="#" aria-label="Social" className="w-11 h-11 border border-white/25 hover:border-[#B68D40] hover:bg-white/5 flex items-center justify-center transition-all duration-500">
-                    <Icon className="w-[18px] h-[18px] text-white/85" strokeWidth={1.4} />
+                  <a key={i} href="#" aria-label="Social" className="w-11 h-11 border border-[#C78B47]/45 hover:border-[#C78B47] hover:bg-[#C78B47]/10 flex items-center justify-center transition-all duration-500">
+                    <Icon className="w-[18px] h-[18px] text-[#F5EFE7]" strokeWidth={1.4} />
                   </a>
                 ))}
               </div>
             </div>
 
             <div className="md:col-span-2">
-              <h4 className="text-[10px] tracking-[0.4em] uppercase text-[#B68D40] mb-6 font-semibold">Explore</h4>
-              <ul className="space-y-3.5 text-sm text-white/85 font-light">
-                <li><Link to="/" className="hover:text-[#E5C68C] transition">Home</Link></li>
-                <li><Link to="/properties" className="hover:text-[#E5C68C] transition">Properties</Link></li>
-                <li><Link to="/market-intelligence" className="hover:text-[#E5C68C] transition">Market Intelligence</Link></li>
-                <li><Link to="/about" className="hover:text-[#E5C68C] transition">About</Link></li>
-                <li><Link to="/contact" className="hover:text-[#E5C68C] transition">Contact</Link></li>
+              <h4 className="text-[10px] tracking-[0.4em] uppercase text-[#C78B47] mb-6 font-semibold">Explore</h4>
+              <ul className="space-y-3.5 text-[14px] text-[#F5EFE7]/90 font-normal">
+                <li><Link to="/" className="hover:text-[#C78B47] transition">Home</Link></li>
+                <li><Link to="/properties" className="hover:text-[#C78B47] transition">Properties</Link></li>
+                <li><Link to="/market-intelligence" className="hover:text-[#C78B47] transition">Market Intelligence</Link></li>
+                <li><Link to="/about" className="hover:text-[#C78B47] transition">About</Link></li>
+                <li><Link to="/contact" className="hover:text-[#C78B47] transition">Contact</Link></li>
               </ul>
             </div>
 
             <div className="md:col-span-2">
-              <h4 className="text-[10px] tracking-[0.4em] uppercase text-[#B68D40] mb-6 font-semibold">Markets</h4>
-              <ul className="space-y-3.5 text-sm text-white/85 font-light">
+              <h4 className="text-[10px] tracking-[0.4em] uppercase text-[#C78B47] mb-6 font-semibold">Markets</h4>
+              <ul className="space-y-3.5 text-[14px] text-[#F5EFE7]/90 font-normal">
                 <li>New Town</li>
                 <li>Rajarhat</li>
                 <li>Kolkata</li>
-                <li className="text-white/55 italic font-serif-display text-xs pt-2">Greater Kolkata · India · Global</li>
+                <li className="text-[#F5EFE7]/55 italic font-serif-display text-xs pt-2">Greater Kolkata · India · Global</li>
               </ul>
             </div>
 
             <div className="md:col-span-3">
-              <h4 className="text-[10px] tracking-[0.4em] uppercase text-[#B68D40] mb-6 font-semibold">Reach Us</h4>
-              <ul className="space-y-4 text-sm text-white/85 font-light">
+              <h4 className="text-[10px] tracking-[0.4em] uppercase text-[#C78B47] mb-6 font-semibold">Reach Us</h4>
+              <ul className="space-y-4 text-[14px] text-[#F5EFE7]/90 font-normal">
                 <li className="flex items-start gap-3">
-                  <MapPin className="w-4 h-4 text-[#B68D40] mt-0.5 shrink-0" strokeWidth={1.5} />
+                  <MapPin className="w-4 h-4 text-[#C78B47] mt-0.5 shrink-0" strokeWidth={1.5} />
                   <span className="leading-[1.7]">PS IXL Building, 5th Flr, Room 511<br />Biswa Bangla Sarani, Atghara<br />New Town, Kolkata, WB 700136</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <Phone className="w-4 h-4 text-[#B68D40] shrink-0" strokeWidth={1.5} />
-                  <a href={`tel:${PHONE_DISPLAY.replace(/\s/g, "")}`} className="hover:text-[#E5C68C] transition">{PHONE_DISPLAY}</a>
+                  <Phone className="w-4 h-4 text-[#C78B47] shrink-0" strokeWidth={1.5} />
+                  <a href={`tel:${PHONE_DISPLAY.replace(/\s/g, "")}`} className="hover:text-[#C78B47] transition">{PHONE_DISPLAY}</a>
                 </li>
                 <li className="flex items-center gap-3">
-                  <Mail className="w-4 h-4 text-[#B68D40] shrink-0" strokeWidth={1.5} />
-                  <a href={`mailto:${EMAIL}`} className="hover:text-[#E5C68C] transition">{EMAIL}</a>
+                  <Mail className="w-4 h-4 text-[#C78B47] shrink-0" strokeWidth={1.5} />
+                  <a href={`mailto:${EMAIL}`} className="hover:text-[#C78B47] transition">{EMAIL}</a>
                 </li>
               </ul>
             </div>
           </div>
 
-          <div className="mt-16 sm:mt-20 pt-7 border-t border-white/15 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-white/70 text-xs tracking-wider">© {new Date().getFullYear()} Astittva Marketing · All rights reserved.</p>
-            <p className="text-white/70 text-[10px] tracking-[0.4em] uppercase">Crafted with conviction · Real Estate Consulting &amp; Marketing</p>
+          {/* Bottom champagne divider strip */}
+          <div className="mt-16 sm:mt-20 pt-7 border-t border-[#C78B47]/25 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-[#F5EFE7]/75 text-xs tracking-wider">© {new Date().getFullYear()} <span className="text-[#F5EFE7] font-semibold tracking-[0.1em]">Astittva Marketing</span> · All rights reserved.</p>
+            <p className="text-[#F5EFE7]/75 text-[10px] tracking-[0.4em] uppercase">Crafted with conviction · Luxury Real Estate Advisory</p>
           </div>
         </div>
       </div>

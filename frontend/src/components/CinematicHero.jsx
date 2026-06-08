@@ -73,10 +73,11 @@ export default function CinematicHero() {
         style={{ background: "linear-gradient(180deg, rgba(250,248,245,0.0) 0%, rgba(250,248,245,0.55) 70%, #FAF8F5 100%)" }}
       />
 
-      {/* Focused vignette behind hero copy only — protects typography on bright slides */}
+      {/* Stronger focused vignette behind hero copy — guarantees readability on every slide,
+          including bright Victoria Memorial / sunrise frames. */}
       <div
-        className="absolute inset-y-0 left-0 w-[48%] pointer-events-none"
-        style={{ background: "linear-gradient(95deg, rgba(28,16,18,0.50) 0%, rgba(28,16,18,0.28) 30%, rgba(28,16,18,0.10) 55%, transparent 80%)" }}
+        className="absolute inset-y-0 left-0 w-[62%] pointer-events-none"
+        style={{ background: "linear-gradient(95deg, rgba(20,12,14,0.78) 0%, rgba(20,12,14,0.55) 22%, rgba(20,12,14,0.28) 48%, rgba(20,12,14,0.08) 70%, transparent 88%)" }}
       />
 
       {/* Slide caption + progress dots — bottom right (desktop only) */}
