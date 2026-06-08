@@ -57,6 +57,21 @@ function FilterSelect({ label, value, onChange, options, allLabel, testId }) {
   );
 }
 
+// Distinct luxury fallback images so the grid never repeats when properties have no uploads.
+const FALLBACK_IMAGES = [
+  "/images/luxe/luxury_villa.jpg",
+  "/images/luxe/property_tower.jpg",
+  "/images/luxe/property_villa_garden.jpg",
+  "/images/luxe/property_heritage_estate.jpg",
+];
+
+function pickFallback(id) {
+  const key = String(id || "");
+  let h = 0;
+  for (let i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0;
+  return FALLBACK_IMAGES[h % FALLBACK_IMAGES.length];
+}
+
 export default function PropertiesPage() {
   const [params, setParams] = useSearchParams();
   const [properties, setProperties] = useState([]);
@@ -254,7 +269,7 @@ export default function PropertiesPage() {
                 Our advisors curate beyond the listing.
               </h3>
               <p className="text-ivory/55 font-light max-w-md mx-auto text-sm sm:text-base leading-relaxed mb-8">
-                Tell us what you're seeking — micro-market, configuration, intended use — and we'll surface
+                Tell us what you&apos;re seeking — micro-market, configuration, intended use — and we&apos;ll surface
                 off-market and pre-launch opportunities aligned to your brief.
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
@@ -285,7 +300,7 @@ export default function PropertiesPage() {
                   <div className="aspect-[4/3] overflow-hidden relative">
                     <img
                       loading="lazy"
-                      src={p.images?.[0] ? fileUrl(p.images[0]) : "/images/luxe/luxury_villa.jpg"}
+                      src={p.images?.[0] ? fileUrl(p.images[0]) : pickFallback(p.id)}
                       alt={p.project_name}
                       className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110"
                     />
