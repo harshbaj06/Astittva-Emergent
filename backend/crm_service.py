@@ -22,7 +22,7 @@ import httpx
 logger = logging.getLogger("astitva.crm")
 
 # Tunables — all env-driven
-CRM_TIMEOUT_SECS = 8.0
+CRM_TIMEOUT_SECS = 15.0
 CRM_RETRIES = 1  # 1 retry on transient failures (timeout / 5xx)
 
 
