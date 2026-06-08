@@ -1,28 +1,35 @@
 /**
- * Sitewide ambient — LIGHT THEME edition.
- * Soft warm cream wash anchored at the top of every page. Provides brand mood
- * without obscuring photography. Same component is used by every public page.
+ * Astittva signature ambient glow.
+ *
+ * A single, near-invisible burgundy radial centered behind the header on every page.
+ * Acts like premium lobby lighting — felt, not seen. No bars, no hard edges, no panels.
+ *
+ * Rendered once in PublicLayout, so every public page inherits the same atmosphere.
  */
 export default function AmbientGlow() {
   return (
-    <div aria-hidden="true" className="pointer-events-none fixed inset-x-0 top-0 z-0 h-[820px] overflow-hidden">
-      {/* Soft warm cream wash from the top */}
+    <div
+      aria-hidden="true"
+      className="pointer-events-none fixed inset-x-0 top-0 z-0 h-[520px] overflow-hidden"
+    >
+      {/* Single large feathered burgundy radial centered behind the header.
+          Opacity tuned so it reads as warmth, not as a design element. */}
       <div
-        className="absolute inset-x-0 top-0 h-full"
+        className="absolute left-1/2 top-[-180px] w-[1400px] h-[640px] -translate-x-1/2 rounded-full"
         style={{
           background:
-            "linear-gradient(180deg, rgba(245,241,236,0.85) 0%, rgba(250,248,245,0.5) 35%, transparent 70%)",
+            "radial-gradient(closest-side, rgba(94,31,40,0.13) 0%, rgba(94,31,40,0.07) 40%, rgba(94,31,40,0.02) 70%, transparent 100%)",
+          filter: "blur(70px)",
         }}
       />
-      {/* Subtle copper top-centre halo */}
+      {/* Tiny copper warmth on the same axis — keeps the glow harmonized with brand accents. */}
       <div
-        className="absolute left-1/2 top-[-10%] w-[70%] h-[55%] -translate-x-1/2 rounded-full blur-[140px] opacity-25"
-        style={{ background: "radial-gradient(circle, rgba(184,115,51,0.18) 0%, transparent 60%)" }}
-      />
-      {/* Maroon whisper on the right edge */}
-      <div
-        className="absolute right-[-5%] top-[5%] w-[35%] h-[40%] rounded-full blur-[160px] opacity-20"
-        style={{ background: "radial-gradient(circle, rgba(94,31,40,0.18) 0%, transparent 65%)" }}
+        className="absolute left-1/2 top-[-80px] w-[760px] h-[280px] -translate-x-1/2 rounded-full"
+        style={{
+          background:
+            "radial-gradient(closest-side, rgba(184,115,51,0.05) 0%, transparent 70%)",
+          filter: "blur(60px)",
+        }}
       />
     </div>
   );
