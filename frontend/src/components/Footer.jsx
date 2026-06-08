@@ -82,26 +82,49 @@ export default function Footer() {
         <div className="relative max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-16 py-16 sm:py-20">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
             <div className="md:col-span-5">
-              {/* Premium brand lockup — larger, high-contrast */}
-              <div className="flex items-center gap-5 mb-7">
-                <img src={LOGO_URL} alt="Astittva Marketing" className="h-16 w-16 sm:h-20 sm:w-20 object-contain" />
-                <div className="border-l border-[#C78B47]/55 pl-5">
+              {/* Premium brand card — high-contrast, intentional luxury presence */}
+              <div
+                className="inline-flex items-center gap-5 p-6 sm:p-7 rounded-2xl mb-7 max-w-full"
+                style={{
+                  background: "rgba(255,255,255,0.03)",
+                  border: "1px solid rgba(199,139,71,0.18)",
+                  backdropFilter: "blur(8px)",
+                }}
+              >
+                <img src={LOGO_URL} alt="Astittva Marketing" className="h-[72px] w-[72px] sm:h-[88px] sm:w-[88px] object-contain shrink-0" />
+                <div className="border-l border-[#C78B47]/45 pl-5">
                   <div
-                    className="font-serif-display tracking-[0.18em] text-[#F5EFE7] text-[1.45rem] sm:text-[1.85rem] font-semibold leading-tight"
-                    style={{ textShadow: "0 1px 12px rgba(199,139,71,0.15)" }}
+                    className="font-serif-display"
+                    style={{
+                      color: "#F5EFE7",
+                      fontSize: "1.6rem",
+                      letterSpacing: "0.18em",
+                      fontWeight: 600,
+                      lineHeight: 1.1,
+                      textShadow: "0 1px 12px rgba(199,139,71,0.20)",
+                    }}
                   >
-                    {BRAND_NAME}
+                    ASTITTVA MARKETING
                   </div>
-                  <div className="text-[#C78B47] text-[10px] sm:text-[11px] tracking-[0.42em] uppercase mt-1.5 font-semibold">
+                  <div
+                    style={{
+                      color: "#C78B47",
+                      fontSize: "11px",
+                      letterSpacing: "0.42em",
+                      textTransform: "uppercase",
+                      fontWeight: 600,
+                      marginTop: "8px",
+                    }}
+                  >
                     Luxury Real Estate Advisory
                   </div>
                 </div>
               </div>
 
-              <p className="text-[#F5EFE7]/90 text-[15px] leading-[1.85] font-normal max-w-md">
+              <p className="text-[15px] leading-[1.85] font-normal max-w-md" style={{ color: "#F5EFE7" }}>
                 Verified projects · Strategic investments · End-to-end advisory.
                 <br />
-                Across <span className="text-[#E5C68C] font-medium">New Town, Rajarhat &amp; Kolkata</span> — expanding nationally and into global investment markets.
+                Across <span style={{ color: "#E5C68C", fontWeight: 500 }}>New Town, Rajarhat &amp; Kolkata</span> — expanding nationally and into global investment markets.
               </p>
 
               {/* Champagne hairline divider */}
@@ -109,8 +132,8 @@ export default function Footer() {
 
               <div className="flex gap-3">
                 {[Instagram, Linkedin, Facebook].map((Icon, i) => (
-                  <a key={i} href="#" aria-label="Social" className="w-11 h-11 border border-[#C78B47]/45 hover:border-[#C78B47] hover:bg-[#C78B47]/10 flex items-center justify-center transition-all duration-500">
-                    <Icon className="w-[18px] h-[18px] text-[#F5EFE7]" strokeWidth={1.4} />
+                  <a key={i} href="#" aria-label="Social" className="w-11 h-11 border flex items-center justify-center transition-all duration-500 hover:bg-[#C78B47]/10" style={{ borderColor: "rgba(199,139,71,0.45)" }}>
+                    <Icon className="w-[18px] h-[18px]" strokeWidth={1.4} style={{ color: "#F5EFE7" }} />
                   </a>
                 ))}
               </div>
