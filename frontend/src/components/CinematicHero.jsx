@@ -67,26 +67,21 @@ export default function CinematicHero() {
         );
       })}
 
-      {/* Subtle bottom fade into page — keeps photo dominant */}
+      {/* Bottom fade — blends photograph into the ivory page below.
+          This is not a text overlay; it's how the image dissolves into the next section. */}
       <div
         className="absolute inset-x-0 bottom-0 h-[38%] pointer-events-none"
         style={{ background: "linear-gradient(180deg, rgba(250,248,245,0.0) 0%, rgba(250,248,245,0.55) 70%, #FAF8F5 100%)" }}
       />
 
-      {/* Editorial readability gradient — reduced 35% so the photo dominates.
-          User notices the photograph first, the overlay second. */}
+      {/* Mobile-only readability gradient — at small widths there is less photographic
+          real-estate around the text. Desktop has NO overlay; the photograph reads
+          naturally as an editorial cover. */}
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0 pointer-events-none md:hidden"
         style={{
           background:
             "linear-gradient(90deg, rgba(26,26,26,0.27) 0%, rgba(26,26,26,0.18) 18%, rgba(26,26,26,0.08) 38%, rgba(26,26,26,0.02) 60%, transparent 80%)",
-        }}
-      />
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(circle at left center, rgba(92,20,33,0.05), transparent 70%)",
         }}
       />
 

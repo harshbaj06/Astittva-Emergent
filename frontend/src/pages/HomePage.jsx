@@ -143,13 +143,13 @@ export default function HomePage() {
             <div className="eyebrow-line mb-6 sm:mb-10" data-testid="hero-overline">
               <span
                 className="text-[9px] sm:text-[10px] tracking-[0.4em] sm:tracking-[0.5em] uppercase text-white font-semibold"
-                style={{ textShadow: "0 1px 10px rgba(0,0,0,0.7)" }}
+                style={{ textShadow: "0 1px 6px rgba(0,0,0,0.18)" }}
               >Astittva Marketing · Est. 2026</span>
             </div>
 
             <h1
               className="display-headline text-white text-[2.1rem] leading-[1.04] sm:text-[3.4rem] lg:text-[5rem] tracking-[-0.025em]"
-              style={{ textShadow: "0 2px 28px rgba(0,0,0,0.55), 0 1px 4px rgba(0,0,0,0.5), 0 0 60px rgba(0,0,0,0.25)" }}
+              style={{ textShadow: "0 2px 10px rgba(0,0,0,0.18)" }}
             >
               <span className="block">Invest With Confidence.</span>
               <span className="block mt-1 sm:mt-2">Build your future</span>
@@ -158,7 +158,7 @@ export default function HomePage() {
 
             <p
               className="mt-6 sm:mt-9 text-white text-[15px] sm:text-base lg:text-lg max-w-xl leading-[1.75] font-normal"
-              style={{ textShadow: "0 1px 12px rgba(0,0,0,0.6), 0 1px 3px rgba(0,0,0,0.4)" }}
+              style={{ textShadow: "0 1px 6px rgba(0,0,0,0.18)" }}
             >
               Discover verified residential and commercial opportunities across Kolkata&apos;s fastest-growing real estate destinations — curated by advisors who measure success in decades, not deals.
             </p>
