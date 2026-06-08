@@ -77,7 +77,7 @@ const fadeUp = {
 
 export default function HomePage() {
   const [projects, setProjects] = useState([]);
-  const initialForm = { name: "", email: "", phone: "", interest: "", budget: "", message: "" };
+  const initialForm = { prefix: "Mr", first_name: "", last_name: "", phone_code: "+91", email: "", phone: "", interest: "", budget: "", message: "" };
   const [formData, setFormData] = useState(initialForm);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -537,14 +537,36 @@ export default function HomePage() {
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-7 sm:space-y-8" data-testid="lead-form">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-7 sm:gap-y-8">
-                    <div>
-                      <label className="input-label">Full Name</label>
-                      <input required type="text" data-testid="lead-name-input" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="input-luxury" placeholder="Your name" />
+                  <div className="grid grid-cols-12 gap-x-4 sm:gap-x-5 gap-y-7 sm:gap-y-8">
+                    <div className="col-span-4 sm:col-span-2">
+                      <label className="input-label">Prefix</label>
+                      <select
+                        data-testid="lead-prefix-select"
+                        value={formData.prefix}
+                        onChange={(e) => setFormData({ ...formData, prefix: e.target.value })}
+                        className="input-luxury bg-transparent"
+                      >
+                        <option>Mr</option>
+                        <option>Ms</option>
+                        <option>Mrs</option>
+                        <option>Dr</option>
+                      </select>
                     </div>
-                    <div>
+                    <div className="col-span-8 sm:col-span-5">
+                      <label className="input-label">First Name</label>
+                      <input required type="text" data-testid="lead-first-name-input" value={formData.first_name} onChange={(e) => setFormData({ ...formData, first_name: e.target.value })} className="input-luxury" placeholder="First name" />
+                    </div>
+                    <div className="col-span-12 sm:col-span-5">
+                      <label className="input-label">Last Name</label>
+                      <input required type="text" data-testid="lead-last-name-input" value={formData.last_name} onChange={(e) => setFormData({ ...formData, last_name: e.target.value })} className="input-luxury" placeholder="Last name" />
+                    </div>
+                    <div className="col-span-4 sm:col-span-2">
+                      <label className="input-label">Code</label>
+                      <input required type="text" data-testid="lead-phone-code-input" value={formData.phone_code} onChange={(e) => setFormData({ ...formData, phone_code: e.target.value })} className="input-luxury" placeholder="+91" />
+                    </div>
+                    <div className="col-span-8 sm:col-span-10">
                       <label className="input-label">Phone</label>
-                      <input required type="tel" data-testid="lead-phone-input" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="input-luxury" placeholder="+91" />
+                      <input required type="tel" data-testid="lead-phone-input" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="input-luxury" placeholder="Phone number" />
                     </div>
                   </div>
                   <div>

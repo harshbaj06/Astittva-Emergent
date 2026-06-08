@@ -28,6 +28,8 @@ export default function PropertyDetailPage() {
       await api.post("/leads", {
         ...form,
         interest: property?.project_name || "Property Enquiry",
+        project: property?.project_name || "",
+        property_location: property?.location || property?.city || "",
         source: `property:${id}`,
       });
       toast.success("Enquiry sent. Our team will reach out shortly.");

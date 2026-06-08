@@ -29,6 +29,7 @@ from news_service import (
     fetch_topic, fetch_group, fetch_all_classified, latest_fetched_at,
     TOPICS, GROUPS, CACHE_TTL_HOURS, ROLLING_ARCHIVE_LIMIT,
 )
+from crm_service import forward_lead
 
 # ---------------------------------------------------------------------------
 # Config & Setup
@@ -252,17 +253,28 @@ class PropertyOut(PropertyIn):
 
 
 class LeadIn(BaseModel):
-    name: str
+    # New CRM-aligned identity fields
+    prefix: Optional[str] = "Mr"
+    first_name: Optional[str] = ""
+    last_name: Optional[str] = ""
+    phone_code: Optional[str] = "+91"
+    # Legacy compatibility — accept `name` and we'll split it into first/last
+    name: Optional[str] = None
     email: EmailStr
     phone: str
     interest: Optional[str] = ""
     budget: Optional[str] = ""
     message: Optional[str] = ""
     source: Optional[str] = "homepage"
+    preferred_city: Optional[str] = "Kolkata"
     preferred_locality: Optional[str] = ""
     investment_purpose: Optional[str] = ""
     property_type: Optional[str] = ""
     timeline: Optional[str] = ""
+    # Property tracking — populated by Property Detail / Site Visit forms
+    project: Optional[str] = ""
+    property_location: Optional[str] = ""
+    preferred_date: Optional[str] = ""
 
 
 class LeadOut(LeadIn):
@@ -538,10 +550,29 @@ async def delete_property(prop_id: str, _user: dict = Depends(require_admin)):
 @api_router.post("/leads", status_code=201)
 async def create_lead(payload: LeadIn):
     doc = payload.model_dump()
+    # Legacy compat: if frontend still posts "name", split into first/last for CRM
+    if doc.get("name") and not (doc.get("first_name") or doc.get("last_name")):
+        parts = (doc["name"] or "").strip().split(None, 1)
+        doc["first_name"] = parts[0] if parts else ""
+        doc["last_name"] = parts[1] if len(parts) > 1 else ""
     doc["created_at"] = now_utc_iso()
     doc["status"] = "new"
+    # 1. Save locally FIRST so a CRM outage never loses the lead.
     res = await db.leads.insert_one(doc)
-    return {"id": str(res.inserted_id), "ok": True}
+    lead_id = str(res.inserted_id)
+    # 2. Best-effort forward to CRM. Logged + stamped, never raises.
+    crm_result = await forward_lead(doc)
+    await db.leads.update_one(
+        {"_id": res.inserted_id},
+        {"$set": {
+            "crm_status": crm_result["status"],
+            "crm_http_status": crm_result.get("http_status"),
+            "crm_error": crm_result.get("error"),
+            "crm_response": crm_result.get("response"),
+            "crm_attempted_at": now_utc_iso(),
+        }},
+    )
+    return {"id": lead_id, "ok": True, "crm": {"status": crm_result["status"]}}
 
 
 @api_router.get("/admin/leads")
@@ -562,6 +593,9 @@ async def list_leads(_user: dict = Depends(require_staff)):
             "message": d.get("message", ""),
             "source": d.get("source", ""),
             "status": d.get("status", "new"),
+            "crm_status": d.get("crm_status", "skipped"),
+            "crm_http_status": d.get("crm_http_status"),
+            "crm_error": d.get("crm_error"),
             "created_at": d.get("created_at"),
         }
         for d in docs
@@ -577,6 +611,26 @@ async def update_lead_status(lead_id: str, body: dict, _user: dict = Depends(req
     if res.matched_count == 0:
         raise HTTPException(status_code=404, detail="Lead not found")
     return {"ok": True}
+
+
+@api_router.post("/admin/leads/{lead_id}/crm-retry")
+async def retry_crm(lead_id: str, _user: dict = Depends(require_staff)):
+    """Manually re-forward a stored lead to the CRM (for ops recovery)."""
+    doc = await db.leads.find_one({"_id": ObjectId(lead_id)})
+    if not doc:
+        raise HTTPException(status_code=404, detail="Lead not found")
+    crm_result = await forward_lead(doc)
+    await db.leads.update_one(
+        {"_id": ObjectId(lead_id)},
+        {"$set": {
+            "crm_status": crm_result["status"],
+            "crm_http_status": crm_result.get("http_status"),
+            "crm_error": crm_result.get("error"),
+            "crm_response": crm_result.get("response"),
+            "crm_attempted_at": now_utc_iso(),
+        }},
+    )
+    return {"ok": crm_result["ok"], "crm": crm_result}
 
 
 @api_router.delete("/admin/leads/{lead_id}")
