@@ -47,6 +47,11 @@
   - **Hero "LAST UPDATED · {timeAgo}"** indicator in copper
   - **Removed "Feed Temporarily Unavailable" banner path** — pipeline now guarantees ≥14 articles always, so the empty-state UI was unreachable and removed
   - **/api/news/debug** public diagnostic endpoint listing per-topic counts, age_minutes, TTL
+- **v5.3 (Hierarchical Location Filtering — Feb 2026):**
+  - **Parent-city expansion** in `GET /api/properties`: filtering by `location=Kolkata` now returns all properties in Kolkata + New Town + Rajarhat (via `LOCATION_HIERARCHY` map)
+  - Sub-market filters (`New Town`, `Rajarhat`, `Alipore`, …) remain scoped to themselves — unchanged behaviour
+  - Hierarchy map is easily extensible for future parent cities (Mumbai, Delhi, Bengaluru, …)
+  - Verified via curl: Kolkata→6, New Town→3, Rajarhat→2, Alipore→1 ✓
 
 ## Tests
 - v1: 32/32 ✓ · v2: 34/34 ✓ · v3: 43/43 ✓ · v4: 56/56 ✓ · **v5: 68/68 ✓**

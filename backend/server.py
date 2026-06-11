@@ -451,9 +451,19 @@ async def list_properties(
     if city:
         query["city"] = city
     if location:
+        # Hierarchical parent-city expansion. Selecting a parent city (e.g. "Kolkata")
+        # should also return its sub-markets (New Town, Rajarhat, ...). Selecting a
+        # sub-market directly still filters to that sub-market only.
+        LOCATION_HIERARCHY = {
+            "Kolkata": ["Kolkata", "New Town", "Rajarhat"],
+        }
+        location_values = LOCATION_HIERARCHY.get(location, [location])
         # Match against the location field OR the city field — luxury micro-markets
         # like "New Town" / "Action Area II" can live in either column historically.
-        query["$or"] = [{"location": location}, {"city": location}]
+        query["$or"] = [
+            {"location": {"$in": location_values}},
+            {"city": {"$in": location_values}},
+        ]
     if property_type:
         query["property_type"] = property_type
     if category:
