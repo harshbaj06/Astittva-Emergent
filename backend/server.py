@@ -422,6 +422,7 @@ def serialize_property(doc: dict) -> dict:
         "images": doc.get("images", []),
         "rera_number": doc.get("rera_number", ""),
         "possession_date": doc.get("possession_date", ""),
+        "availability": doc.get("availability", ""),
         "google_maps_url": doc.get("google_maps_url", ""),
         "bedrooms": doc.get("bedrooms", ""),
         "area_sqft": doc.get("area_sqft", ""),

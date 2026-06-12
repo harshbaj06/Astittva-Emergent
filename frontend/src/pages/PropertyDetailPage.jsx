@@ -93,6 +93,14 @@ export default function PropertyDetailPage() {
               <span className="flex items-center gap-2"><MapPin className="w-4 h-4 text-copper" /> {property.location}, {property.city}</span>
               {property.builder && <span className="flex items-center gap-2"><Building2 className="w-4 h-4 text-copper" /> {property.builder}</span>}
               {property.rera_number && <span className="flex items-center gap-2"><BadgeCheck className="w-4 h-4 text-copper" /> RERA: {property.rera_number}</span>}
+              {property.availability && (
+                <span
+                  data-testid="property-status-badge"
+                  className="inline-flex items-center gap-2 border border-copper/40 bg-copper/5 text-copper px-3 py-1 text-[10px] tracking-[0.25em] uppercase font-medium"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-copper" /> {property.availability}
+                </span>
+              )}
             </div>
             <div className="copper-divider mt-8 mb-8" />
 

@@ -175,6 +175,7 @@ export default function AdminPropertyFormPage() {
                 <option>Ready To Move</option>
                 <option>Under Construction</option>
                 <option>New Launch</option>
+                <option>Possession Soon</option>
                 <option>Sold Out</option>
               </select>
             </div>
