@@ -154,20 +154,7 @@ export default function HomePage() {
               <span className="block">Invest With Confidence.</span>
               <span className="block mt-1 sm:mt-2">Build your future</span>
               <span className="block mt-1 sm:mt-2">
-                with{" "}
-                <span
-                  className="inline-block"
-                  style={{
-                    color: "#C68A3A",
-                    background: "rgba(0,0,0,0.18)",
-                    backdropFilter: "blur(2px)",
-                    WebkitBackdropFilter: "blur(2px)",
-                    padding: "0 12px",
-                    borderRadius: "4px",
-                  }}
-                >
-                  Astittva Marketing.
-                </span>
+                with <span style={{ color: "#FFFFFF" }}>Astittva.</span>
               </span>
             </h1>
 
