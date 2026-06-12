@@ -11,8 +11,11 @@ export default function AboutPage() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
           <div className="overline mb-4">About Astittva</div>
           <h1 className="font-display font-light text-3xl sm:text-5xl lg:text-6xl text-ivory tracking-tight max-w-4xl leading-tight">
-            A real estate house built on <span className="gold-text">trust, craftsmanship & conviction.</span>
+            Find Your <span className="gold-text">Astittva.</span> Build Your <span className="gold-text">Legacy.</span>
           </h1>
+          <p className="mt-6 text-ivory/70 font-light text-lg sm:text-xl max-w-3xl leading-relaxed">
+            Curated real estate opportunities across most promising destinations.
+          </p>
           <div className="copper-divider mt-10" />
         </motion.div>
 
