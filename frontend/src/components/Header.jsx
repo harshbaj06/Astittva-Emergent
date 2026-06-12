@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
-import { LOGO_URL, BRAND_NAME, BRAND_TAGLINE } from "@/lib/site";
+import { LOGO_URL, BRAND_TAGLINE } from "@/lib/site";
 
 const nav = [
   { to: "/", label: "Home" },
@@ -48,7 +48,13 @@ export default function Header() {
             className="h-10 w-10 sm:h-12 sm:w-12 lg:h-14 lg:w-14 object-contain"
           />
           <div className="leading-tight border-l border-copper/25 pl-3 sm:pl-4">
-            <div className="text-[#1C1C1C] font-serif-display tracking-[0.28em] sm:tracking-[0.32em] text-[10.5px] sm:text-[12px] lg:text-sm font-medium">{BRAND_NAME}</div>
+            <div
+              className="font-serif-display tracking-[0.30em] sm:tracking-[0.34em] text-[10.5px] sm:text-[12px] lg:text-sm whitespace-nowrap"
+              style={{ fontWeight: 600 }}
+            >
+              <span style={{ color: "#7B1E21" }}>ASTITTVA</span>
+              <span className="ml-[0.45em]" style={{ color: "#2B2B2B" }}>MARKETING</span>
+            </div>
           </div>
         </Link>
 
