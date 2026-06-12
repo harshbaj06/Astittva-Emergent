@@ -70,14 +70,14 @@ export default function PropertyDetailPage() {
             />
           </div>
           {images.length > 1 && (
-            <div className="lg:col-span-3 grid grid-cols-4 lg:grid-cols-1 gap-4">
+            <div className="lg:col-span-3 grid grid-cols-4 lg:flex lg:flex-col gap-4 lg:h-full">
               {images.slice(0, 4).map((img, i) => (
                 <button
                   key={i}
                   onClick={() => setActiveImg(i)}
-                  className={`aspect-[4/3] overflow-hidden border ${activeImg === i ? "border-copper" : "border-copper/15"} transition`}
+                  className={`relative aspect-[4/3] lg:aspect-auto lg:flex-1 lg:min-h-0 overflow-hidden border ${activeImg === i ? "border-copper" : "border-copper/15"} transition`}
                 >
-                  <img loading="lazy" src={fileUrl(img)} alt="" className="w-full h-full object-cover" />
+                  <img loading="lazy" src={fileUrl(img)} alt="" className="absolute inset-0 w-full h-full object-cover" />
                 </button>
               ))}
             </div>
