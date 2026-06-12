@@ -10,20 +10,22 @@ export default function AboutPage() {
       <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
           <div className="overline mb-4">About Astittva</div>
-          <h1 className="font-display font-light text-3xl sm:text-5xl lg:text-6xl text-ivory tracking-tight max-w-4xl leading-[1.15]">
-            Find Your{" "}
-            <span
-              className="italic"
-              style={{
-                color: "#B97832",
-                fontWeight: 600,
-                fontSize: "1.05em",
-                fontFamily: "'Cormorant Garamond', serif",
-              }}
-            >
-              Astittva.
-            </span>{" "}
-            Build Your Legacy.
+          <h1 className="font-display font-light text-3xl sm:text-5xl lg:text-6xl text-ivory tracking-tight max-w-2xl leading-[1.1]">
+            <span className="block">
+              Find Your{" "}
+              <span
+                className="italic"
+                style={{
+                  color: "#B97832",
+                  fontWeight: 600,
+                  fontSize: "1.05em",
+                  fontFamily: "'Cormorant Garamond', serif",
+                }}
+              >
+                Astittva.
+              </span>
+            </span>
+            <span className="block">Build Your Legacy.</span>
           </h1>
           <p className="mt-6 text-ivory/70 font-light text-lg sm:text-xl max-w-3xl leading-relaxed">
             Curated real estate opportunities across most promising destinations.
