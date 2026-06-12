@@ -452,11 +452,29 @@ async def list_properties(
     if city:
         query["city"] = city
     if location:
-        # Hierarchical parent-city expansion. Selecting a parent city (e.g. "Kolkata")
-        # should also return its sub-markets (New Town, Rajarhat, ...). Selecting a
-        # sub-market directly still filters to that sub-market only.
+        # Hierarchical parent ↔ child expansion. Selecting a parent city/area should
+        # return all child sub-markets; selecting a child should also return the
+        # parent's properties (parents and children share natural overlap, e.g. a
+        # listing tagged simply "New Town" should appear for any Action Area buyer).
+        #
+        # Both Roman (I/II/III) and Arabic (1/2/3) Action Area spellings are mapped
+        # so the filter is resilient to how a property is tagged in the admin panel.
         LOCATION_HIERARCHY = {
-            "Kolkata": ["Kolkata", "New Town", "Rajarhat"],
+            # City-level
+            "Kolkata": ["Kolkata", "New Town", "Rajarhat",
+                        "Action Area I", "Action Area II", "Action Area III",
+                        "Action Area 1", "Action Area 2", "Action Area 3"],
+            # New Town parent → all Action Areas
+            "New Town": ["New Town",
+                          "Action Area I", "Action Area II", "Action Area III",
+                          "Action Area 1", "Action Area 2", "Action Area 3"],
+            # Each Action Area → itself + parent New Town
+            "Action Area I":   ["Action Area I",   "Action Area 1", "New Town"],
+            "Action Area II":  ["Action Area II",  "Action Area 2", "New Town"],
+            "Action Area III": ["Action Area III", "Action Area 3", "New Town"],
+            "Action Area 1":   ["Action Area I",   "Action Area 1", "New Town"],
+            "Action Area 2":   ["Action Area II",  "Action Area 2", "New Town"],
+            "Action Area 3":   ["Action Area III", "Action Area 3", "New Town"],
         }
         location_values = LOCATION_HIERARCHY.get(location, [location])
         # Match against the location field OR the city field — luxury micro-markets
