@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin, Instagram, Linkedin, Facebook, ArrowRight, MessageCircle, ShieldCheck, Users, MessageSquareQuote } from "lucide-react";
-import { whatsappLink, PHONE_DISPLAY, EMAIL, LOGO_URL, BRAND_NAME } from "@/lib/site";
+import { whatsappLink, PHONE_DISPLAY, EMAIL, LOGO_URL, BRAND_NAME, SOCIAL_LINKS, openSocialLink } from "@/lib/site";
 
 export default function Footer() {
   return (
@@ -136,8 +136,22 @@ export default function Footer() {
               <div className="mt-8 mb-8 w-16 h-px" style={{ background: "linear-gradient(90deg, #C78B47, rgba(199,139,71,0))" }} />
 
               <div className="flex gap-3">
-                {[Instagram, Linkedin, Facebook].map((Icon, i) => (
-                  <a key={i} href="#" aria-label="Social" className="w-11 h-11 border flex items-center justify-center transition-all duration-500 hover:bg-[#C78B47]/10" style={{ borderColor: "rgba(199,139,71,0.45)" }}>
+                {[
+                  { Icon: Instagram, link: SOCIAL_LINKS.instagram },
+                  { Icon: Linkedin,  link: SOCIAL_LINKS.linkedin },
+                  { Icon: Facebook,  link: SOCIAL_LINKS.facebook },
+                ].map(({ Icon, link }) => (
+                  <a
+                    key={link.label}
+                    href={link.web}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={link.label}
+                    data-testid={`social-${link.label.toLowerCase()}`}
+                    onClick={(e) => openSocialLink(e, link)}
+                    className="w-11 h-11 border flex items-center justify-center transition-all duration-500 hover:bg-[#C78B47]/10"
+                    style={{ borderColor: "rgba(199,139,71,0.45)" }}
+                  >
                     <Icon className="w-[18px] h-[18px]" strokeWidth={1.4} style={{ color: "#F5EFE7" }} />
                   </a>
                 ))}
