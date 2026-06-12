@@ -149,11 +149,11 @@ export default function HomePage() {
 
             <h1
               className="display-headline text-white text-[2.1rem] leading-[1.04] sm:text-[3.4rem] lg:text-[5rem] tracking-[-0.025em]"
-              style={{ textShadow: "0 2px 10px rgba(0,0,0,0.18)" }}
+              style={{ textShadow: "2px 2px 12px rgba(0,0,0,0.45)" }}
             >
               <span className="block">Invest With Confidence.</span>
               <span className="block mt-1 sm:mt-2">Build your future</span>
-              <span className="block mt-1 sm:mt-2">with <span style={{ color: "#C78B47" }}>Astittva Marketing.</span></span>
+              <span className="block mt-1 sm:mt-2">with <span style={{ color: "#7B1E21" }}>Astittva Marketing.</span></span>
             </h1>
 
             <p

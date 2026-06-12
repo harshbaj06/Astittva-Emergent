@@ -74,14 +74,14 @@ export default function CinematicHero() {
         style={{ background: "linear-gradient(180deg, rgba(250,248,245,0.0) 0%, rgba(250,248,245,0.55) 70%, #FAF8F5 100%)" }}
       />
 
-      {/* Mobile-only readability gradient — at small widths there is less photographic
-          real-estate around the text. Desktop has NO overlay; the photograph reads
-          naturally as an editorial cover. */}
+      {/* Soft dark gradient on the left edge of every slide — guarantees the
+          headline reads cleanly on bright / warm-toned slides (Victoria Memorial,
+          Luxury Villa, Howrah Bridge, etc.) without dimming the photograph. */}
       <div
-        className="absolute inset-0 pointer-events-none md:hidden"
+        className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "linear-gradient(90deg, rgba(26,26,26,0.27) 0%, rgba(26,26,26,0.18) 18%, rgba(26,26,26,0.08) 38%, rgba(26,26,26,0.02) 60%, transparent 80%)",
+            "linear-gradient(90deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.20) 40%, rgba(0,0,0,0) 100%)",
         }}
       />
 
