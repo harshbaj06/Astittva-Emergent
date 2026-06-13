@@ -43,9 +43,9 @@ const VISIBLE_MS = 4000;
 const FADE_MS = 1000;
 const CYCLE_MS = VISIBLE_MS + FADE_MS;
 // The first transition fires earlier than the regular cadence so the user
-// sees the carousel come alive within ~2.5s of landing — no "static hero"
+// sees the carousel come alive within ~3.2s of landing — no "static hero"
 // pause. Subsequent slides revert to the calmer 5s cycle.
-const FIRST_TRANSITION_MS = 2500;
+const FIRST_TRANSITION_MS = 3200;
 
 // Per-slide object-position rules emitted as a single CSS block so the focal
 // point is selected purely by the viewport width — no JS state, no resize
@@ -59,6 +59,10 @@ const RESPONSIVE_POSITION_CSS = `
 
 export default function CinematicHero() {
   const [idx, setIdx] = useState(0);
+  // `mounted` flips true one frame after first render — this lets every slide
+  // (including slide 0) animate FROM scale(1.04) TO scale(1.10), instead of
+  // appearing frozen at the end-state on initial paint.
+  const [mounted, setMounted] = useState(false);
   const preloaded = useRef(new Set());
   const intervalRef = useRef(null);
 
@@ -82,7 +86,21 @@ export default function CinematicHero() {
   }, []);
 
   useEffect(() => {
-    // First transition: fire early (2.5s) so motion starts immediately.
+    // Double-rAF: paint once at scale(1.04), then on the next frame flip
+    // `mounted` so React updates style to scale(1.10) — the browser now sees
+    // a value change and animates the Ken Burns zoom on slide 0 from mount.
+    let raf2 = 0;
+    const raf1 = requestAnimationFrame(() => {
+      raf2 = requestAnimationFrame(() => setMounted(true));
+    });
+    return () => {
+      cancelAnimationFrame(raf1);
+      if (raf2) cancelAnimationFrame(raf2);
+    };
+  }, []);
+
+  useEffect(() => {
+    // First transition: fire at ~3.2s so motion starts feeling alive quickly.
     const first = setTimeout(() => {
       setIdx((i) => (i + 1) % SLIDES.length);
       // Then settle into the calm 5s cadence.
@@ -113,8 +131,11 @@ export default function CinematicHero() {
             style={{
               opacity: active ? 1 : 0,
               transition: `opacity ${FADE_MS}ms cubic-bezier(0.22, 1, 0.36, 1)`,
-              // Ken Burns zoom — runs only while active, resets when slide hides
-              transform: active ? "scale(1.10)" : "scale(1.04)",
+              // Ken Burns zoom — every active slide (including slide 0 on the
+              // very first paint) animates from 1.04 → 1.10. `mounted` flips
+              // true one frame after first render so React produces a value
+              // change the browser can interpolate.
+              transform: active && mounted ? "scale(1.10)" : "scale(1.04)",
               transitionProperty: "opacity, transform",
               transitionDuration: `${FADE_MS}ms, ${CYCLE_MS + FADE_MS}ms`,
               transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1), linear",
