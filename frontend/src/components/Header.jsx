@@ -48,29 +48,20 @@ export default function Header() {
             className="h-11 w-11 sm:h-12 sm:w-12 lg:h-16 lg:w-16 object-contain"
           />
           <div className="leading-[1.05] border-l border-copper/25 pl-3 sm:pl-4">
-            {/* Mobile: stacked brand-signature treatment. ASTITTVA is the dominant
-                mark, MARKETING sits beneath as a refined subtitle — like a couture
-                house logo. Tablet+: single horizontal lockup. */}
-            <div className="sm:hidden">
-              <div
-                className="font-serif-display tracking-[0.16em] text-[18px] whitespace-nowrap"
-                style={{ color: "#7A1228", fontWeight: 800 }}
-              >
-                ASTITTVA
-              </div>
-              <div
-                className="font-serif-display tracking-[0.42em] text-[8.5px] mt-[2px] whitespace-nowrap"
-                style={{ color: "#1C1C1C", fontWeight: 500 }}
-              >
-                MARKETING
-              </div>
+            {/* Unified stacked brand-signature lockup at every breakpoint —
+                like a couture house mark. ASTITTVA is the dominant typography,
+                MARKETING sits below as a refined subtitle. */}
+            <div
+              className="font-serif-display tracking-[0.16em] sm:tracking-[0.18em] lg:tracking-[0.2em] text-[18px] sm:text-[22px] lg:text-[28px] whitespace-nowrap"
+              style={{ color: "#7A1228", fontWeight: 800 }}
+            >
+              ASTITTVA
             </div>
             <div
-              className="hidden sm:block font-serif-display tracking-[0.32em] lg:tracking-[0.36em] text-[14px] lg:text-[17px] whitespace-nowrap"
-              style={{ fontWeight: 700 }}
+              className="font-serif-display tracking-[0.42em] sm:tracking-[0.46em] lg:tracking-[0.5em] text-[8.5px] sm:text-[10px] lg:text-[11px] mt-[2px] sm:mt-[3px] whitespace-nowrap"
+              style={{ color: "#1C1C1C", fontWeight: 500 }}
             >
-              <span style={{ color: "#7A1228" }}>ASTITTVA</span>
-              <span className="ml-[0.45em]" style={{ color: "#1C1C1C", fontWeight: 600 }}>MARKETING</span>
+              MARKETING
             </div>
           </div>
         </Link>
