@@ -628,7 +628,16 @@ async def create_lead(payload: LeadIn, background_tasks: BackgroundTasks):
 
 @api_router.get("/admin/leads")
 async def list_leads(_user: dict = Depends(require_staff)):
-    docs = await db.leads.find().sort("created_at", -1).to_list(1000)
+    # Project ONLY the fields the response actually uses — keeps payload light
+    # and avoids shipping the potentially-large `crm_response` blob (full HTTP
+    # body from the Azure CRM webhook) across the wire on every admin refresh.
+    projection = {
+        "name": 1, "email": 1, "phone": 1, "interest": 1, "budget": 1,
+        "preferred_locality": 1, "investment_purpose": 1, "property_type": 1,
+        "timeline": 1, "message": 1, "source": 1, "status": 1,
+        "crm_status": 1, "crm_http_status": 1, "crm_error": 1, "created_at": 1,
+    }
+    docs = await db.leads.find({}, projection).sort("created_at", -1).to_list(1000)
     return [
         {
             "id": str(d["_id"]),
