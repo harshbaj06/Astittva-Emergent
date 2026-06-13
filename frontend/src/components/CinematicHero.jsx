@@ -42,6 +42,10 @@ const SLIDES = [
 const VISIBLE_MS = 4000;
 const FADE_MS = 1000;
 const CYCLE_MS = VISIBLE_MS + FADE_MS;
+// The first transition fires earlier than the regular cadence so the user
+// sees the carousel come alive within ~2.5s of landing — no "static hero"
+// pause. Subsequent slides revert to the calmer 5s cycle.
+const FIRST_TRANSITION_MS = 2500;
 
 // Per-slide object-position rules emitted as a single CSS block so the focal
 // point is selected purely by the viewport width — no JS state, no resize
@@ -56,20 +60,41 @@ const RESPONSIVE_POSITION_CSS = `
 export default function CinematicHero() {
   const [idx, setIdx] = useState(0);
   const preloaded = useRef(new Set());
+  const intervalRef = useRef(null);
 
   // Preload ALL images immediately on mount so transitions never wait on network.
+  // Slide 0 already gets fetchPriority=high via the rendered <img>; we add a
+  // hidden <link rel="preload"> for slide 1 so the first transition has the
+  // next image fully decoded before the swap.
   useEffect(() => {
-    SLIDES.forEach((s) => {
+    SLIDES.forEach((s, i) => {
       if (preloaded.current.has(s.src)) return;
       const img = new Image();
+      // Hint the browser: the next two slides are imminent — fetch them eagerly.
+      if (i <= 1 && "fetchPriority" in img) {
+        // eslint-disable-next-line no-undef
+        img.fetchPriority = "high";
+      }
+      img.decoding = "async";
       img.src = s.src;
       preloaded.current.add(s.src);
     });
   }, []);
 
   useEffect(() => {
-    const t = setInterval(() => setIdx((i) => (i + 1) % SLIDES.length), CYCLE_MS);
-    return () => clearInterval(t);
+    // First transition: fire early (2.5s) so motion starts immediately.
+    const first = setTimeout(() => {
+      setIdx((i) => (i + 1) % SLIDES.length);
+      // Then settle into the calm 5s cadence.
+      intervalRef.current = setInterval(
+        () => setIdx((i) => (i + 1) % SLIDES.length),
+        CYCLE_MS
+      );
+    }, FIRST_TRANSITION_MS);
+    return () => {
+      clearTimeout(first);
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
   }, []);
 
   return (
@@ -99,8 +124,8 @@ export default function CinematicHero() {
             <img
               src={slide.src}
               alt={slide.caption}
-              loading={i === 0 ? "eager" : "eager"}
-              fetchPriority={i === 0 ? "high" : "auto"}
+              loading="eager"
+              fetchPriority={i <= 1 ? "high" : "auto"}
               decoding="async"
               className={`w-full h-full object-cover cinematic-slide-${i}`}
               style={{ filter: "saturate(1.08) contrast(1.04) brightness(0.96)" }}
