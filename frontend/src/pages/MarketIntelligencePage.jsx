@@ -7,6 +7,7 @@ import {
   Filter, ShieldCheck, Coins, Layers
 } from "lucide-react";
 import api from "@/lib/api";
+import Seo from "@/components/Seo";
 import { EVERGREEN_NEWS } from "@/data/evergreenNews";
 
 const TEXTURE = "https://static.prod-images.emergentagent.com/jobs/50ac1e2c-4ee3-4d48-ad5e-fd37063ae3c0/images/1f5da7f44ad5aab6c1f6ab3c12df3ec89723084c1042e95749a6b4658dcffcc6.png";
@@ -216,28 +217,14 @@ function NewsGrid({ articles, loading, max = 12 }) {
 }
 
 function SEO() {
-  useEffect(() => {
-    const prevTitle = document.title;
-    document.title = "Market Intelligence · Kolkata Real Estate News & Investment Insights · Astittva";
-    const ensureMeta = (name, content) => {
-      let el = document.querySelector(`meta[name="${name}"]`);
-      if (!el) { el = document.createElement("meta"); el.setAttribute("name", name); document.head.appendChild(el); }
-      el.setAttribute("content", content);
-    };
-    ensureMeta("description", "Live Kolkata real estate news, India property market trends, infrastructure updates, luxury property news and global investment insights — curated by Astittva.");
-    ensureMeta("keywords", "Kolkata real estate news, India property market trends, real estate investment news India, luxury property news, New Town infrastructure updates, Rajarhat property updates, Indian real estate market");
-    // Open Graph
-    const ensureProp = (prop, content) => {
-      let el = document.querySelector(`meta[property="${prop}"]`);
-      if (!el) { el = document.createElement("meta"); el.setAttribute("property", prop); document.head.appendChild(el); }
-      el.setAttribute("content", content);
-    };
-    ensureProp("og:title", "Market Intelligence · Astittva");
-    ensureProp("og:description", "Live insights on Kolkata, India and global luxury real estate markets.");
-    ensureProp("og:type", "website");
-    return () => { document.title = prevTitle; };
-  }, []);
-  return null;
+  return (
+    <Seo
+      title="Market Intelligence · Kolkata Real Estate News & Investment Insights"
+      description="Live Kolkata real estate news, India property market trends, infrastructure updates, luxury property news and global investment insights — curated by Astittva Marketing."
+      path="/market-intelligence"
+      keywords="Kolkata real estate news, India property market trends, real estate investment news India, luxury property news, New Town infrastructure updates, Rajarhat property updates"
+    />
+  );
 }
 
 // Related-category map for graceful fallbacks

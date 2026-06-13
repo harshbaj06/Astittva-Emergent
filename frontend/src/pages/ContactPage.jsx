@@ -4,6 +4,7 @@ import { Mail, Phone, MapPin, ArrowRight, MessageCircle, Check } from "lucide-re
 import api, { formatApiErrorDetail } from "@/lib/api";
 import { toast } from "sonner";
 import { whatsappLink, PHONE_DISPLAY, EMAIL } from "@/lib/site";
+import Seo from "@/components/Seo";
 
 const LOCALITIES = ["New Town", "Rajarhat", "Kolkata (City)", "Salt Lake", "Alipore", "Ballygunge", "Other"];
 const PURPOSES = ["Self-Use", "Investment", "Rental Income", "Resale / Flip", "Diversification"];
@@ -44,6 +45,12 @@ export default function ContactPage() {
 
   return (
     <div data-testid="contact-page" className="relative text-ivory">
+      <Seo
+        title="Contact Astittva Marketing · Private Consultation"
+        description="Schedule a private consultation with Astittva Marketing. Call +91 92303 74700, email contact@astittva.in, or send an enquiry online. We respond within one business day for property visits, advisory and luxury real estate enquiries in Kolkata."
+        path="/contact"
+        keywords="contact Astittva Marketing, real estate consultation Kolkata, property advisory enquiry"
+      />
       <section className="pt-32 sm:pt-40 pb-12 sm:pb-16 border-b border-copper/10">
         <div className="max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-16">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>

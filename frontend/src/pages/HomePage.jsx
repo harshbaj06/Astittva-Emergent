@@ -6,6 +6,7 @@ import api, { fileUrl, formatApiErrorDetail } from "@/lib/api";
 import { toast } from "sonner";
 import { whatsappLink, PHONE_DISPLAY } from "@/lib/site";
 import CinematicHero from "@/components/CinematicHero";
+import Seo from "@/components/Seo";
 
 const TEXTURE = "https://static.prod-images.emergentagent.com/jobs/50ac1e2c-4ee3-4d48-ad5e-fd37063ae3c0/images/1f5da7f44ad5aab6c1f6ab3c12df3ec89723084c1042e95749a6b4658dcffcc6.png";
 
@@ -108,6 +109,12 @@ export default function HomePage() {
 
   return (
     <div data-testid="home-page">
+      <Seo
+        title="Astittva Marketing · Luxury Real Estate Advisory · Kolkata"
+        description="Discover curated luxury residential, commercial and investment properties across Kolkata's most promising destinations — New Town, Rajarhat, Salt Lake, Alipore. Astittva Marketing partners with India's most trusted developers to deliver verified opportunities for the discerning investor."
+        path="/"
+        keywords="luxury real estate Kolkata, New Town properties, Rajarhat apartments, Astittva Marketing, premium real estate advisory Kolkata, investment property India"
+      />
       {/* ===================== HERO ===================== */}
       <section data-testid="hero-section" className="relative min-h-[640px] h-[100svh] sm:min-h-[760px] sm:h-screen w-full overflow-hidden bg-[#FAF8F5]">
         <div className="absolute inset-0">

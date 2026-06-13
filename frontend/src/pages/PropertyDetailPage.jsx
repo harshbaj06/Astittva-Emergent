@@ -5,6 +5,86 @@ import { MapPin, Building2, Calendar, BadgeCheck, Home, ArrowLeft, Phone, Messag
 import api, { fileUrl, formatApiErrorDetail } from "@/lib/api";
 import { toast } from "sonner";
 import { whatsappLink, PHONE_DISPLAY } from "@/lib/site";
+import Seo from "@/components/Seo";
+
+// Per-property dynamic SEO: title/description/canonical/OG/Twitter + RealEstateListing JSON-LD.
+function PropertySeo({ property, id }) {
+  const title = `${property.project_name} by ${property.builder || "—"} · ${property.location || property.city || "Kolkata"}`;
+  const priceTxt = property.price_label || (property.starting_price ? `₹${property.starting_price.toLocaleString("en-IN")}` : "");
+  const description =
+    `${property.project_name} — ${property.property_category || "luxury"} ${property.property_type || "residential"} by ${property.builder || "a trusted developer"} ` +
+    `in ${property.location || property.city || "Kolkata"}. ` +
+    `${priceTxt ? priceTxt + ". " : ""}` +
+    `${property.bedrooms ? property.bedrooms + " BHK · " : ""}` +
+    `${property.area_sqft ? property.area_sqft + " sq ft · " : ""}` +
+    `${property.availability || ""}. ` +
+    `Schedule a private site visit with Astittva Marketing.`;
+  const image = property.images?.[0]
+    ? (property.images[0].startsWith("http") ? property.images[0] : `https://astittva.in/api/files/${property.images[0]}`)
+    : undefined;
+
+  const listingJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Residence",
+    name: property.project_name,
+    description,
+    url: `https://astittva.in/properties/${id}`,
+    image: image ? [image] : undefined,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: property.location || "",
+      addressLocality: property.city || "Kolkata",
+      addressRegion: "West Bengal",
+      addressCountry: "IN",
+    },
+    numberOfRooms: property.bedrooms || undefined,
+    floorSize: property.area_sqft
+      ? { "@type": "QuantitativeValue", value: property.area_sqft, unitText: "SQFT" }
+      : undefined,
+    offers: {
+      "@type": "Offer",
+      url: `https://astittva.in/properties/${id}`,
+      priceCurrency: "INR",
+      price: property.starting_price || undefined,
+      priceSpecification: priceTxt
+        ? { "@type": "PriceSpecification", price: priceTxt }
+        : undefined,
+      availability:
+        property.availability === "Sold Out"
+          ? "https://schema.org/SoldOut"
+          : "https://schema.org/InStock",
+      seller: {
+        "@type": "RealEstateAgent",
+        "@id": "https://astittva.in/#organization",
+        name: "Astittva Marketing",
+      },
+    },
+    additionalProperty: [
+      property.rera_number && {
+        "@type": "PropertyValue",
+        name: "RERA",
+        value: property.rera_number,
+      },
+      property.possession_date && {
+        "@type": "PropertyValue",
+        name: "Possession",
+        value: property.possession_date,
+      },
+    ].filter(Boolean),
+  };
+
+  return (
+    <Seo
+      title={title}
+      description={description.slice(0, 300)}
+      path={`/properties/${id}`}
+      type="product"
+      image={image}
+      keywords={`${property.project_name}, ${property.builder || ""}, ${property.location || ""}, ${property.city || ""}, ${property.property_type || ""}, ${property.property_category || ""}, real estate Kolkata`}
+      jsonLd={listingJsonLd}
+    />
+  );
+}
 
 export default function PropertyDetailPage() {
   const { id } = useParams();
@@ -55,6 +135,7 @@ export default function PropertyDetailPage() {
 
   return (
     <div data-testid="property-detail-page" className="pt-28 pb-24">
+      <PropertySeo property={property} id={id} />
       <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
         <Link to="/properties" className="inline-flex items-center gap-2 text-copper text-xs tracking-[0.3em] uppercase mb-8 hover:text-rose-gold">
           <ArrowLeft className="w-4 h-4" /> Back to Properties

@@ -1,6 +1,7 @@
 import "@/App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "sonner";
+import { HelmetProvider } from "react-helmet-async";
 
 import { AuthProvider } from "@/context/AuthContext";
 import ScrollToTop from "@/components/ScrollToTop";
@@ -25,7 +26,8 @@ import AdminUsersPage from "@/pages/admin/AdminUsersPage";
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
+      <HelmetProvider>
+        <BrowserRouter>
         <AuthProvider>
           <ScrollToTop />
           <Routes>
@@ -80,6 +82,7 @@ function App() {
           />
         </AuthProvider>
       </BrowserRouter>
+      </HelmetProvider>
     </div>
   );
 }

@@ -291,6 +291,51 @@ app = FastAPI(title="Astitva Real Estate API")
 api_router = APIRouter(prefix="/api")
 
 
+# ---------------------- SEO ----------------------
+SITE_URL = "https://astittva.in"
+STATIC_SITEMAP_URLS = [
+    ("/", "weekly", "1.0"),
+    ("/properties", "daily", "0.9"),
+    ("/market-intelligence", "daily", "0.8"),
+    ("/about", "monthly", "0.6"),
+    ("/contact", "monthly", "0.6"),
+]
+
+
+@app.get("/api/sitemap.xml")
+async def sitemap_xml():
+    """Dynamic sitemap.xml — includes every published property + static pages."""
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    parts = ['<?xml version="1.0" encoding="UTF-8"?>',
+             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    for path, changefreq, priority in STATIC_SITEMAP_URLS:
+        parts.append(
+            f"  <url><loc>{SITE_URL}{path}</loc><lastmod>{today}</lastmod>"
+            f"<changefreq>{changefreq}</changefreq><priority>{priority}</priority></url>"
+        )
+    # Dynamic published properties
+    try:
+        cursor = db.properties.find(
+            {"status": "published"},
+            {"_id": 1, "updated_at": 1, "created_at": 1},
+        )
+        async for p in cursor:
+            pid = str(p["_id"])
+            lastmod = (p.get("updated_at") or p.get("created_at") or today)
+            if isinstance(lastmod, str) and "T" in lastmod:
+                lastmod = lastmod.split("T", 1)[0]
+            parts.append(
+                f"  <url><loc>{SITE_URL}/properties/{pid}</loc>"
+                f"<lastmod>{lastmod}</lastmod><changefreq>weekly</changefreq>"
+                f"<priority>0.8</priority></url>"
+            )
+    except Exception as e:
+        logging.getLogger("astitva.sitemap").exception("sitemap generation failed: %s", e)
+    parts.append("</urlset>")
+    xml = "\n".join(parts)
+    return Response(content=xml, media_type="application/xml")
+
+
 # ---------------------- Auth Routes ----------------------
 @api_router.post("/auth/login")
 async def login(payload: LoginIn, response: Response, request: Request):

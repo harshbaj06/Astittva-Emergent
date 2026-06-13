@@ -3,6 +3,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, MapPin, Filter, X, SlidersHorizontal } from "lucide-react";
 import api, { fileUrl } from "@/lib/api";
+import Seo from "@/components/Seo";
 
 // ---------- Filter option catalogues (per Astittva brand brief) ----------
 const LOCATIONS = [
@@ -143,6 +144,12 @@ export default function PropertiesPage() {
 
   return (
     <div data-testid="properties-page" className="relative pt-28 pb-16 sm:pt-32 sm:pb-24 text-ivory">
+      <Seo
+        title="Luxury Properties for Sale in Kolkata · New Town · Rajarhat"
+        description="Browse Astittva Marketing's curated portfolio of luxury residential, commercial and investment properties across New Town, Rajarhat, Salt Lake, Alipore and other premium Kolkata destinations. Filter by location, builder, budget and category."
+        path="/properties"
+        keywords="properties for sale Kolkata, New Town flats, Rajarhat apartments, luxury homes Kolkata, PS Group Merlin Siddha Shrachi properties"
+      />
       <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}

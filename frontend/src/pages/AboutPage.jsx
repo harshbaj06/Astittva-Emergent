@@ -1,12 +1,19 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Award, ShieldCheck, Compass, Users } from "lucide-react";
+import Seo from "@/components/Seo";
 
 const TEXTURE = "https://static.prod-images.emergentagent.com/jobs/50ac1e2c-4ee3-4d48-ad5e-fd37063ae3c0/images/1f5da7f44ad5aab6c1f6ab3c12df3ec89723084c1042e95749a6b4658dcffcc6.png";
 
 export default function AboutPage() {
   return (
     <div data-testid="about-page" className="pt-28 pb-16 sm:pt-32 sm:pb-24">
+      <Seo
+        title="About Astittva Marketing · Luxury Real Estate Advisory"
+        description="Astittva Marketing is a luxury real estate advisory representing India's most trusted developers. We curate verified residential, commercial and investment opportunities for discerning clients across Kolkata, New Town, Rajarhat and beyond."
+        path="/about"
+        keywords="Astittva Marketing about, luxury real estate advisory Kolkata, trusted real estate consulting"
+      />
       <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
           <div className="overline mb-4">About Astittva</div>
