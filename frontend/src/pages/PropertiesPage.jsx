@@ -16,11 +16,13 @@ const TYPES = [
 ];
 
 const BUDGETS = [
-  { id: "u1", label: "Under ₹1 Cr", min: 0, max: 1_00_00_000 },
-  { id: "1-2", label: "₹1–2 Cr", min: 1_00_00_000, max: 2_00_00_000 },
-  { id: "2-5", label: "₹2–5 Cr", min: 2_00_00_000, max: 5_00_00_000 },
-  { id: "5-10", label: "₹5–10 Cr", min: 5_00_00_000, max: 10_00_00_000 },
-  { id: "10+", label: "₹10 Cr+", min: 10_00_00_000, max: null },
+  { id: "u1", label: "Under ₹1 Cr",  min: 0,             max: 1_00_00_000 },
+  { id: "1-2", label: "₹1–2 Cr",     min: 1_00_00_000,   max: 2_00_00_000 },
+  { id: "2-3", label: "₹2–3 Cr",     min: 2_00_00_000,   max: 3_00_00_000 },
+  { id: "3-4", label: "₹3–4 Cr",     min: 3_00_00_000,   max: 4_00_00_000 },
+  { id: "4-5", label: "₹4–5 Cr",     min: 4_00_00_000,   max: 5_00_00_000 },
+  { id: "5-10", label: "₹5–10 Cr",   min: 5_00_00_000,   max: 10_00_00_000 },
+  { id: "10+", label: "₹10 Cr+",     min: 10_00_00_000,  max: null },
 ];
 
 const BUILDERS = [

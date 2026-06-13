@@ -12,6 +12,7 @@ import uuid
 import logging
 import bcrypt
 import jwt
+import re
 import requests
 from datetime import datetime, timezone, timedelta
 from typing import List, Optional, Annotated
@@ -407,6 +408,51 @@ async def delete_user(user_id: str, admin: dict = Depends(require_admin)):
 
 
 # ---------------------- Properties (public + admin) ----------------------
+# ---------- Price normalisation (Indian formats) ----------
+# Properties carry both a numeric `starting_price` (₹) and a free-form
+# `price_label` (e.g. "₹ 4.52 Crores Onwards", "77 Lacs Onwards"). Historically
+# many admin-entered properties left `starting_price` empty, so price filters
+# silently dropped them. `effective_price()` returns the best numeric value
+# we can derive from either field — used for filtering only, never written back.
+_PRICE_NUMBER_RE = re.compile(r"(\d+(?:[.,]\d+)?)")
+
+
+def parse_price_label(label) -> Optional[float]:
+    """Parse an Indian-format price string into Rupees (float).
+
+    Handles inputs like:
+      "₹ 4.52 Crores Onwards"      -> 45200000
+      "1.82 Cr Onwards"            -> 18200000
+      "77 Lacs Onwards"            -> 7700000
+      "75 Lakh"                    -> 7500000
+      "₹95,00,000"                 -> 9500000
+      "9500000"                    -> 9500000
+    Returns None if no numeric value can be extracted.
+    """
+    if not label or not isinstance(label, str):
+        return None
+    cleaned = label.replace(",", "").replace("₹", "").strip().lower()
+    m = _PRICE_NUMBER_RE.search(cleaned)
+    if not m:
+        return None
+    try:
+        n = float(m.group(1))
+    except ValueError:
+        return None
+    if "cr" in cleaned or "crore" in cleaned:
+        return n * 10_000_000
+    if "lac" in cleaned or "lakh" in cleaned:
+        return n * 100_000
+    return n  # already in Rupees (or unitless number)
+
+
+def effective_price(doc: dict) -> Optional[float]:
+    sp = doc.get("starting_price")
+    if isinstance(sp, (int, float)) and sp > 0:
+        return float(sp)
+    return parse_price_label(doc.get("price_label"))
+
+
 def serialize_property(doc: dict) -> dict:
     return {
         "id": str(doc["_id"]),
@@ -484,23 +530,43 @@ async def list_properties(
             {"city": {"$in": location_values}},
         ]
     if property_type:
-        query["property_type"] = property_type
+        # Case-insensitive exact match — guards against historic data variants
+        # like "RESIDENTIAL" vs "Residential".
+        query["property_type"] = {"$regex": f"^{re.escape(property_type)}$", "$options": "i"}
     if category:
-        query["property_category"] = category
+        query["property_category"] = {"$regex": f"^{re.escape(category)}$", "$options": "i"}
     if builder:
-        query["builder"] = builder
+        # Case-insensitive CONTAINS match — DB stores "MERLIN GROUP",
+        # "Shrachi Keventer Abasan Private Limited", etc. while the filter
+        # uses short brand names ("Merlin", "Shrachi"). Trim + strip $ chars
+        # so any whitespace/formatting differences are forgiven.
+        builder_norm = builder.strip()
+        if builder_norm:
+            query["builder"] = {"$regex": re.escape(builder_norm), "$options": "i"}
     if availability:
-        query["availability"] = availability
-    if min_price is not None or max_price is not None:
-        price_q: dict = {}
-        if min_price is not None:
-            price_q["$gte"] = float(min_price)
-        if max_price is not None:
-            price_q["$lte"] = float(max_price)
-        query["starting_price"] = price_q
+        query["availability"] = {"$regex": f"^{re.escape(availability)}$", "$options": "i"}
+    # NOTE: Price filtering is NOT pushed into Mongo because many properties
+    # carry the price only in `price_label` ("₹ 4.52 Crores Onwards") while
+    # `starting_price` is NULL. We fetch the candidate set first, then apply
+    # the normalised price filter in Python using effective_price().
     if featured is not None:
         query["is_featured"] = featured
     docs = await db.properties.find(query).sort("created_at", -1).to_list(limit)
+    # In-memory price normalisation + filter.
+    if min_price is not None or max_price is not None:
+        mn = float(min_price) if min_price is not None else None
+        mx = float(max_price) if max_price is not None else None
+        filtered = []
+        for d in docs:
+            p = effective_price(d)
+            if p is None:
+                continue  # price unknown → exclude from explicit range query
+            if mn is not None and p < mn:
+                continue
+            if mx is not None and p > mx:
+                continue
+            filtered.append(d)
+        docs = filtered
     return [serialize_property(d) for d in docs]
 
 
