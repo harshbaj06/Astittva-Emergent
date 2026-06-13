@@ -54,7 +54,7 @@ export default function Header() {
             <div className="sm:hidden">
               <div
                 className="font-serif-display tracking-[0.16em] text-[18px] whitespace-nowrap"
-                style={{ color: "#B97832", fontWeight: 700 }}
+                style={{ color: "#7A1228", fontWeight: 800 }}
               >
                 ASTITTVA
               </div>
@@ -67,10 +67,10 @@ export default function Header() {
             </div>
             <div
               className="hidden sm:block font-serif-display tracking-[0.32em] lg:tracking-[0.36em] text-[14px] lg:text-[17px] whitespace-nowrap"
-              style={{ fontWeight: 600 }}
+              style={{ fontWeight: 700 }}
             >
-              <span style={{ color: "#B97832" }}>ASTITTVA</span>
-              <span className="ml-[0.45em]" style={{ color: "#1C1C1C" }}>MARKETING</span>
+              <span style={{ color: "#7A1228" }}>ASTITTVA</span>
+              <span className="ml-[0.45em]" style={{ color: "#1C1C1C", fontWeight: 600 }}>MARKETING</span>
             </div>
           </div>
         </Link>
