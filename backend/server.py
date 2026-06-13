@@ -17,7 +17,7 @@ from datetime import datetime, timezone, timedelta
 from typing import List, Optional, Annotated
 from bson import ObjectId
 
-from fastapi import FastAPI, APIRouter, HTTPException, Request, Response, Depends, UploadFile, File, Header, Query
+from fastapi import FastAPI, APIRouter, HTTPException, Request, Response, Depends, UploadFile, File, Header, Query, BackgroundTasks
 from fastapi.responses import StreamingResponse
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -576,8 +576,38 @@ async def delete_property(prop_id: str, _user: dict = Depends(require_admin)):
 
 
 # ---------------------- Leads ----------------------
+async def _forward_lead_and_stamp(lead_id: ObjectId, doc: dict) -> None:
+    """Background-only worker: forward to CRM and stamp the result on the lead.
+    Never raises — failures are logged by crm_service and surfaced via crm_status.
+    """
+    try:
+        crm_result = await forward_lead(doc)
+        await db.leads.update_one(
+            {"_id": lead_id},
+            {"$set": {
+                "crm_status": crm_result["status"],
+                "crm_http_status": crm_result.get("http_status"),
+                "crm_error": crm_result.get("error"),
+                "crm_response": crm_result.get("response"),
+                "crm_attempted_at": now_utc_iso(),
+            }},
+        )
+    except Exception as e:
+        # Defensive — should never happen because forward_lead is fail-safe,
+        # but if it does we keep the lead but record the failure.
+        logging.getLogger("astitva.leads").exception("Background CRM forward crashed: %s", e)
+        await db.leads.update_one(
+            {"_id": lead_id},
+            {"$set": {
+                "crm_status": "error",
+                "crm_error": f"background_exception: {e}",
+                "crm_attempted_at": now_utc_iso(),
+            }},
+        )
+
+
 @api_router.post("/leads", status_code=201)
-async def create_lead(payload: LeadIn):
+async def create_lead(payload: LeadIn, background_tasks: BackgroundTasks):
     doc = payload.model_dump()
     # Legacy compat: if frontend still posts "name", split into first/last for CRM
     if doc.get("name") and not (doc.get("first_name") or doc.get("last_name")):
@@ -586,22 +616,14 @@ async def create_lead(payload: LeadIn):
         doc["last_name"] = parts[1] if len(parts) > 1 else ""
     doc["created_at"] = now_utc_iso()
     doc["status"] = "new"
-    # 1. Save locally FIRST so a CRM outage never loses the lead.
+    doc["crm_status"] = "pending"  # will be overwritten by background task
+    # 1. Save locally FIRST so a CRM outage never loses the lead. <50ms.
     res = await db.leads.insert_one(doc)
     lead_id = str(res.inserted_id)
-    # 2. Best-effort forward to CRM. Logged + stamped, never raises.
-    crm_result = await forward_lead(doc)
-    await db.leads.update_one(
-        {"_id": res.inserted_id},
-        {"$set": {
-            "crm_status": crm_result["status"],
-            "crm_http_status": crm_result.get("http_status"),
-            "crm_error": crm_result.get("error"),
-            "crm_response": crm_result.get("response"),
-            "crm_attempted_at": now_utc_iso(),
-        }},
-    )
-    return {"id": lead_id, "ok": True, "crm": {"status": crm_result["status"]}}
+    # 2. Defer the CRM forward — runs AFTER the response is sent. The user
+    # sees confirmation in ~50ms; CRM sync continues asynchronously.
+    background_tasks.add_task(_forward_lead_and_stamp, res.inserted_id, doc)
+    return {"id": lead_id, "ok": True, "crm": {"status": "pending"}}
 
 
 @api_router.get("/admin/leads")
