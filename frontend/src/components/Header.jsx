@@ -45,15 +45,32 @@ export default function Header() {
           <img
             src={LOGO_URL}
             alt="Astittva Marketing"
-            className="h-10 w-10 sm:h-12 sm:w-12 lg:h-14 lg:w-14 object-contain"
+            className="h-11 w-11 sm:h-12 sm:w-12 lg:h-16 lg:w-16 object-contain"
           />
-          <div className="leading-tight border-l border-copper/25 pl-3 sm:pl-4">
+          <div className="leading-[1.05] border-l border-copper/25 pl-3 sm:pl-4">
+            {/* Mobile: stacked brand-signature treatment. ASTITTVA is the dominant
+                mark, MARKETING sits beneath as a refined subtitle — like a couture
+                house logo. Tablet+: single horizontal lockup. */}
+            <div className="sm:hidden">
+              <div
+                className="font-serif-display tracking-[0.16em] text-[18px] whitespace-nowrap"
+                style={{ color: "#B97832", fontWeight: 700 }}
+              >
+                ASTITTVA
+              </div>
+              <div
+                className="font-serif-display tracking-[0.42em] text-[8.5px] mt-[2px] whitespace-nowrap"
+                style={{ color: "#1C1C1C", fontWeight: 500 }}
+              >
+                MARKETING
+              </div>
+            </div>
             <div
-              className="font-serif-display tracking-[0.30em] sm:tracking-[0.34em] text-[10.5px] sm:text-[12px] lg:text-sm whitespace-nowrap"
+              className="hidden sm:block font-serif-display tracking-[0.32em] lg:tracking-[0.36em] text-[14px] lg:text-[17px] whitespace-nowrap"
               style={{ fontWeight: 600 }}
             >
-              <span style={{ color: "#7B1E21" }}>ASTITTVA</span>
-              <span className="ml-[0.45em]" style={{ color: "#2B2B2B" }}>MARKETING</span>
+              <span style={{ color: "#B97832" }}>ASTITTVA</span>
+              <span className="ml-[0.45em]" style={{ color: "#1C1C1C" }}>MARKETING</span>
             </div>
           </div>
         </Link>
