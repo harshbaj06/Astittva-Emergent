@@ -19,7 +19,7 @@ const GLOBAL_JSON_LD = [
     image:
       "https://customer-assets.emergentagent.com/job_astitva-luxury-1/artifacts/c212hx9z_ASTITTVA%20MARKETING%20FINAL.png",
     description:
-      "Luxury real estate advisory curating verified residential, commercial and investment opportunities across Kolkata's most promising destinations — New Town, Rajarhat, Salt Lake, Alipore.",
+      "Astittva Marketing is a luxury real estate advisory and property consultancy in Kolkata, curating verified residential, commercial and investment opportunities across the city's most promising destinations — New Town, Rajarhat, Salt Lake, Alipore.",
     telephone: PHONE_E164,
     email: EMAIL,
     address: {

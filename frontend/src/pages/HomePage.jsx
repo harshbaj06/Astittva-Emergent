@@ -110,10 +110,10 @@ export default function HomePage() {
   return (
     <div data-testid="home-page">
       <Seo
-        title="Astittva Marketing · Luxury Real Estate Advisory · Kolkata"
-        description="Discover curated luxury residential, commercial and investment properties across Kolkata's most promising destinations — New Town, Rajarhat, Salt Lake, Alipore. Astittva Marketing partners with India's most trusted developers to deliver verified opportunities for the discerning investor."
+        title="Astittva Marketing — Luxury Real Estate Advisory, Property Consultants & Investment Advisory in Kolkata"
+        description="Astittva Marketing is a luxury real estate advisory and property consultancy in Kolkata. We curate verified residential, commercial and investment properties across New Town, Rajarhat, Salt Lake, Alipore and partner with India's most trusted developers to deliver opportunities for the discerning investor."
         path="/"
-        keywords="luxury real estate Kolkata, New Town properties, Rajarhat apartments, Astittva Marketing, premium real estate advisory Kolkata, investment property India"
+        keywords="luxury real estate Kolkata, property consultants Kolkata, investment advisory Kolkata, real estate advisory, New Town properties, Rajarhat apartments, Astittva Marketing, premium real estate Kolkata"
       />
       {/* ===================== HERO ===================== */}
       <section data-testid="hero-section" className="relative min-h-[640px] h-[100svh] sm:min-h-[760px] sm:h-screen w-full overflow-hidden bg-[#FAF8F5]">
