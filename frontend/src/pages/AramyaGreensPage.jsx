@@ -55,7 +55,7 @@ export default function AramyaGreensPage() {
         jsonLd={jsonLd}
       />
       <iframe
-        src="/aramya/standalone.html"
+        src="/aramya/index.html"
         title="Aramya Greens"
         style={{
           position: "fixed",
