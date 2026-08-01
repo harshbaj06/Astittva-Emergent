@@ -75,6 +75,14 @@
   - `/api/sitemap.xml` auto-includes `/blogs` and every published `/blogs/<slug>` URL
   - New `.blog-prose` typography (Cormorant Garamond headings, Inter body, copper accents) for editorial reading
   - **Tests: iteration 10 — backend 12/12 pytest + frontend 100% pass** (`/app/backend/tests/test_blogs.py`)
+- **v5.7 (Performance & Core Web Vitals pass — Feb 2026):**
+  - **Images**: batch-optimised every `/public/images/**/*.{jpg,png}` to WebP — desktop (≤1920w, q82) + mobile (≤720w, q78). Total on-the-wire image weight dropped **15.4 MB → 3.6 MB (-77%)**. Reusable `LuxImage` component + `<picture>` element in CinematicHero automatically serves the mobile crop below 768px.
+  - **LCP**: hero first slide preloaded via media-scoped `<link rel="preload" as="image" fetchpriority="high">` (separate desktop + mobile hrefs). Hero LCP asset dropped 773 KB → 127 KB (-84%). Hero JS preloader now uses viewport-appropriate variant.
+  - **JS bundle**: every non-home route (Properties, About, Contact, Market Intelligence, Blogs, Aramya, entire admin panel) is React.lazy-imported with a lightweight Suspense fallback (`data-testid="route-loading"`). Public visitors never download admin chunks.
+  - **Backend compression**: `GZipMiddleware` added to FastAPI (`minimum_size=500`, level 6) — all JSON APIs now travel gzip-encoded (3-5× bandwidth reduction).
+  - **Long-term cache**: `GET /api/files/{path}` returns `Cache-Control: public, max-age=2592000, stale-while-revalidate=604800` so browsers/CDNs don't re-fetch immutable upload bytes.
+  - Optimiser is idempotent (`/app/scripts/optimize_images.py`) — safe to rerun after new hero assets land.
+  - **Tests: iteration 11 — backend 7/7 pytest + frontend 100% pass**, zero visual/functional regressions
 
 ## Tests
 - v1: 32/32 ✓ · v2: 34/34 ✓ · v3: 43/43 ✓ · v4: 56/56 ✓ · **v5: 68/68 ✓**
