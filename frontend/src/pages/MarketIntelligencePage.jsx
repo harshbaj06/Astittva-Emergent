@@ -2,24 +2,14 @@ import { useEffect, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
-  TrendingUp, Globe2, Building2, Activity, Sparkles,
-  Train, IndianRupee, MapPin, ArrowUpRight, RefreshCcw, Loader2, Lightbulb,
-  Filter, ShieldCheck, Coins, Layers
+  TrendingUp, Building2, ArrowUpRight, RefreshCcw, Lightbulb,
+  Filter, Coins
 } from "lucide-react";
 import api from "@/lib/api";
 import Seo from "@/components/Seo";
 import { EVERGREEN_NEWS } from "@/data/evergreenNews";
 
 const TEXTURE = "https://static.prod-images.emergentagent.com/jobs/50ac1e2c-4ee3-4d48-ad5e-fd37063ae3c0/images/1f5da7f44ad5aab6c1f6ab3c12df3ec89723084c1042e95749a6b4658dcffcc6.png";
-
-const SNAPSHOTS = [
-  { icon: Train, title: "Infrastructure Updates", value: "Metro · Roads · Airports", note: "Greater Kolkata expansion underway" },
-  { icon: TrendingUp, title: "Market Growth Indicators", value: "12–18% / yr", note: "New Town & Rajarhat corridors" },
-  { icon: IndianRupee, title: "Interest Rate Environment", value: "Stable", note: "RBI watch · housing-favorable" },
-  { icon: MapPin, title: "Emerging Hotspots", value: "Action Area II · Eco-Park", note: "Premium residential demand" },
-  { icon: Sparkles, title: "Luxury Market Trends", value: "Strong", note: "Branded residences gaining share" },
-  { icon: Globe2, title: "Global Investment Trends", value: "Dubai · Singapore · London", note: "HNI / NRI inflows rising" },
-];
 
 const FILTERS = [
   { key: "all", label: "All" },
@@ -397,39 +387,12 @@ export default function MarketIntelligencePage() {
         </div>
       </section>
 
-      {/* ============== SNAPSHOT DASHBOARD ============== */}
-      <section data-testid="market-snapshot" className="relative py-16 sm:py-24 border-t border-copper/10 bg-charcoal-2">
-        <div className="max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-16">
-          <motion.div {...fadeUp} className="mb-12 sm:mb-16 max-w-3xl">
-            <div className="eyebrow-line mb-6"><span className="text-[10px] tracking-[0.5em] uppercase text-[#5F5F5F]">Section · 02</span></div>
-            <h2 className="section-title text-3xl sm:text-4xl lg:text-5xl leading-[1.05]">Market Snapshot.</h2>
-            <p className="mt-5 text-muted-fg font-light leading-[1.8]">A real-time pulse on the indicators that move premium real estate.</p>
-          </motion.div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/[0.05]">
-            {SNAPSHOTS.map((s, i) => (
-              <motion.div
-                key={s.title}
-                initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-                transition={{ duration: 0.55, delay: i * 0.06 }}
-                className="bg-white border border-[#E8DED2] p-7 sm:p-10 group hover:bg-burgundy/15 transition-colors"
-                data-testid={`snapshot-card-${i}`}
-              >
-                <s.icon className="w-7 h-7 text-copper mb-6" strokeWidth={1.1} />
-                <div className="text-[10px] tracking-[0.35em] uppercase text-[#737373] mb-3">{s.title}</div>
-                <div className="font-serif-display text-2xl sm:text-3xl text-ivory mb-3 leading-tight">{s.value}</div>
-                <div className="text-muted-fg text-sm font-light">{s.note}</div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ============== INTELLIGENCE FEED (filterable) ============== */}
-      <section data-testid="intelligence-feed" className="relative py-16 sm:py-24">
+      <section data-testid="intelligence-feed" className="relative py-16 sm:py-24 border-t border-copper/10">
         <div className="max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-16">
           <motion.div {...fadeUp} className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10 sm:mb-12">
             <div className="max-w-2xl">
-              <div className="eyebrow-line mb-6"><span className="text-[10px] tracking-[0.5em] uppercase text-[#5F5F5F]">Section · 03 · Live Intelligence</span></div>
+              <div className="eyebrow-line mb-6"><span className="text-[10px] tracking-[0.5em] uppercase text-[#5F5F5F]">Section · 02 · Live Intelligence</span></div>
               <h2 className="section-title text-3xl sm:text-4xl lg:text-5xl leading-[1.05]">The latest, classified.</h2>
               <p className="mt-5 text-muted-fg font-light leading-[1.8] max-w-xl">
                 Every story tagged by city, country, category and impact — so you understand instantly what&apos;s happening and why.
@@ -489,7 +452,7 @@ export default function MarketIntelligencePage() {
       <section data-testid="investment-insights" className="relative py-16 sm:py-24 bg-charcoal-2 border-y border-copper/10">
         <div className="max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-16">
           <motion.div {...fadeUp} className="mb-12 sm:mb-16 max-w-3xl">
-            <div className="eyebrow-line mb-6"><span className="text-[10px] tracking-[0.5em] uppercase text-[#5F5F5F]">Section · 04 · Investor Lens</span></div>
+            <div className="eyebrow-line mb-6"><span className="text-[10px] tracking-[0.5em] uppercase text-[#5F5F5F]">Section · 03 · Investor Lens</span></div>
             <h2 className="section-title text-3xl sm:text-4xl lg:text-5xl leading-[1.05]">Investment Insights.</h2>
             <p className="mt-5 text-muted-fg font-light leading-[1.8]">What investors should be watching this quarter.</p>
           </motion.div>
@@ -517,7 +480,7 @@ export default function MarketIntelligencePage() {
       <section data-testid="market-opportunities" className="relative py-16 sm:py-24">
         <div className="max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-16">
           <motion.div {...fadeUp} className="mb-12 sm:mb-16 max-w-3xl">
-            <div className="eyebrow-line mb-6"><span className="text-[10px] tracking-[0.5em] uppercase text-[#5F5F5F]">Section · 05 · Curated for Investors</span></div>
+            <div className="eyebrow-line mb-6"><span className="text-[10px] tracking-[0.5em] uppercase text-[#5F5F5F]">Section · 04 · Curated for Investors</span></div>
             <h2 className="section-title text-3xl sm:text-4xl lg:text-5xl leading-[1.05]">Market Opportunities.</h2>
             <p className="mt-5 text-muted-fg font-light leading-[1.8]">A handpicked set of asset-classes worth tracking across our coverage map.</p>
           </motion.div>
@@ -559,7 +522,7 @@ export default function MarketIntelligencePage() {
       <section data-testid="markets-we-track" className="relative py-16 sm:py-24 bg-charcoal-2 border-y border-copper/10 overflow-hidden">
         <div className="max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-16">
           <motion.div {...fadeUp} className="mb-12 sm:mb-16 max-w-3xl">
-            <div className="eyebrow-line mb-6"><span className="text-[10px] tracking-[0.5em] uppercase text-[#5F5F5F]">Section · 06 · Coverage</span></div>
+            <div className="eyebrow-line mb-6"><span className="text-[10px] tracking-[0.5em] uppercase text-[#5F5F5F]">Section · 05 · Coverage</span></div>
             <h2 className="section-title text-3xl sm:text-4xl lg:text-5xl leading-[1.05]">Markets We Track.</h2>
             <p className="mt-5 text-muted-fg font-light leading-[1.8]">Cities and corridors where Astittva sources opportunity for its investor network.</p>
           </motion.div>
@@ -586,7 +549,7 @@ export default function MarketIntelligencePage() {
         <div className="absolute inset-0 burgundy-gradient-soft pointer-events-none" />
         <div className="relative max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-16">
           <motion.div {...fadeUp} className="text-center max-w-3xl mx-auto mb-14 sm:mb-16">
-            <div className="overline mb-5">Section · 07</div>
+            <div className="overline mb-5">Section · 06</div>
             <h2 className="section-title text-3xl sm:text-4xl lg:text-5xl leading-[1.05]">Future Expansion Tracker.</h2>
             <p className="mt-5 text-muted-fg font-light leading-[1.8]">Built on local trust. Designed for global reach.</p>
           </motion.div>
