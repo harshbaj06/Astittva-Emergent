@@ -276,6 +276,8 @@ class LeadIn(BaseModel):
     project: Optional[str] = ""
     property_location: Optional[str] = ""
     preferred_date: Optional[str] = ""
+    # Form label — used as CRM lead-type tag (e.g. "Site Visit Enquiry")
+    form: Optional[str] = ""
 
 
 class LeadOut(LeadIn):

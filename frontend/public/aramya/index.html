@@ -1295,24 +1295,132 @@
   var successMsg = document.getElementById('success-msg');
   var btnAgain = document.getElementById('btnAgain');
 
+  // Detect email vs phone from the combined "contact" field so we can map
+  // cleanly onto the Astittva /api/leads schema (which needs both email + phone).
+  function parseContact(raw) {
+    var s = (raw || '').trim();
+    var out = { email: '', phone: '' };
+    // Extract email (first token containing '@')
+    var emailMatch = s.match(/[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}/);
+    if (emailMatch) out.email = emailMatch[0];
+    // Extract phone digits (strip common separators, keep leading +)
+    var phoneDigits = s.replace(/[^\d+]/g, '');
+    // If the extracted email itself has trailing/leading digits, remove them
+    if (out.email) {
+      phoneDigits = s.replace(out.email, '').replace(/[^\d+]/g, '');
+    }
+    if (phoneDigits && phoneDigits.replace(/[^\d]/g, '').length >= 6) {
+      out.phone = phoneDigits;
+    }
+    return out;
+  }
+
+  function splitName(fullName) {
+    var parts = (fullName || '').trim().split(/\s+/);
+    return {
+      first: parts[0] || '',
+      last: parts.length > 1 ? parts.slice(1).join(' ') : ''
+    };
+  }
+
+  function showFormError(msg) {
+    var existing = document.getElementById('propForm-err');
+    if (!existing) {
+      existing = document.createElement('div');
+      existing.id = 'propForm-err';
+      existing.style.cssText = 'margin-top:14px;padding:10px 14px;border:1px solid #D36C6C;background:#fff5f5;color:#8a3a3a;border-radius:4px;font-size:13px;line-height:1.5;';
+      propForm.appendChild(existing);
+    }
+    existing.textContent = msg;
+    existing.style.display = 'block';
+  }
+  function clearFormError() {
+    var existing = document.getElementById('propForm-err');
+    if (existing) existing.style.display = 'none';
+  }
+
   if (propForm) {
+    var submitBtn = propForm.querySelector('button[type="submit"]');
+    var submitBtnOriginalText = submitBtn ? submitBtn.textContent : 'Submit Inquiry';
+
     propForm.addEventListener('submit', function(e) {
       e.preventDefault();
+      clearFormError();
+
       var name = document.getElementById('name').value.trim();
       var contact = document.getElementById('contact').value.trim();
+      var detail = document.getElementById('detail').value.trim();
 
       var valid = true;
       var fn = document.getElementById('field-name');
       var fc = document.getElementById('field-contact');
-      
+
       if (!name) { fn.classList.add('invalid'); valid = false; } else { fn.classList.remove('invalid'); }
       if (!contact) { fc.classList.add('invalid'); valid = false; } else { fc.classList.remove('invalid'); }
-      
+
       if (!valid) return;
 
-      // On successful validation:
-      propForm.style.display = 'none';
-      successMsg.style.display = 'block';
+      var parsed = parseContact(contact);
+      if (!parsed.email && !parsed.phone) {
+        fc.classList.add('invalid');
+        showFormError('Please enter a valid phone number or email address.');
+        return;
+      }
+
+      var nm = splitName(name);
+      // Backend LeadIn requires a valid email (EmailStr). If the user only
+      // shared a phone, synthesise a routable placeholder tied to their number
+      // so the CRM can still see the real phone as the primary contact.
+      var syntheticEmail = 'leads+' + (parsed.phone || 'aramya').replace(/[^\d]/g, '') + '@astittva.in';
+      var payload = {
+        prefix: 'Mr',
+        first_name: nm.first,
+        last_name: nm.last,
+        phone_code: '+91',
+        phone: parsed.phone || contact,
+        email: parsed.email || syntheticEmail,
+        message: detail,
+        // Aramya Greens metadata — used by the CRM to tag & route the lead
+        project: 'Aramya Greens',
+        source: 'aramya-greens',
+        form: 'Site Visit Enquiry'
+      };
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submitting...';
+        submitBtn.style.opacity = '0.7';
+        submitBtn.style.cursor = 'wait';
+      }
+
+      fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        credentials: 'same-origin'
+      })
+        .then(function(res) {
+          if (!res.ok) {
+            return res.text().then(function(t) { throw new Error('HTTP ' + res.status + ': ' + (t || 'submission failed')); });
+          }
+          return res.json();
+        })
+        .then(function() {
+          propForm.style.display = 'none';
+          successMsg.style.display = 'block';
+        })
+        .catch(function(err) {
+          showFormError('Sorry — we could not submit your enquiry right now. Please try again or call us directly at +91 9230374700.');
+          if (window.console) console.error('[aramya-lead] submit failed', err);
+        })
+        .then(function() {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = submitBtnOriginalText;
+            submitBtn.style.opacity = '';
+            submitBtn.style.cursor = '';
+          }
+        });
     });
 
     if (btnAgain) {
@@ -1320,6 +1428,7 @@
         propForm.reset();
         document.getElementById('field-name').classList.remove('invalid');
         document.getElementById('field-contact').classList.remove('invalid');
+        clearFormError();
         propForm.style.display = 'block';
         successMsg.style.display = 'none';
       });

@@ -64,8 +64,14 @@ def _build_additional_notes(
     return "\n".join(lines)
 
 
-def _resolve_lead_type(source: str, project: Optional[str]) -> str:
-    """Map internal `source` value → human-readable CRM lead type label."""
+def _resolve_lead_type(source: str, project: Optional[str], form: Optional[str] = None) -> str:
+    """Map internal `source` value → human-readable CRM lead type label.
+
+    If an explicit `form` label is provided by the frontend (e.g. "Site Visit
+    Enquiry"), it wins so CRM can distinguish enquiry channels precisely.
+    """
+    if form:
+        return form
     s = (source or "").lower()
     if "site_visit" in s or "site-visit" in s:
         return "Site Visit Request"
@@ -84,7 +90,7 @@ def build_crm_payload(lead: Dict[str, Any]) -> Dict[str, Any]:
     project = lead.get("project") or lead.get("interest") or ""
     location = lead.get("property_location") or lead.get("preferred_locality") or ""
 
-    lead_type = _resolve_lead_type(lead.get("source", ""), project)
+    lead_type = _resolve_lead_type(lead.get("source", ""), project, lead.get("form"))
     notes = _build_additional_notes(
         lead_type=lead_type,
         project=project or None,
