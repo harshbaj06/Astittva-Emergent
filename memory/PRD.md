@@ -83,6 +83,13 @@
   - **Long-term cache**: `GET /api/files/{path}` returns `Cache-Control: public, max-age=2592000, stale-while-revalidate=604800` so browsers/CDNs don't re-fetch immutable upload bytes.
   - Optimiser is idempotent (`/app/scripts/optimize_images.py`) — safe to rerun after new hero assets land.
   - **Tests: iteration 11 — backend 7/7 pytest + frontend 100% pass**, zero visual/functional regressions
+- **v5.8 (Full-site responsiveness pass — Feb 2026):**
+  - Audited every public + admin route at 6 viewports (320 / 375 / 768 / 1024 / 1440 / 1920 px) — zero horizontal-scroll bugs remain
+  - **Admin panel**: fully rebuilt for mobile — sticky top bar with hamburger, single `<aside>` that slides in as a drawer on <lg and becomes a static 256px column on ≥lg; drawer auto-closes on route change and locks body scroll while open. No more duplicated data-testids across two sidebars.
+  - **Admin tables** (Blogs, Properties, Users): wrapped in `overflow-x-auto` with `min-w-[520px]` on the `<table>` so they scroll horizontally instead of getting cropped
+  - **Admin list headers** (Properties, Blogs): use `flex-wrap gap-4` so the primary CTA drops below the title on mobile rather than colliding with it
+  - **Market Intelligence filter bar** (13 chips ≈ 1450px): wraps to two rows on ≥sm via `sm:flex-wrap` + `sm:overflow-visible`; horizontally-swipeable on <sm with a hidden scrollbar (`.no-scrollbar` utility added to `index.css`)
+  - **Tests: iteration 12 — frontend ~98% pass**, zero critical or functional regressions
 
 ## Tests
 - v1: 32/32 ✓ · v2: 34/34 ✓ · v3: 43/43 ✓ · v4: 56/56 ✓ · **v5: 68/68 ✓**
