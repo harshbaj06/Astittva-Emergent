@@ -83,6 +83,11 @@
 ::-webkit-scrollbar-thumb { background: rgba(184,115,51,0.45); }
 ::-webkit-scrollbar-thumb:hover { background: #B87333; }
 
+/* Utility: hide the horizontal scrollbar on mobile scroll-snap rows (filter
+   chips, tag lists) while keeping the row scrollable via touch/trackpad. */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+
 /* ────────────────────────────────────────────────────────────────
  * BRAND UTILITY CLASSES — kept by name, repointed to light palette
  * ──────────────────────────────────────────────────────────────── */

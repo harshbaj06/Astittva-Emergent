@@ -43,7 +43,7 @@ export default function AdminPropertiesPage() {
 
   return (
     <div data-testid="admin-properties-page">
-      <div className="flex items-center justify-between mb-12">
+      <div className="flex flex-wrap items-center justify-between gap-4 mb-8 sm:mb-12">
         <div>
           <div className="overline mb-3">Inventory</div>
           <h1 className="font-display font-light text-3xl sm:text-4xl text-ivory">Properties</h1>
@@ -60,8 +60,8 @@ export default function AdminPropertiesPage() {
           <p className="text-ivory/60 font-light italic">No properties yet. Create your first one.</p>
         </div>
       ) : (
-        <div className="border border-copper/15 overflow-hidden">
-          <table className="w-full text-sm" data-testid="properties-table">
+        <div className="border border-copper/15 overflow-x-auto">
+          <table className="w-full text-sm min-w-[520px]" data-testid="properties-table">
             <thead className="bg-charcoal-2/60 text-ivory/60 text-[10px] tracking-[0.25em] uppercase">
               <tr>
                 <th className="text-left p-4 font-normal">Project</th>

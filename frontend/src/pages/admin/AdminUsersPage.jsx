@@ -84,8 +84,8 @@ export default function AdminUsersPage() {
       {loading ? (
         <div className="text-ivory/50 text-center py-16 tracking-[0.3em] uppercase text-xs">Loading...</div>
       ) : (
-        <div className="border border-copper/15">
-          <table className="w-full text-sm" data-testid="users-table">
+        <div className="border border-copper/15 overflow-x-auto">
+          <table className="w-full text-sm min-w-[520px]" data-testid="users-table">
             <thead className="bg-charcoal-2/60 text-ivory/60 text-[10px] tracking-[0.25em] uppercase">
               <tr>
                 <th className="text-left p-4 font-normal">Name</th>

@@ -403,10 +403,11 @@ export default function MarketIntelligencePage() {
             </div>
           </motion.div>
 
-          {/* Filter bar */}
-          <div className="mb-10 flex items-center gap-3 overflow-x-auto pb-1 -mx-6 px-6 sm:mx-0 sm:px-0" data-testid="filter-bar">
-            <Filter className="w-4 h-4 text-copper shrink-0" strokeWidth={1.4} />
-            <div className="flex gap-2">
+          {/* Filter bar — horizontal scroll on mobile, wraps to two lines on ≥sm so all
+              chips are visible without a scrollbar on desktop / laptop screens. */}
+          <div className="mb-10 flex items-start gap-3 overflow-x-auto sm:overflow-visible pb-1 -mx-6 px-6 sm:mx-0 sm:px-0 no-scrollbar" data-testid="filter-bar">
+            <Filter className="w-4 h-4 text-copper shrink-0 mt-3" strokeWidth={1.4} />
+            <div className="flex gap-2 flex-nowrap sm:flex-wrap">
               {FILTERS.map((f) => (
                 <button
                   key={f.key}
