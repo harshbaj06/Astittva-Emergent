@@ -1,26 +1,12 @@
-import { useEffect, useState } from "react";
 import Seo from "@/components/Seo";
 
 /**
- * Aramya Greens — dedicated project landing.
- * The full source-of-truth HTML/CSS lives at /aramya/content.html (a
- * self-contained static file generated from the uploaded standalone page).
- * We fetch it at runtime and inject it inside the site's shared PublicLayout
- * so the Astittva navbar + footer + FAB stack wrap the experience.
+ * Aramya Greens — served exactly as uploaded, in complete isolation.
+ * A full-viewport iframe loads the untouched standalone HTML so nothing
+ * from the Astittva shell (navbar, footer, layout, CSS) touches it.
+ * The React route only handles routing + SEO metadata for search engines.
  */
 export default function AramyaGreensPage() {
-  const [html, setHtml] = useState(null);
-  const [err, setErr] = useState(null);
-
-  useEffect(() => {
-    let cancelled = false;
-    fetch("/aramya/content.html", { cache: "force-cache" })
-      .then((r) => (r.ok ? r.text() : Promise.reject(new Error(`HTTP ${r.status}`))))
-      .then((t) => { if (!cancelled) setHtml(t); })
-      .catch((e) => { if (!cancelled) setErr(e.message); });
-    return () => { cancelled = true; };
-  }, []);
-
   const jsonLd = [
     {
       "@context": "https://schema.org",
@@ -59,26 +45,30 @@ export default function AramyaGreensPage() {
   ];
 
   return (
-    <div data-testid="aramya-greens-page" className="pt-24 sm:pt-28 pb-8 bg-[#F3EFE1]">
+    <div data-testid="aramya-greens-page">
       <Seo
         title="Aramya Greens | Premium Gated Plotted Township in Hatisala, New Town | Astittva Marketing"
         description="Explore Aramya Greens, a newly launched premium gated plotted township in Hatisala, New Town offering green living, spacious residential plots, excellent connectivity and long-term investment value."
         path="/aramya-greens"
-        keywords="Aramya Greens, gated plotted township Hatisala, New Town plots, Astittva Marketing, plotted township Kolkata, residential plots New Town, real estate investment Kolkata"
+        keywords="Aramya Greens, gated plotted township Hatisala, New Town plots, plotted township Kolkata, residential plots New Town"
         image="https://astittva.in/aramya/images/img_1.jpg"
         jsonLd={jsonLd}
       />
-      {!html && !err && (
-        <div className="max-w-3xl mx-auto py-24 px-6 text-center text-[#4A5245]">
-          <div className="font-serif italic text-2xl">Loading Aramya Greens…</div>
-        </div>
-      )}
-      {err && (
-        <div className="max-w-3xl mx-auto py-24 px-6 text-center text-red-800">
-          Unable to load Aramya Greens content. Please refresh the page.
-        </div>
-      )}
-      {html && <div dangerouslySetInnerHTML={{ __html: html }} />}
+      <iframe
+        src="/aramya/standalone.html"
+        title="Aramya Greens"
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+          border: "none",
+          margin: 0,
+          padding: 0,
+          zIndex: 999,
+        }}
+      />
     </div>
   );
 }

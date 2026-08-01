@@ -37,11 +37,13 @@ function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/properties" element={<PropertiesPage />} />
               <Route path="/properties/:id" element={<PropertyDetailPage />} />
-              <Route path="/aramya-greens" element={<AramyaGreensPage />} />
               <Route path="/market-intelligence" element={<MarketIntelligencePage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/contact" element={<ContactPage />} />
             </Route>
+
+            {/* Standalone project page — served as-uploaded, no site chrome */}
+            <Route path="/aramya-greens" element={<AramyaGreensPage />} />
 
             {/* Admin auth */}
             <Route path="/admin/login" element={<AdminLoginPage />} />
