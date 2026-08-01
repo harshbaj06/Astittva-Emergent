@@ -60,6 +60,12 @@
   - Fixed a duplicate `id="contact"` collision (section + input) by scoping form lookups to `propForm.querySelector()`
   - Verified E2E: iframe submit → 201 Created → Mongo persisted → Azure CRM webhook `HTTP 200 OK` (same production endpoint as Astittva Marketing)
   - **Tests: iteration 7 (backend 5/5) + iteration 8 (frontend 4/4) — 100% pass**
+- **v5.5 (Market Intelligence — Snapshot removal & live-feed audit — Feb 2026):**
+  - Removed the entire "Market Snapshot" section (SNAPSHOTS constant + snapshot dashboard block) from `/app/frontend/src/pages/MarketIntelligencePage.jsx` per user request
+  - Renumbered downstream section eyebrows: Live Intelligence = Section 02, Investor Lens = 03, Curated for Investors = 04, Coverage = 05, Future Expansion Tracker = 06
+  - Pruned unused lucide-react imports (Train, IndianRupee, MapPin, Sparkles, Globe2, Activity, Loader2, ShieldCheck, Layers)
+  - Audited the live news pipeline end-to-end — no backend changes needed: `/api/news/all` returns 100 live articles with `last_updated`, `/api/news/trending` returns 12; page renders 12 live cards, filters (Kolkata / India / All) all work, no console errors beyond the pre-existing `/api/auth/me` 401 noise (P3 backlog)
+  - **Tests: iteration 9 — backend 100% + frontend 100% pass**
 
 ## Tests
 - v1: 32/32 ✓ · v2: 34/34 ✓ · v3: 43/43 ✓ · v4: 56/56 ✓ · **v5: 68/68 ✓**
