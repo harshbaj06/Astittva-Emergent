@@ -66,6 +66,15 @@
   - Pruned unused lucide-react imports (Train, IndianRupee, MapPin, Sparkles, Globe2, Activity, Loader2, ShieldCheck, Layers)
   - Audited the live news pipeline end-to-end — no backend changes needed: `/api/news/all` returns 100 live articles with `last_updated`, `/api/news/trending` returns 12; page renders 12 live cards, filters (Kolkata / India / All) all work, no console errors beyond the pre-existing `/api/auth/me` 401 noise (P3 backlog)
   - **Tests: iteration 9 — backend 100% + frontend 100% pass**
+- **v5.6 (Editorial — full Blogs CMS module — Feb 2026):**
+  - New "Blogs" primary nav item between Market Intelligence and About (desktop + mobile)
+  - Public `/blogs` list page ("The Astittva Journal") + SEO-friendly `/blogs/:slug` detail pages with per-blog SEO tags (title, description, keywords, OG image) and JSON-LD BlogPosting/Blog schema via `Seo` component
+  - Admin CMS at `/admin/blogs` — reuses existing JWT auth, staff can create/edit/publish/unpublish, admin can delete
+  - Blog schema: title, slug (auto, unique, `-2/-3…` suffix on collision), featured_image (existing /api/admin/upload), short_description, body (HTML rich text with live preview toggle in the form), seo_title/seo_description/seo_keywords, status (draft/published), publish_date (auto-stamped on publish), author, created_at/updated_at
+  - Backend: `blogs` Mongo collection with `slug` unique + `(status,publish_date)` indexes; endpoints `GET /api/blogs`, `GET /api/blogs/{slug}` (public), `GET/POST/PUT/PATCH/DELETE /api/admin/blogs[/{id}][/status]` (auth-scoped)
+  - `/api/sitemap.xml` auto-includes `/blogs` and every published `/blogs/<slug>` URL
+  - New `.blog-prose` typography (Cormorant Garamond headings, Inter body, copper accents) for editorial reading
+  - **Tests: iteration 10 — backend 12/12 pytest + frontend 100% pass** (`/app/backend/tests/test_blogs.py`)
 
 ## Tests
 - v1: 32/32 ✓ · v2: 34/34 ✓ · v3: 43/43 ✓ · v4: 56/56 ✓ · **v5: 68/68 ✓**
