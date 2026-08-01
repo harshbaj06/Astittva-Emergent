@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, ShieldCheck, Sparkles, Building2, Compass, ChevronRight, MapPin, Globe2, Award, TrendingUp, BadgeCheck, Handshake, Briefcase, MessageCircle, Check } from "lucide-react";
 import api, { fileUrl, formatApiErrorDetail } from "@/lib/api";
@@ -75,6 +75,160 @@ const fadeUp = {
   viewport: { once: true, amount: 0.3 },
   transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
 };
+
+// -------- Aramya Greens · Featured Project teaser --------
+const ARAMYA_SLIDES = [
+  { src: "/aramya/images/img_1.jpg", alt: "Aramya Greens · Family" },
+  { src: "/aramya/images/img_2.jpg", alt: "Aramya Greens · Boulevard" },
+  { src: "/aramya/images/img_3.jpg", alt: "Aramya Greens · Room to Breathe" },
+  { src: "/aramya/images/img_4.jpg", alt: "Aramya Greens · Childhood" },
+  { src: "/aramya/images/img_5.jpg", alt: "Aramya Greens · Grow Old Together" },
+];
+const ARAMYA_CHIPS = [
+  "Green Living",
+  "Prime New Town Connectivity",
+  "Spacious Residential Plots",
+  "Long-Term Investment Potential",
+];
+const ARAMYA_AUTOPLAY_MS = 5000;
+
+function AramyaGreensFeature() {
+  const [idx, setIdx] = useState(0);
+  const touchStart = useRef(null);
+
+  useEffect(() => {
+    const t = setInterval(() => setIdx((i) => (i + 1) % ARAMYA_SLIDES.length), ARAMYA_AUTOPLAY_MS);
+    return () => clearInterval(t);
+  }, []);
+
+  const go = (delta) => setIdx((i) => (i + delta + ARAMYA_SLIDES.length) % ARAMYA_SLIDES.length);
+
+  return (
+    <section data-testid="aramya-feature" className="py-16 sm:py-24 bg-[#F5F1EC]">
+      <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+          {/* Content — 40% on desktop */}
+          <motion.div {...fadeUp} className="lg:col-span-5 order-2 lg:order-1">
+            <div className="overline text-copper mb-5" style={{ letterSpacing: "0.35em" }}>New Launch</div>
+            <h2 className="font-serif-display text-4xl sm:text-5xl lg:text-6xl text-[#1C1C1C] leading-[1.02] tracking-tight">
+              Aramya <span className="italic" style={{ color: "#B97832" }}>Greens.</span>
+            </h2>
+            <p className="mt-5 text-[15px] sm:text-base uppercase tracking-[0.28em] text-[#7B1E21] font-medium">
+              Premium Gated Plotted Township
+            </p>
+            <p className="mt-2 text-sm sm:text-base tracking-[0.2em] uppercase text-[#5F5F5F]">
+              Hatisala · New Town
+            </p>
+            <p className="mt-7 text-[15px] sm:text-base leading-[1.75] text-[#3D3D3D] font-light max-w-lg">
+              Aramya Greens is a newly launched premium gated plotted township in Hatisala, New Town, offering green living, excellent connectivity, spacious residential plots and long-term investment value. Discover a thoughtfully planned community designed for families, homeowners and investors looking toward the future.
+            </p>
+            <div className="mt-7 flex flex-wrap gap-2.5">
+              {ARAMYA_CHIPS.map((c) => (
+                <span
+                  key={c}
+                  className="text-[11px] uppercase tracking-[0.18em] px-3.5 py-2 border font-medium"
+                  style={{ borderColor: "rgba(185,120,50,0.4)", color: "#8B5A22", background: "rgba(185,120,50,0.05)" }}
+                >
+                  {c}
+                </span>
+              ))}
+            </div>
+            <div className="mt-9 flex flex-wrap gap-4">
+              <Link
+                to="/aramya-greens"
+                data-testid="aramya-cta-primary"
+                className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#7B1E21] hover:bg-[#5F1518] text-white text-[11.5px] tracking-[0.28em] uppercase font-medium transition-colors"
+              >
+                Explore Aramya Greens <ChevronRight className="w-3.5 h-3.5" />
+              </Link>
+              <Link
+                to="/aramya-greens"
+                data-testid="aramya-cta-secondary"
+                className="inline-flex items-center gap-2 px-7 py-3.5 border text-[11.5px] tracking-[0.28em] uppercase font-medium transition-colors"
+                style={{ borderColor: "rgba(28,28,28,0.35)", color: "#1C1C1C" }}
+              >
+                Know More
+              </Link>
+            </div>
+          </motion.div>
+
+          {/* Hero slider — 60% on desktop */}
+          <motion.div {...fadeUp} className="lg:col-span-7 order-1 lg:order-2">
+            <div
+              className="relative aspect-[4/3] sm:aspect-[16/11] overflow-hidden rounded-[8px] shadow-2xl shadow-black/25"
+              onTouchStart={(e) => (touchStart.current = e.touches[0].clientX)}
+              onTouchEnd={(e) => {
+                if (touchStart.current == null) return;
+                const dx = e.changedTouches[0].clientX - touchStart.current;
+                if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
+                touchStart.current = null;
+              }}
+            >
+              {ARAMYA_SLIDES.map((s, i) => {
+                const active = i === idx;
+                return (
+                  <div
+                    key={s.src}
+                    className="absolute inset-0"
+                    style={{
+                      opacity: active ? 1 : 0,
+                      transition: "opacity 900ms cubic-bezier(0.22,1,0.36,1)",
+                    }}
+                    aria-hidden={!active}
+                  >
+                    <img
+                      src={s.src}
+                      alt={s.alt}
+                      loading={i <= 1 ? "eager" : "lazy"}
+                      decoding="async"
+                      className="w-full h-full object-cover"
+                      style={{
+                        transform: active ? "scale(1.06)" : "scale(1.0)",
+                        transition: "transform 6000ms linear",
+                      }}
+                    />
+                  </div>
+                );
+              })}
+              {/* Nav arrows */}
+              <button
+                onClick={() => go(-1)}
+                aria-label="Previous slide"
+                data-testid="aramya-slider-prev"
+                className="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/85 hover:bg-white text-[#1C1C1C] flex items-center justify-center shadow-lg transition-colors"
+              >
+                <ChevronRight className="w-4 h-4 rotate-180" />
+              </button>
+              <button
+                onClick={() => go(1)}
+                aria-label="Next slide"
+                data-testid="aramya-slider-next"
+                className="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/85 hover:bg-white text-[#1C1C1C] flex items-center justify-center shadow-lg transition-colors"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+              {/* Pagination dots */}
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                {ARAMYA_SLIDES.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setIdx(i)}
+                    aria-label={`Go to slide ${i + 1}`}
+                    className="h-1.5 rounded-full transition-all"
+                    style={{
+                      width: i === idx ? 28 : 8,
+                      background: i === idx ? "#B97832" : "rgba(255,255,255,0.7)",
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 export default function HomePage() {
   const [projects, setProjects] = useState([]);
@@ -246,6 +400,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ===================== FEATURED PROJECT · ARAMYA GREENS ===================== */}
+      <AramyaGreensFeature />
 
       {/* ===================== FEATURED LOCATIONS ===================== */}
       <section data-testid="locations-section" className="py-16 sm:py-24 bg-[#F5F1EC]">

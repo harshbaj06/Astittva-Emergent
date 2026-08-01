@@ -14,6 +14,7 @@ import PropertyDetailPage from "@/pages/PropertyDetailPage";
 import AboutPage from "@/pages/AboutPage";
 import ContactPage from "@/pages/ContactPage";
 import MarketIntelligencePage from "@/pages/MarketIntelligencePage";
+import AramyaGreensPage from "@/pages/AramyaGreensPage";
 
 import AdminLoginPage from "@/pages/admin/AdminLoginPage";
 import AdminLayout from "@/layouts/AdminLayout";
@@ -36,6 +37,7 @@ function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/properties" element={<PropertiesPage />} />
               <Route path="/properties/:id" element={<PropertyDetailPage />} />
+              <Route path="/aramya-greens" element={<AramyaGreensPage />} />
               <Route path="/market-intelligence" element={<MarketIntelligencePage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/contact" element={<ContactPage />} />
