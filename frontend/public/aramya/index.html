@@ -1347,9 +1347,15 @@
       e.preventDefault();
       clearFormError();
 
-      var name = document.getElementById('name').value.trim();
-      var contact = document.getElementById('contact').value.trim();
-      var detail = document.getElementById('detail').value.trim();
+      // Scope lookups to the form (the surrounding <section id="contact"> collides
+      // with the input id="contact"; a plain getElementById('contact') would return
+      // the section and blow up on .value.trim()).
+      var nameInput   = propForm.querySelector('#name');
+      var contactInput = propForm.querySelector('#contact');
+      var detailInput = propForm.querySelector('#detail');
+      var name    = nameInput ? nameInput.value.trim()    : '';
+      var contact = contactInput ? contactInput.value.trim() : '';
+      var detail  = detailInput ? detailInput.value.trim()  : '';
 
       var valid = true;
       var fn = document.getElementById('field-name');
