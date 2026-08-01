@@ -1,7 +1,7 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { LOGO_URL } from "@/lib/site";
-import { LayoutDashboard, Building2, Users, Inbox, LogOut } from "lucide-react";
+import { LayoutDashboard, Building2, Users, Inbox, LogOut, BookOpen } from "lucide-react";
 
 export default function AdminLayout() {
   const { user, logout } = useAuth();
@@ -15,6 +15,7 @@ export default function AdminLayout() {
   const items = [
     { to: "/admin", label: "Dashboard", icon: LayoutDashboard, end: true },
     { to: "/admin/properties", label: "Properties", icon: Building2 },
+    { to: "/admin/blogs", label: "Blogs", icon: BookOpen },
     { to: "/admin/leads", label: "Leads", icon: Inbox },
     ...(user?.role === "admin" ? [{ to: "/admin/users", label: "Users", icon: Users }] : []),
   ];

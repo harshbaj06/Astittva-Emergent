@@ -23,6 +23,10 @@ import AdminPropertiesPage from "@/pages/admin/AdminPropertiesPage";
 import AdminPropertyFormPage from "@/pages/admin/AdminPropertyFormPage";
 import AdminLeadsPage from "@/pages/admin/AdminLeadsPage";
 import AdminUsersPage from "@/pages/admin/AdminUsersPage";
+import AdminBlogsPage from "@/pages/admin/AdminBlogsPage";
+import AdminBlogFormPage from "@/pages/admin/AdminBlogFormPage";
+import BlogsListPage from "@/pages/BlogsListPage";
+import BlogDetailPage from "@/pages/BlogDetailPage";
 
 function App() {
   return (
@@ -38,6 +42,8 @@ function App() {
               <Route path="/properties" element={<PropertiesPage />} />
               <Route path="/properties/:id" element={<PropertyDetailPage />} />
               <Route path="/market-intelligence" element={<MarketIntelligencePage />} />
+              <Route path="/blogs" element={<BlogsListPage />} />
+              <Route path="/blogs/:slug" element={<BlogDetailPage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/contact" element={<ContactPage />} />
             </Route>
@@ -62,6 +68,9 @@ function App() {
               <Route path="properties/new" element={<AdminPropertyFormPage />} />
               <Route path="properties/:id/edit" element={<AdminPropertyFormPage />} />
               <Route path="leads" element={<AdminLeadsPage />} />
+              <Route path="blogs" element={<AdminBlogsPage />} />
+              <Route path="blogs/new" element={<AdminBlogFormPage />} />
+              <Route path="blogs/:id/edit" element={<AdminBlogFormPage />} />
               <Route
                 path="users"
                 element={
