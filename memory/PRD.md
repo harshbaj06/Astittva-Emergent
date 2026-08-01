@@ -52,6 +52,14 @@
   - Sub-market filters (`New Town`, `Rajarhat`, `Alipore`, …) remain scoped to themselves — unchanged behaviour
   - Hierarchy map is easily extensible for future parent cities (Mumbai, Delhi, Bengaluru, …)
   - Verified via curl: Kolkata→6, New Town→3, Rajarhat→2, Alipore→1 ✓
+- **v5.4 (Aramya Greens → Astittva CRM unification — Feb 2026):**
+  - Aramya Greens standalone landing page (`/aramya-greens` → iframe `/aramya/index.html`) contact form now submits through the EXACT same `POST /api/leads` pipeline as every other Astittva enquiry form — no new endpoint, no duplicated CRM code
+  - Field mapping: Name → first_name + last_name (space-split), Contact → phone + email (auto-parsed for @; synthetic `leads+<phone>@astittva.in` when only phone given), Requirements → message
+  - Every Aramya submission is tagged `{ project: "Aramya Greens", source: "aramya-greens", form: "Site Visit Enquiry" }` so it's distinguishable inside the Azure CRM
+  - Backend: added optional `form` field to `LeadIn` model; `crm_service._resolve_lead_type` now honours the explicit form label → CRM sees `Lead Type: Site Visit Enquiry` as first line of additionalNotes
+  - Fixed a duplicate `id="contact"` collision (section + input) by scoping form lookups to `propForm.querySelector()`
+  - Verified E2E: iframe submit → 201 Created → Mongo persisted → Azure CRM webhook `HTTP 200 OK` (same production endpoint as Astittva Marketing)
+  - **Tests: iteration 7 (backend 5/5) + iteration 8 (frontend 4/4) — 100% pass**
 
 ## Tests
 - v1: 32/32 ✓ · v2: 34/34 ✓ · v3: 43/43 ✓ · v4: 56/56 ✓ · **v5: 68/68 ✓**
