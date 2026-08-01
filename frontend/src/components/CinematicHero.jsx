@@ -71,16 +71,22 @@ export default function CinematicHero() {
   // hidden <link rel="preload"> for slide 1 so the first transition has the
   // next image fully decoded before the swap.
   useEffect(() => {
+    // Pick the WebP variant that matches the viewport so we don't waste
+    // ~150KB on mobile downloading the desktop-sized image.
+    const isMobile =
+      typeof window !== "undefined" && window.innerWidth <= 768;
     SLIDES.forEach((s, i) => {
       if (preloaded.current.has(s.src)) return;
+      const url = s.src.replace(
+        /\.(jpe?g|png)$/i,
+        isMobile ? "-mobile.webp" : ".webp"
+      );
       const img = new Image();
-      // Hint the browser: the next two slides are imminent — fetch them eagerly.
       if (i <= 1 && "fetchPriority" in img) {
-        // eslint-disable-next-line no-undef
         img.fetchPriority = "high";
       }
       img.decoding = "async";
-      img.src = s.src;
+      img.src = url;
       preloaded.current.add(s.src);
     });
   }, []);
@@ -142,15 +148,26 @@ export default function CinematicHero() {
               willChange: "opacity, transform",
             }}
           >
-            <img
-              src={slide.src}
-              alt={slide.caption}
-              loading="eager"
-              fetchPriority={i <= 1 ? "high" : "auto"}
-              decoding="async"
-              className={`w-full h-full object-cover cinematic-slide-${i}`}
-              style={{ filter: "saturate(1.08) contrast(1.04) brightness(0.96)" }}
-            />
+            <picture>
+              <source
+                type="image/webp"
+                media="(max-width: 768px)"
+                srcSet={slide.src.replace(/\.(jpe?g|png)$/i, "-mobile.webp")}
+              />
+              <source
+                type="image/webp"
+                srcSet={slide.src.replace(/\.(jpe?g|png)$/i, ".webp")}
+              />
+              <img
+                src={slide.src}
+                alt={slide.caption}
+                loading="eager"
+                fetchPriority={i <= 1 ? "high" : "auto"}
+                decoding="async"
+                className={`w-full h-full object-cover cinematic-slide-${i}`}
+                style={{ filter: "saturate(1.08) contrast(1.04) brightness(0.96)" }}
+              />
+            </picture>
           </div>
         );
       })}

@@ -18,6 +18,17 @@
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap" rel="stylesheet" />
+
+        <!-- LCP preload: fetch the desktop hero WebP with high priority so the
+             cinematic carousel paints as fast as possible. Mobile viewports get
+             the smaller mobile-webp instead via `media` query — the browser
+             discards the non-matching one, so we never waste bandwidth. -->
+        <link rel="preload" as="image" href="/images/luxe/biswa_bangla_gate.webp"
+              type="image/webp" fetchpriority="high"
+              media="(min-width: 769px)" />
+        <link rel="preload" as="image" href="/images/luxe/biswa_bangla_gate-mobile.webp"
+              type="image/webp" fetchpriority="high"
+              media="(max-width: 768px)" />
         <!--
         manifest.json provides metadata used when your web app is installed on a
         user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/

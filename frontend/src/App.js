@@ -1,4 +1,5 @@
 import "@/App.css";
+import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "sonner";
 import { HelmetProvider } from "react-helmet-async";
@@ -9,24 +10,44 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 
 import PublicLayout from "@/layouts/PublicLayout";
 import HomePage from "@/pages/HomePage";
-import PropertiesPage from "@/pages/PropertiesPage";
-import PropertyDetailPage from "@/pages/PropertyDetailPage";
-import AboutPage from "@/pages/AboutPage";
-import ContactPage from "@/pages/ContactPage";
-import MarketIntelligencePage from "@/pages/MarketIntelligencePage";
-import AramyaGreensPage from "@/pages/AramyaGreensPage";
 
-import AdminLoginPage from "@/pages/admin/AdminLoginPage";
-import AdminLayout from "@/layouts/AdminLayout";
-import AdminDashboardPage from "@/pages/admin/AdminDashboardPage";
-import AdminPropertiesPage from "@/pages/admin/AdminPropertiesPage";
-import AdminPropertyFormPage from "@/pages/admin/AdminPropertyFormPage";
-import AdminLeadsPage from "@/pages/admin/AdminLeadsPage";
-import AdminUsersPage from "@/pages/admin/AdminUsersPage";
-import AdminBlogsPage from "@/pages/admin/AdminBlogsPage";
-import AdminBlogFormPage from "@/pages/admin/AdminBlogFormPage";
-import BlogsListPage from "@/pages/BlogsListPage";
-import BlogDetailPage from "@/pages/BlogDetailPage";
+// Route-level code-splitting: everything below is loaded on demand so the
+// initial JS bundle for a first-time visitor landing on "/" stays lean.
+// Admin bundle (form editors, table pages) never ships to public visitors.
+const PropertiesPage = lazy(() => import("@/pages/PropertiesPage"));
+const PropertyDetailPage = lazy(() => import("@/pages/PropertyDetailPage"));
+const AboutPage = lazy(() => import("@/pages/AboutPage"));
+const ContactPage = lazy(() => import("@/pages/ContactPage"));
+const MarketIntelligencePage = lazy(() => import("@/pages/MarketIntelligencePage"));
+const AramyaGreensPage = lazy(() => import("@/pages/AramyaGreensPage"));
+const BlogsListPage = lazy(() => import("@/pages/BlogsListPage"));
+const BlogDetailPage = lazy(() => import("@/pages/BlogDetailPage"));
+
+const AdminLoginPage = lazy(() => import("@/pages/admin/AdminLoginPage"));
+const AdminLayout = lazy(() => import("@/layouts/AdminLayout"));
+const AdminDashboardPage = lazy(() => import("@/pages/admin/AdminDashboardPage"));
+const AdminPropertiesPage = lazy(() => import("@/pages/admin/AdminPropertiesPage"));
+const AdminPropertyFormPage = lazy(() => import("@/pages/admin/AdminPropertyFormPage"));
+const AdminLeadsPage = lazy(() => import("@/pages/admin/AdminLeadsPage"));
+const AdminUsersPage = lazy(() => import("@/pages/admin/AdminUsersPage"));
+const AdminBlogsPage = lazy(() => import("@/pages/admin/AdminBlogsPage"));
+const AdminBlogFormPage = lazy(() => import("@/pages/admin/AdminBlogFormPage"));
+
+// Route-level fallback while the chunk downloads — deliberately minimal so it
+// doesn't cause a layout shift or a visual flash on fast connections.
+function RouteFallback() {
+  return (
+    <div
+      className="w-full min-h-[60vh] flex items-center justify-center"
+      aria-busy="true"
+      data-testid="route-loading"
+    >
+      <span className="text-[10px] tracking-[0.4em] uppercase text-copper/60">
+        Loading…
+      </span>
+    </div>
+  );
+}
 
 function App() {
   return (
@@ -35,52 +56,54 @@ function App() {
         <BrowserRouter>
         <AuthProvider>
           <ScrollToTop />
-          <Routes>
-            {/* Public */}
-            <Route element={<PublicLayout />}>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/properties" element={<PropertiesPage />} />
-              <Route path="/properties/:id" element={<PropertyDetailPage />} />
-              <Route path="/market-intelligence" element={<MarketIntelligencePage />} />
-              <Route path="/blogs" element={<BlogsListPage />} />
-              <Route path="/blogs/:slug" element={<BlogDetailPage />} />
-              <Route path="/about" element={<AboutPage />} />
-              <Route path="/contact" element={<ContactPage />} />
-            </Route>
+          <Suspense fallback={<RouteFallback />}>
+            <Routes>
+              {/* Public */}
+              <Route element={<PublicLayout />}>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/properties" element={<PropertiesPage />} />
+                <Route path="/properties/:id" element={<PropertyDetailPage />} />
+                <Route path="/market-intelligence" element={<MarketIntelligencePage />} />
+                <Route path="/blogs" element={<BlogsListPage />} />
+                <Route path="/blogs/:slug" element={<BlogDetailPage />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/contact" element={<ContactPage />} />
+              </Route>
 
-            {/* Standalone project page — served as-uploaded, no site chrome */}
-            <Route path="/aramya-greens" element={<AramyaGreensPage />} />
+              {/* Standalone project page — served as-uploaded, no site chrome */}
+              <Route path="/aramya-greens" element={<AramyaGreensPage />} />
 
-            {/* Admin auth */}
-            <Route path="/admin/login" element={<AdminLoginPage />} />
+              {/* Admin auth */}
+              <Route path="/admin/login" element={<AdminLoginPage />} />
 
-            {/* Admin protected */}
-            <Route
-              path="/admin"
-              element={
-                <ProtectedRoute>
-                  <AdminLayout />
-                </ProtectedRoute>
-              }
-            >
-              <Route index element={<AdminDashboardPage />} />
-              <Route path="properties" element={<AdminPropertiesPage />} />
-              <Route path="properties/new" element={<AdminPropertyFormPage />} />
-              <Route path="properties/:id/edit" element={<AdminPropertyFormPage />} />
-              <Route path="leads" element={<AdminLeadsPage />} />
-              <Route path="blogs" element={<AdminBlogsPage />} />
-              <Route path="blogs/new" element={<AdminBlogFormPage />} />
-              <Route path="blogs/:id/edit" element={<AdminBlogFormPage />} />
+              {/* Admin protected */}
               <Route
-                path="users"
+                path="/admin"
                 element={
-                  <ProtectedRoute roles={["admin"]}>
-                    <AdminUsersPage />
+                  <ProtectedRoute>
+                    <AdminLayout />
                   </ProtectedRoute>
                 }
-              />
-            </Route>
-          </Routes>
+              >
+                <Route index element={<AdminDashboardPage />} />
+                <Route path="properties" element={<AdminPropertiesPage />} />
+                <Route path="properties/new" element={<AdminPropertyFormPage />} />
+                <Route path="properties/:id/edit" element={<AdminPropertyFormPage />} />
+                <Route path="leads" element={<AdminLeadsPage />} />
+                <Route path="blogs" element={<AdminBlogsPage />} />
+                <Route path="blogs/new" element={<AdminBlogFormPage />} />
+                <Route path="blogs/:id/edit" element={<AdminBlogFormPage />} />
+                <Route
+                  path="users"
+                  element={
+                    <ProtectedRoute roles={["admin"]}>
+                      <AdminUsersPage />
+                    </ProtectedRoute>
+                  }
+                />
+              </Route>
+            </Routes>
+          </Suspense>
           <Toaster
             position="bottom-right"
             theme="dark"

@@ -21,6 +21,7 @@ from bson import ObjectId
 from fastapi import FastAPI, APIRouter, HTTPException, Request, Response, Depends, UploadFile, File, Header, Query, BackgroundTasks
 from fastapi.responses import StreamingResponse
 from starlette.middleware.cors import CORSMiddleware
+from starlette.middleware.gzip import GZipMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel, Field, EmailStr, BeforeValidator, ConfigDict
 
@@ -1032,12 +1033,23 @@ async def upload_image(file: UploadFile = File(...), user: dict = Depends(requir
 
 @api_router.get("/files/{path:path}")
 async def serve_file(path: str):
-    """Publicly serve property images (storage paths are unguessable UUIDs)."""
+    """Publicly serve property images (storage paths are unguessable UUIDs).
+
+    Uploaded assets are content-addressed / immutable — we can serve them with
+    an aggressive 30-day cache so browsers and any CDN in front of us don't
+    re-fetch the same bytes on every page view.
+    """
     record = await db.files.find_one({"storage_path": path, "is_deleted": False})
     if not record:
         raise HTTPException(status_code=404, detail="File not found")
     data, content_type = get_object(path)
-    return StreamingResponse(io.BytesIO(data), media_type=record.get("content_type", content_type))
+    return StreamingResponse(
+        io.BytesIO(data),
+        media_type=record.get("content_type", content_type),
+        headers={
+            "Cache-Control": "public, max-age=2592000, stale-while-revalidate=604800",
+        },
+    )
 
 
 # ---------------------- Stats ----------------------
@@ -1164,6 +1176,11 @@ else:
         allow_methods=["*"],
         allow_headers=["*"],
     )
+
+# GZip every response ≥ 500 bytes (JSON payloads, sitemap.xml, blog bodies, …)
+# — typical 3-5× bandwidth reduction on API traffic. Runs after CORS so headers
+# are set correctly before compression.
+app.add_middleware(GZipMiddleware, minimum_size=500, compresslevel=6)
 
 
 # ---------------------------------------------------------------------------
