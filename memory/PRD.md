@@ -90,6 +90,13 @@
   - **Admin list headers** (Properties, Blogs): use `flex-wrap gap-4` so the primary CTA drops below the title on mobile rather than colliding with it
   - **Market Intelligence filter bar** (13 chips ≈ 1450px): wraps to two rows on ≥sm via `sm:flex-wrap` + `sm:overflow-visible`; horizontally-swipeable on <sm with a hidden scrollbar (`.no-scrollbar` utility added to `index.css`)
   - **Tests: iteration 12 — frontend ~98% pass**, zero critical or functional regressions
+- **v5.9 (Code-review hardening pass — XSS defense-in-depth — Feb 2026):**
+  - **DOMPurify sanitisation**: added `/app/frontend/src/lib/sanitize.js` (`dompurify@3.4.13`) — every `dangerouslySetInnerHTML` on the site (public `/blogs/:slug` body AND admin form Preview panel) now runs through `sanitizeBlogHtml()` first
+  - Whitelist covers editorial vocabulary (h1-h6, p, strong/em, a, ul/ol/li, blockquote, img, code, hr); scripts, iframes, style tags and inline event-handler attributes are stripped; every `target="_blank"` link is auto-hardened with `rel="noopener noreferrer"` via an `afterSanitizeAttributes` hook
+  - **Prod console silence**: `MarketIntelligencePage` `mlog` helper is a no-op when `process.env.NODE_ENV === 'production'`; its catch-block `console.warn` calls are wrapped in the same env check. Dev experience unchanged.
+  - **Env-configurable test credentials**: `test_blogs.py` and `test_aramya_leads.py` now read `ADMIN_TEST_EMAIL`/`ADMIN_TEST_PASSWORD` from process env
+  - Documented rejection of code-review false positives (undefined vars that are defined in prior branches, `key={i}` on static skeleton arrays, missing hook deps for module-scope imports) and out-of-scope refactors (localStorage → httpOnly cookies, 500-line component splits)
+  - **Tests: iteration 13 — frontend 100% (8/8 XSS + regression checks) + backend 10/12 (2 unrelated pre-existing seed failures)**
 
 ## Tests
 - v1: 32/32 ✓ · v2: 34/34 ✓ · v3: 43/43 ✓ · v4: 56/56 ✓ · **v5: 68/68 ✓**
