@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Calendar, ArrowLeft, ArrowUpRight } from "lucide-react";
 import api, { fileUrl } from "@/lib/api";
 import Seo from "@/components/Seo";
+import { sanitizeBlogHtml } from "@/lib/sanitize";
 
 function formatDate(iso) {
   if (!iso) return "";
@@ -186,7 +187,7 @@ export default function BlogDetailPage() {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="blog-prose"
             data-testid="blog-body"
-            dangerouslySetInnerHTML={{ __html: blog.body || "" }}
+            dangerouslySetInnerHTML={{ __html: sanitizeBlogHtml(blog.body) }}
           />
 
           <div className="mt-16 pt-10 border-t border-[#E8DED2] flex flex-wrap items-center justify-between gap-4">

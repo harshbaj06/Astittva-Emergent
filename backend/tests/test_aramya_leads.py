@@ -16,8 +16,8 @@ if not BASE_URL:
     except Exception:
         pass
 
-ADMIN_EMAIL = "admin@astitva.com"
-ADMIN_PASSWORD = "Astitva@2026"
+ADMIN_EMAIL = os.environ.get("ADMIN_TEST_EMAIL", "admin@astitva.com")
+ADMIN_PASSWORD = os.environ.get("ADMIN_TEST_PASSWORD", "Astitva@2026")
 
 
 @pytest.fixture(scope="module")

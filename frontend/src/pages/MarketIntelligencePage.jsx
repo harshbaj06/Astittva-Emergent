@@ -155,8 +155,17 @@ function NewsCard({ a, idx }) {
   );
 }
 
-// Always-on diagnostic logger — prefixed so it's easy to find/filter in DevTools.
-const mlog = (...args) => console.log("%c[Astittva MI]", "color:#C68642;font-weight:bold", ...args);
+// Dev-only diagnostic logger — becomes a no-op in production builds so we
+// never leak internal telemetry (article counts, timing) to end users.
+const mlog =
+  process.env.NODE_ENV === "production"
+    ? () => {}
+    : (...args) =>
+        console.log(
+          "%c[Astittva MI]",
+          "color:#C68642;font-weight:bold",
+          ...args,
+        );
 
 function SkeletonCard({ idx }) {
   return (
@@ -267,7 +276,7 @@ export default function MarketIntelligencePage() {
       mlog("[MI] trending fetched:", arr.length);
       if (arr.length) setTrending(arr);
     })
-      .catch((e) => { console.warn("[MI] trending fetch failed", e?.message || e); })
+      .catch((e) => { if (process.env.NODE_ENV !== "production") console.warn("[MI] trending fetch failed", e?.message || e); })
       .finally(() => setLoading((s) => ({ ...s, trending: false })));
 
     api.get("/news/all").then(({ data }) => {
@@ -276,7 +285,7 @@ export default function MarketIntelligencePage() {
       if (arr.length) setAll(arr);
       if (data.last_updated) setLastUpdated(data.last_updated);
     })
-      .catch((e) => { console.warn("[MI] all fetch failed", e?.message || e); })
+      .catch((e) => { if (process.env.NODE_ENV !== "production") console.warn("[MI] all fetch failed", e?.message || e); })
       .finally(() => {
         clearTimeout(hardTimeout);
         setLoading((s) => ({ ...s, all: false }));

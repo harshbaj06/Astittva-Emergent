@@ -3,6 +3,7 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import api, { fileUrl, formatApiErrorDetail } from "@/lib/api";
 import { ArrowLeft, Upload, X, Loader2, Eye } from "lucide-react";
 import { toast } from "sonner";
+import { sanitizeBlogHtml } from "@/lib/sanitize";
 
 const empty = {
   title: "",
@@ -218,7 +219,7 @@ export default function AdminBlogFormPage() {
             <div
               data-testid="blog-body-preview"
               className="border border-copper/20 p-6 bg-white blog-prose text-[#1C1C1C]"
-              dangerouslySetInnerHTML={{ __html: form.body || "<em>Nothing to preview yet.</em>" }}
+              dangerouslySetInnerHTML={{ __html: sanitizeBlogHtml(form.body) || "<em>Nothing to preview yet.</em>" }}
             />
           )}
 
