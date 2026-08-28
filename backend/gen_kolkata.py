@@ -8,7 +8,10 @@ from emergentintegrations.llm.chat import LlmChat, UserMessage
 
 ROOT = Path(__file__).parent
 load_dotenv(ROOT / '.env')
-OUT = Path(__file__).parent.parent / 'frontend' / 'public' / 'images'
+OUT = Path(os.getenv(
+    "IMAGE_OUT_DIR",
+    str(Path(__file__).parent.parent / "generated_images"),
+))
 OUT.mkdir(parents=True, exist_ok=True)
 
 PROMPTS = {
